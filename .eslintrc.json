@@ -1,0 +1,85 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "extends": ["next/core-web-vitals", "airbnb", "airbnb/hooks", "prettier"],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 12,
+        "sourceType": "module"
+    },
+    "settings": {
+        "import/resolver": {
+            "node": {
+                "extensions": [".js", ".jsx", ".ts", ".tsx"]
+            }
+        },
+        "react": {
+            "version": "detect"
+        }
+    },
+    "plugins": ["react", "@typescript-eslint", "react-hooks"],
+    "rules": {
+        "import/extensions": [
+            "error",
+            "ignorePackages",
+            {
+                "js": "never",
+                "jsx": "never",
+                "ts": "never",
+                "tsx": "never",
+                "json": "always"
+            }
+        ],
+        "react/jsx-filename-extension": [
+            1,
+            {
+                "extensions": [".js", ".ts", "tsx"]
+            }
+        ],
+        "react/jsx-indent": [2, 4],
+        "react/jsx-indent-props": [2, 4],
+        "no-console": [
+            "error",
+            {
+                "allow": ["warn", "error"]
+            }
+        ],
+        "no-unused-vars": "off",
+        "@typescript-eslint/no-unused-vars": ["error"],
+        "no-use-before-define": "off",
+        "@typescript-eslint/no-use-before-define": ["error"],
+        "react/react-in-jsx-scope": 0,
+        "object-curly-spacing": ["error", "always"],
+        "max-len": [
+            "error",
+            {
+                "code": 120,
+                "comments": 150,
+                "ignoreUrls": true,
+                "ignoreRegExpLiterals": true,
+                "ignoreStrings": true
+            }
+        ],
+        "no-unused-expressions": [
+            "error",
+            {
+                "allowShortCircuit": true
+            }
+        ],
+        "jsx-a11y/anchor-is-valid": 0,
+        "react/jsx-props-no-spreading": "off",
+        "no-param-reassign": "off",
+        "import/prefer-default-export": "off",
+        "jsx-a11y/control-has-associated-label": "off",
+        "react/require-default-props": "off",
+        "no-underscore-dangle": "off",
+        "no-shadow": "off",
+        "import/no-cycle": "off",
+        "jsx-a11y/media-has-caption": "off"
+    }
+}

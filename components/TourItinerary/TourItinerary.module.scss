@@ -1,0 +1,1057 @@
+@import '../../styles/colors';
+@import '../../styles/breakpoints';
+
+.tourItineraryContainer {
+  margin-top: 32px;
+  margin-bottom: 48px;
+}
+
+.highlightsSection {
+  margin-bottom: 32px;
+}
+
+.sectionTitle {
+  font-size: 24px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.highlightsList {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.highlightItem {
+  position: relative;
+  padding-left: 24px;
+  margin-bottom: 16px;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #555;
+  
+  &:before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: #ff6b00;
+    font-size: 20px;
+    line-height: 1.5;
+  }
+}
+
+.navigationTabs {
+  display: flex;
+  gap: 3px;
+  margin-bottom: 24px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  padding: 6px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  
+  @include breakpoints('mob-only') {
+    flex-wrap: nowrap;
+    gap: 0;
+  }
+}
+
+.navTab {
+  flex: 1;
+  min-width: max-content;
+  padding: 12px 16px;
+  background: none;
+  border: none;
+  font-size: 14px;
+  font-weight: 500;
+  color: #666;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  &:hover {
+    background-color: #f0f0f0;
+    color: #ff6b00;
+  }
+  
+  &.active {
+    background-color: #ff6b00;
+    color: white;
+    font-weight: 600;
+  }
+  
+  @include breakpoints('mob-only') {
+    padding: 10px 14px;
+    font-size: 13px;
+  }
+}
+
+.tabIcon {
+  margin-right: 8px;
+  font-size: 16px;
+}
+
+.bannerContainer {
+  margin-bottom: 28px;
+}
+
+.bannerImageWrapper {
+  position: relative;
+  width: 100%;
+  height: 250px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  
+  @include breakpoints('mob-only') {
+    height: 300px;
+  }
+}
+
+.bannerImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.overlayText {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  z-index: 2;
+}
+
+.daysIndicator {
+  display: flex;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 10px 16px;
+  border-radius: 50px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.number {
+  font-size: 36px;
+  font-weight: 700;
+  color: #ff6b00;
+  margin-right: 10px;
+  line-height: 1;
+}
+
+.daysText {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  line-height: 1.2;
+  
+  span:first-child {
+    color: #777;
+  }
+}
+
+.locationText {
+  font-weight: 600;
+  color: #222;
+  font-size: 16px;
+}
+
+.carouselNav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(255, 255, 255, 0.8);
+  color: #333;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 3;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  
+  &:hover {
+    background-color: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.prevBtn {
+  left: 16px;
+}
+
+.nextBtn {
+  right: 16px;
+}
+
+.imageDots {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 3;
+}
+
+.imageDot {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  padding: 0;
+  border: 2px solid white;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
+  &.active {
+    transform: scale(1.1);
+    box-shadow: 0 0 0 2px #ff6b00;
+  }
+}
+
+.dotImage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.thumbnailImage {
+  object-fit: cover;
+}
+
+.remainingImages {
+  background-color: rgba(255, 255, 255, 0.9);
+  color: #ff6b00;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 8px 10px;
+  border-radius: 50px;
+  margin-left: 4px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.tabContent {
+  margin-bottom: 40px;
+}
+
+.itineraryListContainer {
+  margin-top: 20px;
+}
+
+.filterBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.filterWrapper {
+  position: relative;
+}
+
+.filterButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #f5f5f5;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background-color: #eee;
+  }
+  
+  &.filterActive {
+    background-color: rgba(255, 107, 0, 0.1);
+    color: #ff6b00;
+    
+    .filterIcon {
+      color: #ff6b00;
+    }
+  }
+  
+  .filterIcon {
+    font-size: 14px;
+    transition: transform 0.3s ease;
+  }
+}
+
+.clearFilter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  padding: 0;
+  margin-left: 6px;
+  font-size: 12px;
+  color: #ff6b00;
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  
+  &:hover {
+    background-color: rgba(255, 107, 0, 0.2);
+  }
+}
+
+.filterMenu {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  width: 240px;
+  z-index: 10;
+  overflow: hidden;
+  animation: slideDown 0.25s ease-out forwards;
+  transform-origin: top center;
+  
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px) scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+}
+
+.filterHeader {
+  padding: 12px 16px;
+  border-bottom: 1px solid #eee;
+  
+  h4 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+  }
+}
+
+.filterOptions {
+  padding: 8px 0;
+}
+
+.filterOption {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 10px 16px;
+  background: none;
+  border: none;
+  font-size: 14px;
+  color: #555;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background-color: #f5f5f5;
+  }
+  
+  &.active {
+    color: #ff6b00;
+    background-color: rgba(255, 107, 0, 0.05);
+    font-weight: 500;
+    
+    &::before {
+      content: "✓";
+      margin-right: 8px;
+    }
+  }
+}
+
+.noResultsMessage {
+  text-align: center;
+  padding: 24px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  color: #777;
+  font-size: 14px;
+  margin-top: 16px;
+}
+
+.resetButton {
+  background: none;
+  border: none;
+  padding: 0;
+  margin-left: 4px;
+  color: #ff6b00;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: underline;
+  
+  &:hover {
+    color: darken(#ff6b00, 10%);
+  }
+}
+
+.daysList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.dayItem {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: white;
+  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  
+  &.expanded {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  }
+}
+
+.dayHeader {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  cursor: pointer;
+  position: relative;
+  transition: background-color 0.3s ease;
+  
+  &:hover {
+    background-color: #f9f9f9;
+  }
+  
+  &:active {
+    background-color: #f0f0f0;
+  }
+}
+
+.dayNumber {
+  font-weight: 600;
+  color: #ff6b00;
+  margin-right: 16px;
+  white-space: nowrap;
+}
+
+.dayTitle {
+  flex: 1;
+  font-weight: 500;
+  color: #333;
+}
+
+.iconContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: #f5f5f5;
+  transition: all 0.3s ease;
+  
+  .expanded & {
+    background-color: rgba(255, 107, 0, 0.1);
+  }
+  
+  &:hover {
+    background-color: rgba(255, 107, 0, 0.15);
+  }
+}
+
+.expandIcon {
+  color: #999;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  width: 16px;
+  height: 16px;
+  
+  .expanded & {
+    transform: rotate(180deg);
+    color: #ff6b00;
+  }
+}
+
+.dayDescription {
+  padding: 0 16px;
+  max-height: 0;
+  color: #555;
+  line-height: 1.6;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  opacity: 0;
+  
+  .expanded & {
+    padding: 16px;
+    padding-top: 12px;
+    max-height: 500px;
+    opacity: 1;
+    border-top: 1px solid #eee;
+  }
+}
+
+.summarisedViewContainer {
+  padding: 20px 0;
+}
+
+.summaryCard {
+  background-color: white;
+  border-radius: 10px;
+  padding: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.summaryTitle {
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 16px;
+}
+
+.summaryText {
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.summaryHighlights {
+  h4 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 12px;
+  }
+  
+  ul {
+    padding-left: 20px;
+    
+    li {
+      margin-bottom: 10px;
+      line-height: 1.5;
+      color: #555;
+    }
+  }
+}
+
+.activitiesContainer {
+  padding: 20px 0;
+}
+
+.activityList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.activityCard {
+  display: flex;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  
+  @include breakpoints('mob-only') {
+    flex-direction: column;
+  }
+}
+
+.activityImageContainer {
+  flex: 0 0 300px;
+  position: relative;
+  
+  @include breakpoints('mob-only') {
+    flex: 0 0 200px;
+  }
+}
+
+.activityImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.activityDetails {
+  flex: 1;
+  padding: 20px;
+  
+  h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  p {
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+}
+
+.activityMeta {
+  display: flex;
+  justify-content: space-between;
+  
+  span {
+    font-size: 14px;
+    color: #777;
+    
+    &:last-child {
+      font-weight: 500;
+      color: #ff6b00;
+    }
+  }
+}
+
+.flightsContainer {
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.flightCard {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.flightHeader {
+  padding: 16px 20px;
+  background-color: #f9f9f9;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+  
+  h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+  }
+}
+
+.flightDate {
+  font-size: 14px;
+  color: #555;
+  font-weight: 500;
+}
+
+.flightDetails {
+  padding: 20px;
+}
+
+.airline {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  
+  span {
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+  }
+}
+
+.flightRoute {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.departure, .arrival {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.time {
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+}
+
+.airport {
+  font-size: 14px;
+  color: #777;
+  margin-top: 4px;
+}
+
+.flightPath {
+  flex: 1;
+  margin: 0 20px;
+  position: relative;
+  
+  .duration {
+    text-align: center;
+    font-size: 14px;
+    color: #777;
+    margin-bottom: 8px;
+  }
+  
+  .path {
+    height: 2px;
+    background-color: #ddd;
+    position: relative;
+    
+    &:after {
+      content: "✈️";
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 16px;
+    }
+  }
+}
+
+.stayContainer {
+  padding: 20px 0;
+}
+
+.hotelCard {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.hotelImageContainer {
+  width: 100%;
+  height: 250px;
+  position: relative;
+}
+
+.hotelImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hotelDetails {
+  padding: 20px;
+  
+  h3 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+  }
+}
+
+.hotelRating {
+  color: #ff6b00;
+  font-size: 16px;
+  margin-bottom: 16px;
+  
+  span {
+    color: #777;
+    font-size: 14px;
+    margin-left: 8px;
+  }
+}
+
+.hotelDescription {
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.hotelAmenities {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 16px;
+  
+  span {
+    background-color: #f5f5f5;
+    padding: 6px 12px;
+    border-radius: 50px;
+    font-size: 14px;
+    color: #555;
+  }
+}
+
+.stayDuration {
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid #eee;
+  padding-top: 16px;
+  
+  span {
+    font-size: 14px;
+    color: #777;
+    
+    &:last-child {
+      font-weight: 600;
+      color: #333;
+    }
+  }
+  
+  @include breakpoints('mob-only') {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
+.transfersContainer {
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.transferCard {
+  display: flex;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  
+  @include breakpoints('mob-only') {
+    flex-direction: column;
+  }
+}
+
+.transferType {
+  flex: 0 0 200px;
+  background-color: #f9f9f9;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-right: 1px solid #eee;
+  
+  @include breakpoints('mob-only') {
+    flex: auto;
+    padding: 16px;
+    border-right: none;
+    border-bottom: 1px solid #eee;
+  }
+  
+  h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin-top: 12px;
+  }
+}
+
+.transferIcon {
+  font-size: 28px;
+  color: #ff6b00;
+}
+
+.transferDetails {
+  flex: 1;
+  padding: 20px;
+  
+  p {
+    color: #555;
+    line-height: 1.6;
+  }
+}
+
+.transferInfo {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  
+  span {
+    font-size: 14px;
+    
+    &:first-child {
+      font-weight: 500;
+      color: #333;
+    }
+    
+    &:last-child {
+      color: #777;
+    }
+  }
+  
+  @include breakpoints('mob-only') {
+    flex-direction: column;
+    gap: 4px;
+  }
+}
+
+.section {
+  margin-top: 40px;
+  padding-top: 30px;
+  border-top: 1px solid #eee;
+}
+
+.defaultContent {
+  text-align: center;
+  padding: 40px 0;
+  color: #777;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 40px;
+  color: #777;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  font-style: italic;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+
+  h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #555;
+    margin: 15px 0 10px;
+  }
+
+  p {
+    font-style: normal;
+    max-width: 500px;
+    margin: 0 auto;
+    line-height: 1.5;
+  }
+}
+
+.emptyStateIcon {
+  font-size: 36px;
+  color: #ddd;
+  margin-bottom: 5px;
+}
+
+.summarySection {
+  margin-top: 20px;
+  
+  h4 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
+  }
+}
+
+.summaryList {
+  padding-left: 5px;
+  list-style-type: none;
+  
+  li {
+    margin-bottom: 8px;
+    line-height: 1.6;
+    color: #555;
+    padding-left: 5px;
+  }
+}
+
+.uspItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  
+  .checkIcon {
+    color: #ff6b00;
+    margin-top: 4px;
+  }
+}
+
+.targetAudience {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.audienceTag {
+  background-color: #f5f5f5;
+  padding: 6px 12px;
+  border-radius: 50px;
+  font-size: 14px;
+  color: #555;
+}
+
+.activityHighlights {
+  margin-top: 12px;
+  
+  h4 {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+  }
+  
+  ul {
+    padding-left: 16px;
+    
+    li {
+      font-size: 13px;
+      color: #555;
+      margin-bottom: 4px;
+    }
+  }
+}
+
+.included {
+  font-weight: 600;
+  color: #ff6b00;
+}
+
+.notIncluded {
+  font-weight: 600;
+  color: #777;
+}
+
+.roomType {
+  margin: 12px 0;
+  font-size: 14px;
+  color: #555;
+  
+  strong {
+    color: #333;
+  }
+}
+
+.activeStar {
+  color: #ff6b00;
+  margin-right: 2px;
+}
+
+.inactiveStar {
+  color: #ddd;
+  margin-right: 2px;
+}
+
+.airportName {
+  display: block;
+  font-size: 12px;
+  color: #777;
+  margin-top: 4px;
+}
+
+.additionalInfo {
+  margin-top: 12px;
+  font-size: 13px;
+  color: #777;
+  padding-top: 8px;
+  border-top: 1px dashed #eee;
+} 

@@ -1,0 +1,254 @@
+@import '../../styles/colors';
+@import '../../styles/breakpoints';
+
+.activities {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  margin-top: 15px;
+  
+  @include breakpoints('mobile') {
+    gap: 15px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    margin-top: 10px;
+    
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+  
+  &__item {
+    position: relative;
+    font-weight: 500;
+    font-size: 15px;
+    font-family: 'Poppins', sans-serif;
+    color: $gray-700;
+    padding-bottom: 6px;
+    text-transform: capitalize;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    
+    &:hover {
+      color: $orange;
+    }
+    
+    &--active {
+      color: $orange;
+      font-weight: 600;
+      
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: $orange;
+        border-radius: 5px;
+      }
+    }
+    
+    @include breakpoints('mobile') {
+      font-size: 14px;
+      padding-bottom: 5px;
+    }
+  }
+  
+  &__trending {
+    position: relative;
+    
+    &-badge {
+      position: absolute;
+      top: -10px;
+      right: -28px;
+      background-color: $red;
+      color: $white;
+      font-size: 8px;
+      font-weight: 600;
+      font-family: 'Poppins', sans-serif;
+      padding: 2px 6px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      
+      @include breakpoints('mobile') {
+        right: -20px;
+        top: -8px;
+        font-size: 7px;
+        padding: 1px 4px;
+      }
+    }
+  }
+}
+
+.activitiesSection {
+  max-width: 1280px;
+  margin: 0 auto;
+  background-color: #f7f7f7;
+  width: 100%;
+  padding: 20px 0;
+  position: relative;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 0 16px;
+}
+
+.sectionTitle {
+  font-size: 24px;
+  font-weight: 700;
+  color: #333;
+  text-align: left;
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  @media (max-width: 768px) {
+    font-size: 18px;
+  }
+}
+
+.viewAllButton {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: #ff7a00;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    color: darken(#ff7a00, 10%);
+  }
+  
+  .arrowIcon {
+    margin-left: 6px;
+    font-size: 12px;
+  }
+  
+  @media (max-width: 768px) {
+    font-size: 12px;
+    
+    .arrowIcon {
+      font-size: 11px;
+    }
+  }
+}
+
+.carouselContainer {
+  position: relative;
+  width: 100%;
+}
+
+.activitiesScroll {
+  display: flex;
+  overflow-x: auto;
+  gap: 16px;
+  padding: 0 16px;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scroll-behavior: smooth;
+  padding-bottom: 10px;
+  
+  &::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
+  
+  @media (min-width: 768px) {
+    gap: 24px;
+  }
+}
+
+.activityWrapper {
+  min-width: 350px;
+  max-width: 350px;
+  
+  @media (max-width: 768px) {
+    min-width: 320px;
+  }
+}
+
+.carouselButton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #fff;
+  border: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: #555;
+  
+  &:hover {
+    background-color: #f8f8f8;
+    color: #ff7a00;
+  }
+  
+  &:active {
+    transform: translateY(-50%) scale(0.95);
+  }
+  
+  @media (max-width: 768px) {
+    width: 30px;
+    height: 30px;
+    font-size: 12px;
+  }
+}
+
+.leftButton {
+  left: 0;
+  
+  @media (min-width: 768px) {
+    left: -8px;
+  }
+}
+
+.rightButton {
+  right: 0;
+  
+  @media (min-width: 768px) {
+    right: -8px;
+  }
+}
+
+.activitiesGrid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 24px;
+  padding: 0 16px;
+  
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  @media (min-width: 992px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.currencyInfo {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #666;
+  background-color: #f9f9f9;
+  padding: 0.5rem;
+  border-radius: 4px;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+  
+  p {
+    margin: 0;
+    font-size: 14px;
+  }
+} 

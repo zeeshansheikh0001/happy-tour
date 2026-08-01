@@ -1,0 +1,148 @@
+@import '../../styles/colors';
+@import '../../styles/breakpoints';
+
+.bookingInfoContainer {
+  margin: 40px 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+// Stats Section
+.statsContainer {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+  margin-bottom: 40px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid #eee;
+  
+  @media (max-width: $breakpoint-sm) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.statIcon {
+  margin-bottom: 15px;
+  position: relative;
+  
+  img {
+    object-fit: contain;
+  }
+}
+
+.statTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 8px;
+}
+
+.statDescription {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.4;
+  margin: 0;
+}
+
+// Tourism Section
+.tourismSection {
+  margin-bottom: 20px;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 0;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  
+  &:hover {
+    .sectionTitle {
+      color: $primary-color;
+    }
+  }
+}
+
+.sectionTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+  transition: color 0.2s ease;
+}
+
+.toggleIcon {
+  color: #666;
+  font-size: 16px;
+  transition: transform 0.2s ease;
+  
+  &.expanded {
+    transform: rotate(180deg);
+  }
+}
+
+.tourismLinks {
+  display: flex;
+  gap: 25px;
+  padding: 15px 0;
+  
+  @include breakpoints('mob-only') {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+.tourismLink {
+  color: #666;
+  font-size: 15px;
+  text-decoration: none;
+  padding-bottom: 2px;
+  border-bottom: 1px solid transparent;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    color: $primary-color;
+    border-bottom-color: $primary-color;
+  }
+}
+
+// Policy Sections
+.policySection {
+  margin-bottom: 10px;
+}
+
+.policyContent {
+  padding: 15px 0;
+}
+
+.policyList {
+  padding-left: 20px;
+  margin: 0;
+  
+  li {
+    margin-bottom: 15px;
+    color: #444;
+    line-height: 1.5;
+    font-size: 15px;
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.bookingGallerySection {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+} 

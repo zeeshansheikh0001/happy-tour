@@ -1,0 +1,267 @@
+@import '../../styles/colors';
+@import '../../styles/breakpoints';
+
+/* Google fonts should be imported in _app.js or a global stylesheet, not in CSS modules */
+
+.visaPackages {
+  padding: 1rem 0.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.sectionHeader {
+  text-align: center;
+  margin-bottom: 3rem;
+
+  h2 {
+    font-size: 2rem;
+    color: $primary;
+    margin-bottom: 0.75rem;
+
+    @include mob-only {
+      font-size: 1.2rem;
+    }
+  }
+
+  p {
+    font-size: 1.1rem;
+    color: $gray-600;
+    max-width: 700px;
+    margin: 0 auto;
+    @include mob-only {
+      font-size: 0.9rem;
+    }
+  }
+  @include mob-only {
+    margin-bottom: 2rem;
+  }
+}
+
+.packagesContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.packageCard {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  position: relative;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid $gray-200;
+
+  &:hover {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  }
+
+  h3 {
+    font-size: 1.5rem;
+    color: $primary;
+    margin-bottom: 0.75rem;
+    @media (max-width:728px) {
+      font-size: 1.2rem;
+      
+    }
+  }
+}
+
+.popularPackage {
+  transform: scale(1.02);
+  border: 2px solid $primary;
+
+  &:hover {
+    transform: scale(1.04) translateY(-10px);
+  }
+}
+
+.popularBadge {
+  position: absolute;
+  top: -12px;
+  right: 20px;
+  background: $primary;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.packageDescription {
+  font-size: 1rem;
+  color: $gray-600;
+  margin-bottom: 1.5rem;
+  @include mob-only { 
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+  }
+}
+
+.packagePrice {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: $gray-900;
+  margin: 1rem 0;
+  display: flex;
+  align-items: flex-start;
+  @include mob-only { 
+    font-size: 1.2rem;
+  }
+
+  .currency {
+    font-size: 1.5rem;
+    margin-right: 2px;
+    margin-top: 5px;
+  }
+
+  .amount {
+    line-height: 1;
+  }
+}
+
+.processingTime {
+  display: flex;
+  align-items: center;
+  background-color: $gray-100;
+  padding: 0.75rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  @include mob-only { 
+    margin-bottom: 1rem;
+  }
+
+  .timeIcon {
+    color: $gray-600;
+    margin-right: 0.5rem;
+  }
+
+  span {
+    font-size: 0.9rem;
+    color: $gray-700;
+    @media (max-width:728px) {
+      font-size: 0.8rem;
+    }
+  }
+}
+
+.featuresList {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5rem;
+  flex-grow: 1;
+
+  li {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 0.75rem;
+
+    .checkIcon {
+      color: $success;
+      margin-right: 0.5rem;
+      margin-top: 3px;
+      flex-shrink: 0;
+    }
+
+    span {
+      font-size: 0.95rem;
+      color: $gray-700;
+      @media (max-width:728px) {
+        font-size: 0.8rem;
+      }
+    }
+  }
+}
+
+.selectButton {
+  background-color: $primary;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  margin-top: auto;
+
+  &:hover {
+    background-color: darken($primary, 10%);
+    transform: translateY(-2px);
+  }
+  @media (max-width:728px) {
+    font-size: 0.9rem;
+  }
+}
+
+.additionalInfo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 2rem;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+.infoCard {
+  display: flex;
+  align-items: flex-start;
+  background-color: $gray-100;
+  padding: 1.5rem;
+  border-radius: 10px;
+  @include mob-only { 
+    padding: 1rem 0rem;
+  }
+
+  .infoIcon {
+    font-size: 2.5rem;
+    color: $primary;
+    margin-right: 1rem;
+    flex-shrink: 0;
+  }
+
+  h4 {
+    margin: 0 0 0.5rem;
+    font-size: 1.1rem;
+    color: $gray-800;
+    @media (max-width:728px) {
+      font-size: 1rem;
+    }
+  }
+
+  p {
+    margin: 0;
+    font-size: 0.95rem;
+    color: $gray-600;
+    @media (max-width:728px) {
+      font-size: 0.8rem;
+    }
+  }
+}
+
+.disclaimer {
+  background-color: rgba($warning, 0.1);
+  border-left: 4px solid $warning;
+  padding: 1rem 1.5rem;
+  border-radius: 0 8px 8px 0;
+
+  p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: $gray-700;
+    @media (max-width: 768px) {
+     font-size: 0.8rem;
+    }
+  }
+}

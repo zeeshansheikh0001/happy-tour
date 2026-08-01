@@ -1,0 +1,275 @@
+@import '../../styles/colors';
+@import '../../styles/breakpoints';
+
+.reviewsContainer {
+  margin-top: 40px;
+  padding: 30px 0;
+  
+  @media (max-width: $breakpoint-sm) {
+    margin-top: 30px;
+    padding: 20px 0;
+  }
+}
+
+.ratingsOverview {
+  display: flex;
+  gap: 40px;
+  margin-bottom: 40px;
+  
+  @media (max-width: $breakpoint-sm) {
+    flex-direction: column;
+    gap: 30px;
+    margin-bottom: 30px;
+  }
+
+}
+
+.overallRating {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  min-width: 200px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.ratingNumber {
+  font-size: 48px;
+  font-weight: 700;
+  color: $primary-color;
+  margin-bottom: 8px;
+}
+
+.starsDisplay {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 12px;
+}
+
+.starIcon {
+  color: $primary-color;
+  font-size: 20px;
+}
+
+.starIconEmpty {
+  color: #e0e0e0;
+  font-size: 20px;
+}
+
+.countriesLink {
+  font-size: 14px;
+  color: $text-color-light;
+  text-decoration: none;
+  
+  &:hover {
+    text-decoration: underline;
+    color: $primary-color;
+  }
+}
+
+.ratingsDistribution {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  @media (max-width: $breakpoint-sm) {
+  padding: 0 10px;
+  }
+}
+
+.ratingBar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.starLabel {
+  font-size: 14px;
+  color: $text-color;
+  width: 40px;
+}
+
+.barContainer {
+  flex: 1;
+  height: 10px;
+  background-color: #e9e9e9;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.barFill {
+  height: 100%;
+  background-color: $primary-color;
+  border-radius: 10px;
+  transition: width 0.6s ease-in-out;
+}
+
+.ratingCount {
+  font-size: 14px;
+  color: $text-color-light;
+  min-width: 50px;
+  text-align: right;
+}
+
+.gallerySection {
+  margin: 30px 0;
+}
+
+.galleryWrapper {
+  position: relative;
+  z-index: 1; /* Ensure proper stacking within TourReviews */
+}
+
+.sectionTitle {
+  font-size: 20px;
+  font-weight: 600;
+  color: $text-color;
+  margin-bottom: 20px;
+}
+
+.reviewsList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.reviewCard {
+  border-radius: 12px;
+  background-color: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  padding: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  }
+}
+
+.reviewHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  
+  @media (max-width: $breakpoint-sm) {
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+
+.reviewerInfo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.reviewerImage {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.profileImage {
+  object-fit: cover;
+}
+
+.reviewerDetails {
+  display: flex;
+  flex-direction: column;
+}
+
+.reviewerName {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+  color: $text-color;
+}
+
+.reviewDate {
+  font-size: 14px;
+  color: $text-color-light;
+}
+
+.reviewRating {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ratingText {
+  font-size: 14px;
+  font-weight: 500;
+  color: $text-color;
+}
+
+.reviewContent {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.bookedTour {
+  font-size: 14px;
+  color: $text-color-light;
+  
+  span {
+    font-weight: 500;
+  }
+}
+
+.tourLink {
+  color: $primary-color;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.linkIcon {
+  font-size: 12px;
+}
+
+.reviewText {
+  font-size: 15px;
+  line-height: 1.6;
+  color: $text-color;
+  margin: 0;
+}
+
+.readMoreButton {
+  background: none;
+  border: none;
+  padding: 0;
+  margin-left: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: $primary-color;
+  cursor: pointer;
+  
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.reviewGalleryWrapper {
+  position: relative;
+  margin-top: 16px;
+  z-index: 1; /* Ensure proper stacking within reviews */
+} 

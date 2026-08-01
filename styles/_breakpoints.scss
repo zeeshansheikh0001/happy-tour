@@ -1,0 +1,81 @@
+// Breakpoint Variables
+$breakpoint-xs: 320px;
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+$breakpoint-xl: 1200px;
+$breakpoint-xxl: 1400px;
+
+// Updated breakpoints map with more specific ranges
+$breakpoints: (
+   'phone-down': (
+        max-width: 575px,
+    ),
+    'mob-only': (
+        min-width: 320px,
+        max-width: 767px,
+    ),
+    // 'tab-down': (
+    //     max-width: 991px,
+    // ),
+    'tab-up': (
+        min-width: 768px,
+    ),
+    'mobile': (
+        min-width: 320px,
+        max-width: 767px,
+    ),
+    'desktop': (min-width: 992px,
+    ),
+    'large-desktop': (min-width: 1200px,
+    ),
+    ) !default;
+
+// Mobile First Approach
+@mixin breakpoints($breakpoint) {
+
+    // If the key exists in the map
+    @if map-has-key($breakpoints, $breakpoint) {
+
+        // Prints a media query based on the value
+        @media #{inspect(map-get($breakpoints, $breakpoint))} {
+            @content;
+        }
+    }
+
+    // If the key doesn't exist in the map
+    @else {
+        @warn "Unfortunately, no value could be retrieved from `#{$breakpoint}`. "
+        +"Available breakpoints are: #{map-keys($breakpoints)}.";
+    }
+}
+
+@mixin mob-only {
+    @media (min-width: #{$breakpoint-xs}) and (max-width: #{$breakpoint-md - 1px}) {
+        @content;
+    }
+}
+
+@mixin phone-down {
+    @media (max-width: #{$breakpoint-sm - 1px}) {
+        @content;
+    }
+}
+
+@mixin tab-up {
+    @media (min-width: #{$breakpoint-md}) {
+        @content;
+    }
+}
+
+@mixin desktop {
+    @media (min-width: #{$breakpoint-lg}) {
+        @content;
+    }
+}
+
+@mixin large-desktop {
+    @media (min-width: #{$breakpoint-xl}) {
+        @content;
+    }
+}

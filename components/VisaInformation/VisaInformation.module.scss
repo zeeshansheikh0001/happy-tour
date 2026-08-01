@@ -1,0 +1,264 @@
+@import '../../styles/colors';
+@import '../../styles/breakpoints';
+
+.visaInformation {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  margin: 2rem 0;
+  padding: 1.5rem;
+  width: 100%;
+}
+
+.tabsContainer {
+  display: flex;
+  overflow-x: auto;
+  padding-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid #eaeaea;
+  gap: 1rem;
+
+  @media (max-width: 768px) {
+    flex-wrap: nowrap;
+    padding-bottom: 0.5rem;
+  }
+}
+
+.tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.25rem;
+  background: none;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: $gray-600;
+  min-width: 100px;
+  text-align: center;
+
+  svg {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  span {
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  &:hover {
+    background-color: $primary-50;
+    color: $primary;
+  }
+
+  @media (max-width: 768px) {
+    padding: 0.5rem 0.75rem;
+    min-width: 80px;
+
+    svg {
+      font-size: 1.25rem;
+    }
+
+    span {
+      font-size: 0.8rem;
+    }
+  }
+}
+
+.activeTab {
+  background-color: $primary-50;
+  color: $primary;
+  font-weight: 600;
+}
+
+.contentContainer {
+  min-height: 400px;
+}
+
+.tabContent {
+  h3 {
+    font-size: 1.5rem;
+    color: $primary;
+    margin-bottom: 1.25rem;
+  }
+
+  p {
+    color: $gray-700;
+    line-height: 1.6;
+    margin-bottom: 1.25rem;
+  }
+
+  ul {
+    list-style-type: disc;
+    padding-left: 1.5rem;
+    margin-bottom: 1.5rem;
+    
+    li {
+      margin-bottom: 0.5rem;
+      color: $gray-700;
+      line-height: 1.5;
+    }
+  }
+}
+
+// Process Steps
+.processSteps {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.step {
+  background-color: $gray-50;
+  border-radius: 10px;
+  padding: 1.5rem;
+  position: relative;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+  }
+
+  h4 {
+    color: $primary;
+    font-size: 1.1rem;
+    margin: 0.5rem 0;
+  }
+
+  p {
+    font-size: 0.95rem;
+    margin: 0;
+  }
+}
+
+.stepNumber {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background-color: $primary;
+  color: white;
+  border-radius: 50%;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+// Document List
+.documentList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.25rem;
+  margin: 1.5rem 0;
+}
+
+.document {
+  display: flex;
+  padding: 1.25rem;
+  background-color: $gray-50;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: $primary-50;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transform: translateY(-3px);
+  }
+
+  .documentIcon {
+    color: $primary;
+    font-size: 1.75rem;
+    margin-right: 1rem;
+    flex-shrink: 0;
+  }
+
+  h4 {
+    font-size: 1rem;
+    margin: 0 0 0.5rem 0;
+    color: $primary-dark;
+  }
+
+  p {
+    font-size: 0.9rem;
+    margin: 0;
+    color: $gray-700;
+  }
+}
+
+.disclaimer {
+  background-color: $primary-50;
+  padding: 1rem;
+  border-radius: 8px;
+  border-left: 4px solid $primary;
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
+}
+
+// FAQ Section
+.faqSection {
+  margin-top: 1rem;
+}
+
+.faqItem {
+  padding: 1.25rem;
+  border-bottom: 1px solid #eaeaea;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  h4 {
+    font-size: 1.1rem;
+    margin: 0 0 0.75rem 0;
+    color: $primary-dark;
+  }
+
+  p {
+    margin: 0;
+    font-size: 0.95rem;
+  }
+}
+
+// Countries Grid
+.countriesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.25rem;
+  margin: 1.5rem 0;
+}
+
+.country {
+  background-color: $gray-50;
+  padding: 1.25rem;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: $primary-50;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  }
+
+  h4 {
+    color: $primary-dark;
+    margin: 0 0 0.5rem 0;
+    font-size: 1.1rem;
+  }
+
+  p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: $gray-700;
+  }
+}
+
+.supportText {
+  text-align: center;
+  font-size: 0.95rem;
+  color: $gray-600;
+  margin-top: 1.5rem;
+} 

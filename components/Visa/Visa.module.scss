@@ -1,0 +1,572 @@
+@import '../../styles/colors';
+@import '../../styles/breakpoints';
+
+.visaMainContainer {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.currencySelectorWrapper {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  z-index: 10;
+
+  @include mob-only {
+    position: relative;
+    top: 0;
+    right: 0;
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 15px;
+    padding: 0 15px;
+  }
+}
+
+.visaContainer {
+  width: 100%;
+  margin: 0 auto;
+  padding: 30px 20px;
+  
+  @include mob-only {
+    padding: 20px 15px;
+  }
+}
+
+.visaHeader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 30px;
+  
+  h2 {
+    font-size: 28px;
+    font-weight: 700;
+    color: $gray-800;
+    margin: 0 0 0 15px;
+    
+    @media (max-width:728px){
+      font-size: 18px;
+    }
+  }
+  @media (max-width:728px){
+    margin-bottom: 16px;
+  }
+}
+
+.visaIcon {
+  background-color: rgba($orange, 0.1);
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  @include mob-only {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+.tabsContainer {
+  display: flex;
+  border-bottom: 1px solid $gray-200;
+  margin-bottom: 30px;
+  
+  @include mob-only {
+    overflow-x: auto;
+    white-space: nowrap;
+    padding-bottom: 5px;
+    margin-bottom: 20px;
+  }
+}
+
+.tabButton {
+  padding: 12px 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  color: $gray-600;
+  position: relative;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    color: $orange;
+  }
+  
+  @include mob-only {
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+}
+
+.activeTab {
+  color: $orange;
+}
+
+.contentContainer {
+  min-height: 350px;
+  
+  @include mob-only {
+    min-height: 300px;
+  }
+}
+
+.requirementsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.requirementItem {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  margin-bottom: 12px;
+  background-color: $white;
+  border-radius: 8px;
+  border: 1px solid $gray-200;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    border-color: $orange;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+  }
+  
+ @media (max-width:728px  ) {
+    padding: 12px;
+    font-size: 13px;
+  }
+}
+
+.requirementIcon {
+  color: $orange;
+  margin-right: 15px;
+  display: flex;
+  align-items: center;
+}
+
+.applicationSteps {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  
+  @include mob-only {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+}
+
+.stepCard {
+  display: flex;
+  padding: 20px;
+  background-color: $white;
+  border-radius: 8px;
+  border: 1px solid $gray-200;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    border-color: $orange;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transform: translateY(-5px);
+  }
+  
+  @include mob-only {
+    padding: 15px;
+  }
+}
+
+.stepNumber {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: $orange;
+  color: $white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  margin-right: 15px;
+  flex-shrink: 0;
+}
+
+.stepContent {
+  h4 {
+    margin: 0 0 8px;
+    color: $gray-800;
+    font-size: 18px;
+    
+    @include mob-only {
+      font-size: 16px;
+    }
+  }
+  
+  p {
+    margin: 0;
+    color: $gray-600;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+}
+
+.feesTable {
+  border: 1px solid $gray-200;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.tableHeader {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  background-color: $gray-100;
+  padding: 15px;
+  font-weight: 600;
+  color: $gray-800;
+  
+  span {
+    padding: 0 10px;
+  }
+  
+  @include mob-only {
+    padding: 12px;
+    font-size: 14px;
+  }
+}
+
+.tableRow {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  padding: 15px;
+  border-top: 1px solid $gray-200;
+  transition: background-color 0.3s ease;
+  
+  &:hover {
+    background-color: rgba($orange, 0.05);
+  }
+  
+  span {
+    padding: 0 10px;
+  }
+  
+  @include mob-only {
+    padding: 12px;
+    font-size: 14px;
+  }
+}
+
+.packagesContainer {
+  width: 100%;
+  margin-top: 20px;
+  overflow: visible;
+  
+  :global(.visaPackages) {
+    padding-top: 0;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  
+  :global(.packagesContainer) {
+    width: 100%;
+  }
+  
+  @include mob-only {
+    margin-top: 10px;
+  }
+}
+
+.visaFooter {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.noticeBox {
+  display: flex;
+  align-items: center;
+  padding: 15px 20px;
+  background-color: rgba($orange, 0.1);
+  border-radius: 8px;
+  margin-bottom: 25px;
+  width: 100%;
+  
+  .infoIcon {
+    color: $orange;
+    margin-right: 12px;
+    flex-shrink: 0;
+  }
+  
+  p {
+    margin: 0;
+    font-size: 14px;
+    color: $gray-700;
+  }
+  
+  @include mob-only {
+    padding: 12px 15px;
+    
+    p {
+      font-size: 13px;
+    }
+  }
+}
+
+.applyButton {
+  background-color: $orange;
+  color: $white;
+  border: none;
+  border-radius: 8px;
+  padding: 14px 30px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background-color: darken($orange, 5%);
+  }
+  
+  @include mob-only {
+    padding: 12px 25px;
+    font-size: 15px;
+    width: 100%;
+  }
+}
+
+/* Modal Styles - adjusted for portal rendering */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 2000; /* Higher z-index to appear above all content */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  overflow-y: auto;
+  backdrop-filter: blur(3px);
+  
+  @include mob-only {
+    padding: 10px;
+    align-items: flex-start;
+    padding-top: 40px;
+  }
+}
+
+.modalContainer {
+  background-color: white;
+  width: 100%;
+  max-width: 700px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  animation: modalAppear 0.3s ease-out;
+  
+  @include mob-only {
+    max-height: 85vh;
+    width: 95%;
+  }
+}
+
+@keyframes modalAppear {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: $orange;
+  
+  h3 {
+    margin: 0;
+    color: white;
+    font-size: 22px;
+    font-weight: 600;
+  }
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+  
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+}
+
+.selectedPackageInfo {
+  background-color: rgba($orange, 0.1);
+  padding: 15px 20px;
+  border-left: 4px solid $orange;
+  margin: 0px 20px 20px;
+  border-radius: 0 4px 4px 0;
+  
+  h4 {
+    margin: 0 0 8px;
+    color: $gray-800;
+    font-size: 16px;
+  }
+  
+  p {
+    margin: 0 0 6px;
+    color: $gray-700;
+    font-size: 14px;
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.applicationForm {
+  padding: 0 20px 30px;
+  overflow-y: auto;
+  max-height: 60vh;
+  
+  @include mob-only {
+    padding: 0 15px 20px;
+  }
+}
+
+.formGroup {
+  margin-bottom: 20px;
+  
+  label {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: $gray-700;
+    margin-bottom: 6px;
+  }
+  
+  .inputIcon {
+    color: $orange;
+    margin-right: 8px;
+  }
+  
+  input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid $gray-300;
+    border-radius: 6px;
+    font-size: 15px;
+    transition: border-color 0.2s ease;
+    
+    &:focus {
+      outline: none;
+      border-color: $orange;
+    }
+  }
+  
+  textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+  
+  select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FF7A00' width='18px' height='18px'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 20px;
+  }
+}
+
+.inputError {
+  border-color: $error-color !important;
+}
+
+.errorMessage {
+  color: $error-color;
+  font-size: 12px;
+  margin-top: 5px;
+  display: block;
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  
+  @include mob-only {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+.formActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: 30px;
+  
+  @include mob-only {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+.cancelButton, .submitButton {
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
+  @include mob-only {
+    padding: 14px;
+  }
+}
+
+.cancelButton {
+  background-color: $gray-100;
+  color: $gray-800;
+  border: 1px solid $gray-300;
+  
+  &:hover {
+    background-color: $gray-200;
+  }
+}
+
+.submitButton {
+  background-color: $orange;
+  color: white;
+  border: none;
+  
+  &:hover {
+    background-color: darken($orange, 10%);
+  }
+} 

@@ -1,0 +1,532 @@
+@import '../../styles/colors';
+@import '../../styles/breakpoints';
+
+.tourBookingContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  margin-top: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+  // padding: 0 20px;
+  
+  @include breakpoints('tab-down') {
+    flex-direction: column;
+  }
+}
+
+.bookingDetails {
+  flex: 1 1 60%;
+  min-width: 300px;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #222;
+  margin: 16px 0;
+  
+  @media (max-width: $breakpoint-sm) {
+    font-size: 24px;
+  }
+}
+
+.durationBadge {
+  display: inline-flex;
+  align-items: center;
+  background-color: #f8f8f8;
+  border-radius: 50px;
+  margin-bottom: 20px;
+}
+
+.daysNights {
+  font-weight: 700;
+  color: #ff6b00;
+  background-color: #fff1e9;
+  padding: 6px 12px;
+  border-radius: 50px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  margin-right: 12px;
+}
+
+.location {
+  font-weight: 600;
+  color: #555;
+}
+
+.priceSection {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.priceDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.starRating {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ratingValue {
+  font-weight: 700;
+  color: #26a649;
+  font-size: 18px;
+}
+
+.reviewCount {
+  color: #777;
+  font-size: 14px;
+}
+
+.priceInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.currentPrice {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.currencyCode {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.priceValue {
+  font-size: 36px;
+  font-weight: 700;
+  color: #222;
+  
+  @include breakpoints('mob-only') {
+    font-size: 28px;
+  }
+}
+
+.perPerson {
+  font-size: 15px;
+  color: #777;
+}
+
+.originalPrice {
+  text-decoration: line-through;
+  color: #777;
+  font-size: 16px;
+  margin-top: 4px;
+}
+
+.includedServices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 20px;
+  
+  @include breakpoints('mob-only') {
+    gap: 16px;
+  }
+}
+
+.service {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  
+  span {
+    font-size: 15px;
+    color: #555;
+  }
+}
+
+.serviceIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #f7f7f7;
+}
+
+.tripDuration {
+  margin-bottom: 32px;
+  
+  h3 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: #222;
+  }
+}
+
+.durationOptions {
+  position: relative;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+  
+  &::-webkit-scrollbar {
+    height: 4px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: #ddd;
+    border-radius: 10px;
+  }
+  
+  &::-webkit-scrollbar-thumb:hover {
+    background: #ccc;
+  }
+}
+
+.optionsContainer {
+  display: flex;
+  gap: 16px;
+  min-width: max-content;
+}
+
+.optionCard {
+  width: 180px;
+  height: 110px;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  }
+  
+  &.active {
+    border: 2px solid #ff6b00;
+  }
+}
+
+.optionImage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0));
+  }
+}
+
+.image {
+  object-fit: cover;
+}
+
+.optionInfo {
+  position: absolute;
+  bottom: 10px;
+  left: 12px;
+  color: white;
+  z-index: 2;
+}
+
+.optionDays {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.optionPrice {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.moreOptions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 110px;
+  border-radius: 12px;
+  background-color: #f7f7f7;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  
+  &:hover {
+    background-color: #f0f0f0;
+  }
+}
+
+.moreCount {
+  font-size: 24px;
+  font-weight: 700;
+  color: #ff6b00;
+}
+
+.moreText {
+  font-size: 14px;
+  color: #555;
+}
+
+.destinationRoutes, .stayCategory {
+  margin-bottom: 32px;
+  
+  h3 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: #222;
+  }
+}
+
+.routeSelector {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  cursor: pointer;
+  
+  &:hover {
+    border-color: #ccc;
+  }
+}
+
+.selectedRoute {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 16px;
+  color: #444;
+}
+
+.categoryOptions {
+  display: flex;
+  gap: 16px;
+  
+  @include breakpoints('mob-only') {
+    gap: 10px;
+  }
+}
+
+.categoryButton {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: white;
+  color: #444;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  text-align: center;
+  
+  &:hover {
+    border-color: #ff6b00;
+    color: #ff6b00;
+  }
+  
+  &.active {
+    background-color: #fff6f0;
+    border-color: #ff6b00;
+    color: #ff6b00;
+    font-weight: 600;
+  }
+}
+
+.checkIcon {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  font-size: 12px;
+}
+
+.tripHighlights {
+  margin-bottom: 32px;
+  
+  h3 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: #222;
+  }
+}
+
+.highlightsList {
+  list-style-position: inside;
+  padding-left: 0;
+  
+  li {
+    position: relative;
+    padding-left: 20px;
+    margin-bottom: 12px;
+    line-height: 1.6;
+    color: #555;
+    font-size: 15px;
+    
+    &::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: #ff6b00;
+      font-size: 18px;
+    }
+  }
+}
+
+.bookingForm {
+  flex: 1 1 35%;
+  min-width: 300px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  align-self: flex-start;
+}
+
+.formPackageInfo {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-bottom: 1px solid #eee;
+  
+  h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: #333;
+  }
+}
+
+.formPrice {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.formDiscountedPrice {
+  font-size: 24px;
+  font-weight: 700;
+  color: #111;
+}
+
+.formOriginalPrice {
+  font-size: 16px;
+  color: #777;
+  text-decoration: line-through;
+}
+
+.formSavings {
+  font-size: 14px;
+  font-weight: 600;
+  color: #26a649;
+  background-color: #e6f7ec;
+  padding: 4px 10px;
+  border-radius: 4px;
+  margin-left: auto;
+}
+
+.formFields {
+  padding: 20px;
+}
+
+.formField {
+  margin-bottom: 16px;
+}
+
+.formInput, .formTextarea {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 15px;
+  transition: border-color 0.2s ease;
+  
+  &:focus {
+    outline: none;
+    border-color: #ff6b00;
+  }
+  
+  &::placeholder {
+    color: #999;
+  }
+}
+
+.formTextarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.phoneField {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.countryCode {
+  width: 100px;
+  
+  select {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 15px;
+    background-color: white;
+    cursor: pointer;
+    
+    &:focus {
+      outline: none;
+      border-color: #ff6b00;
+    }
+  }
+}
+
+.dateCountFields {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.formDateField, .formCountField {
+  flex: 1;
+}
+
+.enquiryButton {
+  width: 100%;
+  padding: 16px;
+  background-color: #ff6b00;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  
+  &:hover {
+    background-color: #e05e00;
+  }
+}
+
+@media (max-width: 480px) {
+  .dateCountFields {
+    flex-direction: column;
+    gap: 16px;
+  }
+} 

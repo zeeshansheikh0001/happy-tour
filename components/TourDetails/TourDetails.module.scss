@@ -1,0 +1,454 @@
+@import '../../styles/colors';
+@import '../../styles/breakpoints';
+
+.galleryContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  max-width: 1200px;
+  margin: 0 auto;
+  border-radius: 12px;
+}
+
+.mainImageContainer {
+  position: relative;
+  flex: 1 1 60%;
+  min-width: 320px;
+  height: 500px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+
+  &:hover {
+    .mainImage {
+      transform: scale(1.02);
+    }
+  }
+}
+
+.mainImage {
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.thumbnailsGrid {
+  flex: 1 1 38%;
+  min-width: 300px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 16px;
+  position: relative;
+}
+
+.thumbnailItem {
+  position: relative;
+  height: 240px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    
+    .thumbnailImage {
+      transform: scale(1.05);
+    }
+    
+    .thumbnailLabel {
+      background-color: rgba(0, 0, 0, 0.7);
+    }
+  }
+}
+
+.thumbnailImage {
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.thumbnailLabel {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  padding: 12px 16px;
+  font-size: 16px;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+  text-align: center;
+}
+
+.viewAllButton {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  background-color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  z-index: 10;
+  font-size: 14px;
+  font-weight: 600;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.viewAllIcon {
+  font-size: 14px;
+}
+
+// Carousel styles for mobile
+.carouselContainer {
+  position: relative;
+  width: 100%;
+  height: 280px;
+  margin-top: 16px;
+  overflow: hidden;
+}
+
+.carousel {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; // Firefox
+  -ms-overflow-style: none; // IE/Edge
+  
+  &::-webkit-scrollbar {
+    display: none; // Chrome, Safari, Opera
+  }
+}
+
+.carouselItem {
+  position: relative;
+  flex: 0 0 100%;
+  height: 100%;
+  scroll-snap-align: start;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  
+  .thumbnailImage {
+    object-fit: cover;
+  }
+}
+
+.carouselNav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(255, 255, 255, 0.8);
+  color: #333;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background-color: white;
+    transform: translateY(-50%) scale(1.1);
+  }
+  
+  &.prevBtn {
+    left: 10px;
+  }
+  
+  &.nextBtn {
+    right: 10px;
+  }
+}
+
+.carouselDots {
+  position: absolute;
+  bottom: 15px;
+  left: 0px;
+  right: 9px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  z-index: 10;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  
+  &.activeDot {
+    background-color: white;
+    transform: scale(1.2);
+  }
+}
+
+// Modal styles
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.9);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modalContent {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.closeButton {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  font-size: 20px;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.4);
+  }
+}
+
+.modalImageContainer {
+  position: relative;
+  width: 100%;
+  height: 70vh;
+  margin-bottom: 16px;
+}
+
+.modalImage {
+  object-fit: contain;
+}
+
+.modalNav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  z-index: 10;
+  font-size: 24px;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.4);
+  }
+  
+  &.modalPrev {
+    left: 20px;
+  }
+  
+  &.modalNext {
+    right: 20px;
+  }
+}
+
+.modalCounter {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+}
+
+.modalThumbnails {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 10px 0;
+  margin-top: auto;
+  
+  &::-webkit-scrollbar {
+    height: 6px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+  }
+}
+
+.modalThumbnail {
+  flex: 0 0 auto;
+  width: 80px;
+  height: 60px;
+  border-radius: 6px;
+  overflow: hidden;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: all 0.2s ease;
+  border: 2px solid transparent;
+  
+  &:hover {
+    opacity: 0.9;
+  }
+  
+  &.activeThumbnail {
+    opacity: 1;
+    border-color: white;
+  }
+}
+
+.modalThumbnailImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+// Responsive adjustments
+@media (max-width: 991px) {
+  .mainImageContainer {
+    height: 450px;
+  }
+
+  .thumbnailItem {
+    height: 220px;
+  }
+
+  .thumbnailLabel {
+    font-size: 14px;
+  }
+  
+  .modalImageContainer {
+    height: 60vh;
+  }
+  
+  .modalNav {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .galleryContainer {
+    flex-direction: column;
+  }
+
+  .mainImageContainer {
+    height: 400px;
+  }
+  
+  .modalContent {
+    height: 85vh;
+  }
+  
+  .modalImageContainer {
+    height: 50vh;
+  }
+  
+  .modalThumbnail {
+    width: 70px;
+    height: 50px;
+  }
+}
+
+@media (max-width: 480px) {
+  .mainImageContainer {
+    height: 300px;
+  }
+
+  .carouselContainer {
+    height: 240px;
+  }
+  
+  .thumbnailsGrid {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(4, 180px);
+  }
+
+  .thumbnailItem {
+    height: 180px;
+  }
+
+  .thumbnailLabel {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+
+  .viewAllButton {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+  
+  .modalImageContainer {
+    height: 40vh;
+  }
+  
+  .modalNav {
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+  }
+  
+  .closeButton {
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+  }
+  
+  .modalThumbnail {
+    width: 60px;
+    height: 45px;
+  }
+} 

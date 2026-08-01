@@ -1,0 +1,135 @@
+@import '../../styles/colors';
+@import '../../styles/breakpoints';
+
+/* Simple animation that works reliably on all browsers including iOS */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Separate keyframe for iOS */
+@-webkit-keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.search-bar {
+  width: 100%;
+  
+  &__container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+    cursor: text;
+  }
+  
+  &__icon {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: $gray-400;
+    z-index: 1;
+    width: 16px;
+    height: 16px;
+  }
+  
+  &__input {
+    width: 100%;
+    padding: 10px 16px 10px 45px;
+    border: 1px solid $gray-200;
+    border-radius: 50px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+    -webkit-appearance: none; /* Fix iOS inputs */
+    
+    &:focus {
+      outline: none;
+      border-color: $gray-300;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+      
+      & + .search-bar__placeholder {
+        opacity: 0;
+        visibility: hidden;
+      }
+    }
+    
+    &::placeholder {
+      color: $gray-400;
+      font-size: 15px;
+    }
+    
+    @include phone-down {
+      padding: 8px 16px 8px 40px;
+      font-size: 14px;
+      
+      &::placeholder {
+        font-size: 14px;
+      }
+    }
+  }
+  
+  &__placeholder {
+    position: absolute;
+    top: 50%;
+    left: 45px;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    pointer-events: none;
+    color: $gray-400;
+    font-size: 15px;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+    -webkit-transition: opacity 0.2s ease, visibility 0.2s ease;
+    white-space: nowrap;
+    max-width: calc(100% - 60px);
+    overflow: hidden;
+    
+    @include phone-down {
+      font-size: 14px;
+      left: 40px;
+    }
+  }
+  
+  &__destination {
+    display: inline-block;
+    min-width: 4px;
+    color: $primary-color;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+  }
+  
+  &__cursor {
+    display: inline-block;
+    width: 2px;
+    height: 16px;
+    background-color: $gray-400;
+    margin-left: 2px;
+    margin-right: 1px;
+    vertical-align: middle;
+    animation: blink 0.75s infinite;
+    -webkit-animation: blink 0.75s infinite;
+    position: relative;
+    top: -1px;
+    border-radius: 1px;
+  }
+} 
+
+/* Special styles for iOS */
+@supports (-webkit-touch-callout: none) {
+  .search-bar__cursor {
+    animation-duration: 0.8s !important;
+    -webkit-animation-duration: 0.8s !important;
+    height: 14px !important;
+    width: 3px !important;
+  }
+}
+
+/* Make placeholder disappear when input has content */
+.search-bar__input:not(:placeholder-shown) + .search-bar__placeholder {
+  opacity: 0;
+  visibility: hidden;
+} 
