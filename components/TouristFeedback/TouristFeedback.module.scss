@@ -9,7 +9,7 @@
   width: 100%;
   max-width: var(--page-max);
   margin: 0 auto;
-  padding: 72px var(--page-gutter) 80px;
+  padding: 0 var(--page-gutter) 80px;
 }
 
 .intro {
@@ -86,6 +86,7 @@
 }
 
 .grid {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -93,6 +94,28 @@
   margin: 0;
   padding: 0;
   list-style: none;
+}
+
+.dots {
+  display: none;
+  justify-content: center;
+  gap: 8px;
+  margin: 16px 0 0;
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: #d9d4cc;
+  cursor: pointer;
+}
+
+.dotOn {
+  width: 18px;
+  background: #1c2430;
 }
 
 .card {
@@ -173,7 +196,7 @@
 @media (max-width: 767px) {
   .inner {
     width: 100%;
-    padding: 56px var(--page-gutter) 64px;
+    padding: 0 var(--page-gutter) 64px;
   }
 
   .eyebrow {
@@ -209,8 +232,45 @@
     line-height: var(--type-meta-leading);
   }
 
+  .grid {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    gap: 12px;
+    margin-right: calc(var(--page-gutter) * -1);
+    margin-left: calc(var(--page-gutter) * -1);
+    padding: 2px var(--page-gutter) 4px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--page-gutter);
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
   .card {
+    flex: 0 0 86%;
+    max-width: 86%;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  .gridSingle .card {
     flex-basis: 100%;
-    max-width: none;
+    max-width: 100%;
+  }
+
+  .dots {
+    display: flex;
+  }
+}
+
+@media (max-width: 767px) and (prefers-reduced-motion: reduce) {
+  .grid {
+    scroll-behavior: auto;
   }
 }

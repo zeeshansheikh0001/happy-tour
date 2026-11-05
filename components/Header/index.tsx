@@ -122,7 +122,7 @@ const Header: React.FC<HeaderProps> = ({
       <div className={styles.inner}>
         <div className={styles.topRow}>
           <Link href="/" className={styles.logo} aria-label="Happy Trails home" onClick={goHome}>
-            <span className={styles.logoText}>togo</span>
+            <span className={styles.logoText}>Happy</span>
           </Link>
 
           <div className={styles.actions}>

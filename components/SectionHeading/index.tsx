@@ -20,7 +20,7 @@ interface SectionHeadingAction {
 }
 
 interface SectionHeadingProps {
-  eyebrow: string;
+  eyebrow?: string;
   icon?: SectionHeadingIcon;
   title: string;
   titleId?: string;
@@ -65,10 +65,12 @@ const SectionHeading: React.FC<SectionHeadingProps> = ({
         className || '',
       ].filter(Boolean).join(' ')}
     >
-      <p className={styles.eyebrow}>
-        <HeadingIcon name={icon} />
-        {eyebrow}
-      </p>
+      {eyebrow ? (
+        <p className={styles.eyebrow}>
+          <HeadingIcon name={icon} />
+          {eyebrow}
+        </p>
+      ) : null}
       <TitleTag id={titleId} className={styles.title}>
         {accent ? (
           <>

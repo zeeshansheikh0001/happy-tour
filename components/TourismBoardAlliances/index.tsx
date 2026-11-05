@@ -1,170 +1,135 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
 import { tourismBoardAlliances } from '../../data/staticData';
 import SectionHeading from '../SectionHeading';
 import styles from './TourismBoardAlliances.module.scss';
 
-interface TourismBoardAlliancesProps {
-  scrollSpeed?: number;
+const FONT = 'var(--font-figtree), sans-serif';
+
+function JapanLogo() {
+  return (
+    <svg className={styles.logo} viewBox="0 0 168 52" role="img" aria-hidden="true">
+      <path
+        fill="#e10600"
+        d="M22 7c7 1 12 8 10 16-1 5-7 9-12 7 3-5 1-9-3-11 5-1 7-4 4-8-3 3-8 2-10-1 5-2 8-3 11-3z"
+      />
+      <text x="42" y="24" fill="#161616" fontFamily={FONT} fontSize="16" fontWeight="700">
+        Japan.
+      </text>
+      <text x="42" y="40" fill="#161616" fontFamily={FONT} fontSize="10" fontWeight="500">
+        Endless Discovery.
+      </text>
+    </svg>
+  );
 }
 
-const COPIES = 4;
+function FranceLogo() {
+  return (
+    <svg className={styles.logo} viewBox="0 0 132 52" role="img" aria-hidden="true">
+      <path fill="#f0b429" d="M92 8l1.6 3.6 3.8.4-2.9 2.5.9 3.7L92 16.4 88.6 18.2l.9-3.7-2.9-2.5 3.8-.4z" />
+      <text x="8" y="30" fill="#1d4ed8" fontFamily={FONT} fontSize="24" fontStyle="italic" fontWeight="600">
+        France
+      </text>
+      <text x="22" y="44" fill="#1d4ed8" fontFamily={FONT} fontSize="8" fontWeight="500">
+        Rendez-vous en France
+      </text>
+    </svg>
+  );
+}
 
-const TourismBoardAlliances: React.FC<TourismBoardAlliancesProps> = ({ scrollSpeed = 40 }) => {
-  const viewportRef = useRef<HTMLDivElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
-  const offsetRef = useRef(0);
-  const halfRef = useRef(0);
-  const pausedRef = useRef(false);
-  const [reducedMotion, setReducedMotion] = useState(false);
+function AbuDhabiLogo() {
+  return (
+    <svg className={styles.logo} viewBox="0 0 132 52" role="img" aria-hidden="true">
+      <text x="4" y="18" fill="#6d28a8" fontFamily={FONT} fontSize="12" fontWeight="500">
+        experience
+      </text>
+      <text x="4" y="40" fill="#6d28a8" fontFamily={FONT} fontSize="20" fontWeight="700">
+        abu dhabi
+      </text>
+    </svg>
+  );
+}
 
-  const sequence = Array.from({ length: COPIES }, () => tourismBoardAlliances).flat();
-  const loop = [...sequence, ...sequence];
+function JordanLogo() {
+  return (
+    <svg className={styles.logo} viewBox="0 0 148 52" role="img" aria-hidden="true">
+      <text x="0" y="34" fill="#1b2559" fontFamily={FONT} fontSize="26" fontWeight="800" letterSpacing="0.5">
+        J
+      </text>
+      <circle cx="36" cy="24" r="10" fill="none" stroke="#1b2559" strokeWidth="2.2" />
+      <path fill="#1b2559" d="M36 16.5l1.5 3.5 3.7.3-2.8 2.4.9 3.6-3.3-1.9-3.3 1.9.9-3.6-2.8-2.4 3.7-.3z" />
+      <text x="50" y="34" fill="#1b2559" fontFamily={FONT} fontSize="26" fontWeight="800" letterSpacing="0.5">
+        RDAN
+      </text>
+    </svg>
+  );
+}
 
-  useEffect(() => {
-    const media = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const sync = () => setReducedMotion(media.matches);
-    sync();
-    media.addEventListener('change', sync);
-    return () => media.removeEventListener('change', sync);
-  }, []);
+function SaudiLogo() {
+  return (
+    <svg className={styles.logo} viewBox="0 0 110 52" role="img" aria-hidden="true">
+      <text x="4" y="36" fill="#14b8a6" fontFamily={FONT} fontSize="30" fontStyle="italic" fontWeight="600">
+        Saudi
+      </text>
+    </svg>
+  );
+}
 
-  useEffect(() => {
-    const track = trackRef.current;
-    const viewport = viewportRef.current;
-    if (!track || !viewport || reducedMotion) return;
+function DubaiLogo() {
+  return (
+    <svg className={styles.logo} viewBox="0 0 120 52" role="img" aria-hidden="true">
+      <text x="2" y="36" fill="#0b74d1" fontFamily={FONT} fontSize="28" fontWeight="800" letterSpacing="1">
+        DUBAI
+      </text>
+    </svg>
+  );
+}
 
-    const measure = () => {
-      halfRef.current = track.scrollWidth / 2;
-    };
-    measure();
+function BoardLogo({ id }: { id: number }) {
+  if (id === 1) return <JapanLogo />;
+  if (id === 2) return <FranceLogo />;
+  if (id === 3) return <AbuDhabiLogo />;
+  if (id === 4) return <JordanLogo />;
+  if (id === 5) return <SaudiLogo />;
+  return <DubaiLogo />;
+}
 
-    let frame = 0;
-    let last = 0;
-
-    const draw = () => {
-      const width = halfRef.current;
-      if (width > 0) {
-        offsetRef.current = ((offsetRef.current % width) + width) % width;
-        track.style.transform = `translate3d(${-offsetRef.current}px, 0, 0)`;
-      }
-    };
-
-    const tick = (now: number) => {
-      if (!last) last = now;
-      const delta = now - last;
-      last = now;
-      if (!pausedRef.current) {
-        offsetRef.current += (scrollSpeed * delta) / 1000;
-      }
-      draw();
-      frame = window.requestAnimationFrame(tick);
-    };
-
-    frame = window.requestAnimationFrame(tick);
-    window.addEventListener('resize', measure);
-
-    return () => {
-      window.cancelAnimationFrame(frame);
-      window.removeEventListener('resize', measure);
-    };
-  }, [reducedMotion, scrollSpeed]);
-
+const TourismBoardAlliances: React.FC = () => {
   if (tourismBoardAlliances.length === 0) return null;
+
+  const loop = [...tourismBoardAlliances, ...tourismBoardAlliances];
 
   return (
     <section className={styles.section} aria-labelledby="tourism-boards-heading">
-      <h2 id="tourism-boards-heading" className={styles.heading}>
-        Tourism board alliances
-      </h2>
-      <div
-        className={styles.viewport}
-        ref={viewportRef}
-        onMouseEnter={() => {
-          pausedRef.current = true;
-        }}
-        onMouseLeave={() => {
-          pausedRef.current = false;
-        }}
-      >
-        <div className={styles.track} ref={trackRef}>
+      <div className={styles.inner}>
+        <SectionHeading
+          align="center"
+          title="Tourism Board Alliances"
+          titleId="tourism-boards-heading"
+        />
+      </div>
+      <div className={styles.viewport}>
+        <ul className={styles.track}>
           {loop.map((board, index) => {
-            const hidden = index >= sequence.length;
+            const hidden = index >= tourismBoardAlliances.length;
             return (
-              <a
-                key={`${board.id}-${index}`}
-                className={styles.logoItem}
-                href={board.website}
-                target="_blank"
-                rel="noreferrer"
-                aria-label={hidden ? undefined : board.name}
-                aria-hidden={hidden || undefined}
-                tabIndex={hidden ? -1 : undefined}
-              >
-                <BoardLogo id={board.id} />
-              </a>
+              <li key={`${board.id}-${index}`} className={styles.logoItem} aria-hidden={hidden || undefined}>
+                <a
+                  className={styles.link}
+                  href={board.website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={hidden ? undefined : board.name}
+                  tabIndex={hidden ? -1 : undefined}
+                >
+                  <BoardLogo id={board.id} />
+                </a>
+              </li>
             );
           })}
-        </div>
+        </ul>
       </div>
     </section>
   );
 };
 
 export default TourismBoardAlliances;
-
-function BoardLogo({ id }: { id: number }) {
-  if (id === 1) return <VisitDubaiLogo />;
-  if (id === 2) return <VietnamLogo />;
-  return <IndiaLogo />;
-}
-
-function VisitDubaiLogo() {
-  return (
-    <svg className={styles.logo} viewBox="0 0 168 48" role="img" aria-hidden="true">
-      <rect x="2" y="6" width="36" height="36" rx="10" fill="#1C2430" />
-      <circle cx="20" cy="16" r="3.5" fill="#C4A574" />
-      <rect x="11" y="26" width="4" height="8" rx="1" fill="#F4F1EA" />
-      <rect x="18" y="21" width="4" height="13" rx="1" fill="#F4F1EA" />
-      <rect x="25" y="24" width="4" height="10" rx="1" fill="#F4F1EA" />
-      <text x="48" y="20" fill="#8A93A0" fontFamily="var(--font-figtree), sans-serif" fontSize="11" letterSpacing="1.6">
-        VISIT
-      </text>
-      <text x="48" y="38" fill="#1C2430" fontFamily="var(--font-figtree), sans-serif" fontSize="18" fontWeight="700">
-        Dubai
-      </text>
-    </svg>
-  );
-}
-
-function VietnamLogo() {
-  return (
-    <svg className={styles.logo} viewBox="0 0 196 48" role="img" aria-hidden="true">
-      <circle cx="20" cy="24" r="16" fill="#DA251D" />
-      <path
-        d="M20 12c1.6 3.4 1.6 6.2 0 9.2-1.6-3-1.6-5.8 0-9.2zm0 14.8c1.6-3 1.6-5.8 0-9.2 1.6 3.4 1.6 6.2 0 9.2zM12.2 17.2c3.6.6 6.2 2.2 8.4 4.6-3.2-1.2-6-1.6-8.4-4.6zm15.6 0c-2.4 3-5.2 3.4-8.4 4.6 2.2-2.4 4.8-4 8.4-4.6zM12.2 30.8c2.4-3 5.2-3.4 8.4-4.6-2.2 2.4-4.8 4-8.4 4.6zm15.6 0c-3.6-.6-6.2-2.2-8.4-4.6 3.2 1.2 6 1.6 8.4 4.6z"
-        fill="#ffffff"
-      />
-      <text x="44" y="22" fill="#1C2430" fontFamily="var(--font-figtree), sans-serif" fontSize="16" fontWeight="700">
-        Vietnam
-      </text>
-      <text x="44" y="38" fill="#DA251D" fontFamily="var(--font-figtree), sans-serif" fontSize="11" letterSpacing="1.8">
-        TOURISM
-      </text>
-    </svg>
-  );
-}
-
-function IndiaLogo() {
-  return (
-    <svg className={styles.logo} viewBox="0 0 210 48" role="img" aria-hidden="true">
-      <circle cx="20" cy="24" r="15" fill="none" stroke="#FF9933" strokeWidth="3" />
-      <circle cx="20" cy="24" r="6" fill="#138808" />
-      <text x="44" y="20" fill="#1C2430" fontFamily="var(--font-figtree), sans-serif" fontSize="12" letterSpacing="0.4">
-        Incredible
-      </text>
-      <text x="44" y="38" fill="#FF9933" fontFamily="var(--font-figtree), sans-serif" fontSize="18" fontWeight="700">
-        India
-      </text>
-    </svg>
-  );
-}

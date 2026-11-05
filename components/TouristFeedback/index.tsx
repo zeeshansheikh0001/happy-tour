@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import Image from 'next/image';
 import { holidayDestinations, touristFeedback } from '../../data/staticData';
 import { TouristFeedback as TouristFeedbackItem } from '../../types/staticData';
@@ -14,11 +14,34 @@ const DUMMY_SCORE = '4.9/5';
 const DUMMY_TRAVELERS = '2,500+ happy travelers';
 
 const TouristFeedback: React.FC<TouristFeedbackProps> = ({ items = touristFeedback }) => {
+  const scrollerRef = useRef<HTMLUListElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
   const cards = items.flatMap((item) => {
     const place = holidayDestinations.find((destination) => destination.id === item.destinationId);
     if (!place) return [];
     return [{ ...item, image: place.image, tripLabel: item.trip || place.name }];
   });
+
+  const updateActiveIndex = (node: HTMLUListElement) => {
+    const card = node.querySelector<HTMLElement>(`.${styles.card}`);
+    const gap = Number.parseFloat(getComputedStyle(node).columnGap) || 0;
+    const step = (card?.offsetWidth || node.clientWidth) + gap;
+    if (step <= 0) return;
+    const next = Math.min(cards.length - 1, Math.max(0, Math.round(node.scrollLeft / step)));
+    setActiveIndex((current) => (current === next ? current : next));
+  };
+
+  const scrollToCard = (index: number) => {
+    const node = scrollerRef.current;
+    const card = node?.children.item(index) as HTMLElement | null;
+    if (!node || !card) return;
+    const padding = Number.parseFloat(getComputedStyle(node).paddingLeft) || 0;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    node.scrollTo({
+      left: card.offsetLeft - padding,
+      behavior: reduceMotion ? 'auto' : 'smooth',
+    });
+  };
 
   if (cards.length === 0) {
     return null;
@@ -44,7 +67,11 @@ const TouristFeedback: React.FC<TouristFeedbackProps> = ({ items = touristFeedba
           </p>
         </header>
 
-        <ul className={styles.grid}>
+        <ul
+          ref={scrollerRef}
+          className={cards.length === 1 ? `${styles.grid} ${styles.gridSingle}` : styles.grid}
+          onScroll={(event) => updateActiveIndex(event.currentTarget)}
+        >
           {cards.map((item) => (
             <li key={item.id} className={styles.card}>
               <div className={styles.photo}>
@@ -72,6 +99,20 @@ const TouristFeedback: React.FC<TouristFeedbackProps> = ({ items = touristFeedba
             </li>
           ))}
         </ul>
+        {cards.length > 1 && (
+          <div className={styles.dots}>
+            {cards.map((item, index) => (
+              <button
+                key={item.id}
+                type="button"
+                className={index === activeIndex ? `${styles.dot} ${styles.dotOn}` : styles.dot}
+                aria-label={`Show review ${index + 1} of ${cards.length}`}
+                aria-current={index === activeIndex ? 'true' : undefined}
+                onClick={() => scrollToCard(index)}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

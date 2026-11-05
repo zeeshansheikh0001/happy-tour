@@ -299,7 +299,7 @@ const Home: React.FC = () => {
                   <HowItWorks />
                   <ActivitiesTeaser />
                   <VisaTeaser />
-                  <TourismBoardAlliances scrollSpeed={40} />
+                  <TourismBoardAlliances />
                 </>
               )}
               {activeTab === 'activities' && (

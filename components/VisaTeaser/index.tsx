@@ -31,8 +31,6 @@ const VisaTeaser: React.FC<VisaTeaserProps> = ({ destinationId }) => {
     <div className={styles.inner} style={{ backgroundImage: `url(${photo})` }}>
       <Icon3D name="passport" alt="" size={48} />
       <SectionHeading
-        eyebrow="Visas"
-        icon="passport"
         title="Need help with a tourist visa?"
         titleId="visa-teaser-heading"
         description={text}

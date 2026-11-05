@@ -37,16 +37,21 @@ $breakpoints: (
     // If the key exists in the map
     @if map-has-key($breakpoints, $breakpoint) {
 
-        // Prints a media query based on the value
-        @media #{inspect(map-get($breakpoints, $breakpoint))} {
+        $query: '';
+        @each $feature, $value in map-get($breakpoints, $breakpoint) {
+            @if $query != '' {
+                $query: $query + ' and ';
+            }
+            $query: $query + '(' + $feature + ': ' + $value + ')';
+        }
+
+        @media #{$query} {
             @content;
         }
     }
 
-    // If the key doesn't exist in the map
     @else {
-        @warn "Unfortunately, no value could be retrieved from `#{$breakpoint}`. "
-        +"Available breakpoints are: #{map-keys($breakpoints)}.";
+        @warn "Unfortunately, no value could be retrieved from `#{$breakpoint}`. Available breakpoints are: #{map-keys($breakpoints)}.";
     }
 }
 

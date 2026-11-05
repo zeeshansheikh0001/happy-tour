@@ -1256,21 +1256,39 @@ export const currencies: Currency[] = [
 export const tourismBoardAlliances: TourismBoard[] = [
   {
     id: 1,
-    name: 'Visit Dubai',
-    place: 'Dubai',
-    website: 'https://www.visitdubai.com/',
+    name: 'Japan. Endless Discovery.',
+    place: 'Japan',
+    website: 'https://www.japan.travel/',
   },
   {
     id: 2,
-    name: 'Vietnam Tourism',
-    place: 'Vietnam',
-    website: 'https://vietnam.travel/',
+    name: 'France',
+    place: 'France',
+    website: 'https://www.france.fr/',
   },
   {
     id: 3,
-    name: 'Incredible India',
-    place: 'India',
-    website: 'https://www.incredibleindia.gov.in/',
+    name: 'Experience Abu Dhabi',
+    place: 'Abu Dhabi',
+    website: 'https://visitabudhabi.ae/',
+  },
+  {
+    id: 4,
+    name: 'Jordan',
+    place: 'Jordan',
+    website: 'https://international.visitjordan.com/',
+  },
+  {
+    id: 5,
+    name: 'Saudi',
+    place: 'Saudi Arabia',
+    website: 'https://www.visitsaudi.com/',
+  },
+  {
+    id: 6,
+    name: 'Dubai',
+    place: 'Dubai',
+    website: 'https://www.visitdubai.com/',
   },
 ];
 

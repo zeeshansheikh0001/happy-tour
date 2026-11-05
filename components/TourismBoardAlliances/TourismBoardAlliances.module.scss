@@ -1,22 +1,14 @@
 .section {
   width: 100%;
-  margin: 12px 0 48px;
-  padding: 8px 0 12px;
+  padding: 56px 0 48px;
   background: #ffffff;
 }
 
-.heading {
+.inner {
   width: 100%;
   max-width: var(--page-max);
-  margin: 0 auto 12px;
+  margin: 0 auto;
   padding: 0 var(--page-gutter);
-  box-sizing: border-box;
-  color: var(--color-navy);
-  font-size: var(--type-section-size);
-  font-weight: var(--type-section-weight);
-  letter-spacing: var(--type-heading-track);
-  line-height: var(--type-section-leading);
-  text-align: left;
 }
 
 .viewport {
@@ -30,7 +22,7 @@
     position: absolute;
     top: 0;
     z-index: 1;
-    width: 80px;
+    width: 72px;
     height: 100%;
     pointer-events: none;
   }
@@ -44,13 +36,21 @@
     right: 0;
     background: linear-gradient(to left, #ffffff, rgba(255, 255, 255, 0));
   }
+
+  &:hover .track,
+  &:focus-within .track {
+    animation-play-state: paused;
+  }
 }
 
 .track {
   display: flex;
   align-items: center;
   width: max-content;
-  will-change: transform;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  animation: tourism-board-scroll 36s linear infinite;
 }
 
 .logoItem {
@@ -59,39 +59,59 @@
   align-items: center;
   justify-content: center;
   height: 72px;
-  margin: 0 36px;
-  color: #1e2a4a;
-  text-decoration: none;
-  opacity: 1;
-  transition: transform 0.2s ease;
+  padding: 0 36px;
+}
 
-  &:hover,
-  &:focus-visible {
-    transform: scale(1.04);
-    outline: none;
-  }
+.link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: inherit;
+  text-decoration: none;
 }
 
 .logo {
   display: block;
-  height: 46px;
   width: auto;
+  height: 48px;
+}
+
+@keyframes tourism-board-scroll {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
 }
 
 @media (max-width: 767px) {
-  .heading {
-    color: var(--color-navy);
-    font-size: var(--type-section-size);
-    font-weight: var(--type-section-weight);
-    letter-spacing: var(--type-heading-track);
-    line-height: var(--type-section-leading);
+  .section {
+    padding: 40px 0 36px;
   }
 
   .logoItem {
-    margin: 0 20px;
+    height: 64px;
+    padding: 0 22px;
   }
 
   .logo {
-    height: 40px;
+    height: 42px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .viewport {
+    overflow-x: auto;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .track {
+    animation: none;
   }
 }
