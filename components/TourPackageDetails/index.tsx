@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import styles from './TourPackageDetails.module.scss';
-import Image from 'next/image';
-import { FaCheck, FaTimes } from 'react-icons/fa';
+import { CheckBadgeIcon, CloseBadgeIcon } from '../Icons';
+import SectionHeading from '../SectionHeading';
 import { useCurrency } from '../../context/CurrencyContext';
 
 export interface InclusionItem {
@@ -31,17 +31,22 @@ const TourPackageDetails: React.FC<TourPackageDetailsProps> = ({
   // Function to process text and convert any price mentions to the selected currency
   const formatPriceInText = (text: string) => {
     // Look for price patterns like "INR 1000", "$1000", etc.
-    return text.replace(/(\$|INR|USD|EUR|GBP|AED|SGD)\s*(\d+(?:,\d+)*)/g, (match, currencyCode, price) => {
+    return text.replace(/(\$|INR|USD|EUR|GBP|AED)\s*(\d+(?:,\d+)*)/g, (match, currencyCode, price) => {
       const numericPrice = parseInt(price.replace(/,/g, ''), 10);
       return formatPrice(numericPrice);
     });
   };
   
   return (
-    <div className={styles.packageDetailsContainer}>      
-      <Image src="/images/icons/end-trip.png" alt="Transfer" width={350} height={70} className={styles.packageTitle} />
+    <div className={styles.packageDetailsContainer}>
+      <SectionHeading
+        eyebrow="Package"
+        icon="clipboard"
+        title={title}
+        className={styles.packageHeading}
+      />
       <div className={styles.packageContent}>
-        <h3 className={styles.sectionTitle}>What's inside the package?</h3>
+        <h3 className={styles.sectionTitle}>What&apos;s inside the package</h3>
         
         <div className={styles.detailsGrid}>
           <div className={styles.inclusions}>
@@ -50,7 +55,7 @@ const TourPackageDetails: React.FC<TourPackageDetailsProps> = ({
               {inclusions.map((item, index) => (
                 <li key={index} className={styles.item}>
                   <span className={styles.iconWrapper}>
-                    <FaCheck className={styles.iconCheck} />
+                    <CheckBadgeIcon size={20} />
                   </span>
                   <span className={styles.itemText}>{formatPriceInText(item.text)}</span>
                 </li>
@@ -64,7 +69,7 @@ const TourPackageDetails: React.FC<TourPackageDetailsProps> = ({
               {exclusions.map((item, index) => (
                 <li key={index} className={styles.item}>
                   <span className={styles.iconWrapper}>
-                    <FaTimes className={styles.iconTimes} />
+                    <CloseBadgeIcon size={20} />
                   </span>
                   <span className={styles.itemText}>{formatPriceInText(item.text)}</span>
                 </li>

@@ -1,6 +1,8 @@
 /* eslint-disable react/no-danger */
 import Document, { Html, Head, Main, NextScript, DocumentContext } from 'next/document';
 
+import { figtree } from '../styles/font';
+
 class MyDocument extends Document {
     static async getInitialProps(ctx: DocumentContext) {
         const initialProps = await Document.getInitialProps(ctx);
@@ -9,7 +11,7 @@ class MyDocument extends Document {
     
     render() {
         return (
-            <Html lang="en">
+            <Html lang="en" className={`${figtree.variable} ${figtree.className}`}>
                 <Head>
                     {/* Google Analytics */}
                     <script async src="https://www.googletagmanager.com/gtag/js?id=G-GSF4NSZF80"></script>
@@ -25,12 +27,7 @@ class MyDocument extends Document {
                     />
                     
                     {/* Preconnect to domains */}
-                    <link rel="preconnect" href="https://fonts.googleapis.com" />
-                    <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
                     <link rel="preconnect" href="https://www.google-analytics.com" />
-                    
-                    {/* Fonts */}
-                    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Dancing+Script:wght@400;500;600;700&display=swap" rel="stylesheet" />
                     
                     {/* Favicon */}
                     <link rel="icon" href="/favicons/favicon.svg" type="image/svg+xml" />

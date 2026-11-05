@@ -1,20 +1,39 @@
 @import 'colors';
 @import 'breakpoints';
 
-// Import Poppins font from Google Fonts
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
+.appFont {
+    display: contents;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-family: var(--font-figtree), sans-serif;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+}
+
+:focus-visible {
+    outline: 2px solid #1e2a4a;
+    outline-offset: 2px;
+}
+
 body {
-    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-        Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    line-height: 1.5;
-    color: $gray-800;
+    font-family: inherit;
+    font-size: var(--type-body-size);
+    font-weight: var(--type-body-weight);
+    line-height: var(--type-body-leading);
+    letter-spacing: normal;
+    color: var(--color-navy);
     background-color: $gray-100;
 }
 
@@ -25,9 +44,9 @@ a {
 
 .container {
     width: 100%;
-    max-width: 1280px;
+    max-width: var(--page-max);
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 var(--page-gutter);
 }
 
 .hero {
@@ -35,41 +54,143 @@ a {
     text-align: center;
     
     h1 {
-        font-size: 36px;
-        margin-bottom: 16px;
-        font-weight: 700;
-        
-        @include breakpoints('tab') {
-            font-size: 48px;
-        }
+        margin-bottom: 10px;
     }
-    
+
     p {
-        font-size: 18px;
-        color: $gray-600;
-        max-width: 600px;
+        max-width: 65ch;
         margin: 0 auto;
-        font-weight: 300;
+        color: var(--color-slate);
     }
 }
 
-input {
+input,
+select,
+textarea {
     border: unset;
-    font-family: 'Poppins', sans-serif;
+    font-family: inherit;
+    font-size: var(--type-input-size);
+    font-weight: var(--type-body-weight);
+    line-height: var(--type-body-leading);
 }
 
 button {
     border: unset;
     background-color: unset;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 500;
+    font-family: inherit;
+    font-size: var(--type-button-size);
+    font-weight: var(--type-button-weight);
+    line-height: 1.4;
 }
 
-h1, h2, h3, h4, h5, h6 {
-    font-family: 'Poppins', sans-serif;
-    font-weight: 600;
+h1,
+.h-hero {
+    font-family: inherit;
+    font-size: var(--type-hero-size);
+    font-weight: var(--type-hero-weight);
+    line-height: var(--type-hero-leading);
+    letter-spacing: var(--type-heading-track);
+    color: var(--color-navy);
+}
+
+h2,
+.h-section {
+    font-family: inherit;
+    font-size: var(--type-section-size);
+    font-weight: var(--type-section-weight);
+    line-height: var(--type-section-leading);
+    letter-spacing: var(--type-heading-track);
+    color: var(--color-navy);
+}
+
+h3,
+.h-sub {
+    font-family: inherit;
+    font-size: var(--type-sub-size);
+    font-weight: var(--type-sub-weight);
+    line-height: var(--type-sub-leading);
+    letter-spacing: normal;
+    color: var(--color-navy);
+}
+
+h4,
+.h-card {
+    font-family: inherit;
+    font-size: var(--type-card-size);
+    font-weight: var(--type-card-weight);
+    line-height: var(--type-card-leading);
+    letter-spacing: normal;
+    color: var(--color-navy);
+}
+
+p,
+.h-body {
+    font-family: inherit;
+    font-size: var(--type-body-size);
+    font-weight: var(--type-body-weight);
+    line-height: var(--type-body-leading);
+    letter-spacing: normal;
+}
+
+label,
+.h-label {
+    font-family: inherit;
+    font-size: var(--type-label-size);
+    font-weight: var(--type-label-weight);
+    line-height: var(--type-label-leading);
+    letter-spacing: normal;
 }
 
 :root {
     --container-max-width: 1440px;
+    --page-max: 1280px;
+    --page-gutter: 24px;
+    --color-navy: #1e2a4a;
+    --color-slate: #5c6570;
+    --type-hero-size: 52px;
+    --type-hero-weight: 700;
+    --type-hero-leading: 1.15;
+    --type-section-size: 32px;
+    --type-section-weight: 700;
+    --type-section-leading: 1.2;
+    --type-sub-size: 24px;
+    --type-sub-weight: 600;
+    --type-sub-leading: 1.3;
+    --type-card-size: 18px;
+    --type-card-weight: 600;
+    --type-card-leading: 1.35;
+    --type-body-size: 16px;
+    --type-body-weight: 400;
+    --type-body-leading: 1.5;
+    --type-nav-size: 16px;
+    --type-nav-weight: 500;
+    --type-button-size: 16px;
+    --type-button-weight: 600;
+    --type-input-size: 16px;
+    --type-label-size: 14px;
+    --type-label-weight: 500;
+    --type-label-leading: 1.4;
+    --type-caption-size: 14px;
+    --type-control-size: 16px;
+    --type-control-weight: 600;
+    --type-control-leading: 1.4;
+    --type-meta-size: 14px;
+    --type-meta-weight: 500;
+    --type-meta-leading: 1.4;
+    --type-heading-track: -0.02em;
+    --type-badge-track: 0.06em;
+}
+
+@media (max-width: 767px) {
+    :root {
+        --page-gutter: 16px;
+        --type-hero-size: 32px;
+        --type-section-size: 26px;
+        --type-sub-size: 20px;
+        --type-card-size: 16px;
+        --type-nav-size: 14px;
+        --type-label-size: 12px;
+        --type-caption-size: 12px;
+        --type-meta-size: 12px;
+    }
 }

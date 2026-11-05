@@ -1,57 +1,135 @@
-import React from 'react';
-import { FaFire, FaMountain, FaCity, FaLeaf, FaUmbrellaBeach, FaSnowflake, FaBuilding } from 'react-icons/fa';
-import { NavItem, TourPackage, Activity, Currency, TourismBoard } from '../types/staticData';
+import {
+  NavItem,
+  TourPackage,
+  Activity,
+  Currency,
+  TourismBoard,
+  TouristFeedback,
+  HeroSlide,
+  VisaHeroSlide,
+  TrustStat,
+  TrustIndicator,
+  TrustSocialLink,
+  FaqItem,
+  HolidayDestination,
+  VisaDestination,
+  VisaHelpStep,
+  VisaDocumentItem,
+  DestinationGuide,
+} from '../types/staticData';
 
 // Navigation items data
 export const navigationItems: NavItem[] = [
+  { name: 'Explore', id: 'explore' },
+  { name: 'Dubai', id: 'dubai' },
+  { name: 'Hanoi', id: 'vietnam' },
+  { name: 'Ladakh', id: 'ladakh' },
+  { name: 'Kashmir', id: 'kashmir' },
+  { name: 'North East India', id: 'north-east-india' },
+];
+
+const hdImage = (url: string) => url.replace(/w=\d+/, 'w=2400').replace(/q=\d+/, 'q=85');
+
+export const holidayDestinations: HolidayDestination[] = [
   {
-    name: 'Explore',
-    id: 'explore',
-    icon: React.createElement(FaFire),
-    trending: false
-  },
-  {
-    name: 'Ladakh',
-    id: 'ladakh',
-    icon: React.createElement(FaMountain),
-    trending: true
-  },
-  {
-    name: 'Singapore',
-    id: 'singapore',
-    icon: React.createElement(FaCity),
-    trending: false
-  },
-  {
-    name: 'Kashmir',
-    id: 'kashmir',
-    icon: React.createElement(FaSnowflake),
-    trending: false
-  },
-  {
-    name: 'Thailand',
-    id: 'thailand',
-    icon: React.createElement(FaLeaf),
-    trending: false
-  },
-  {
-    name: 'North East India',
-    id: 'north-east-india',
-    icon: React.createElement(FaMountain),
-    trending: false
-  },
-  {
-    name: 'Bali',
-    id: 'bali',
-    icon: React.createElement(FaUmbrellaBeach),
-    trending: true
-  },
-  {
-    name: 'Dubai',
     id: 'dubai',
-    icon: React.createElement(FaBuilding),
-    trending: false
-  }
+    name: 'Dubai',
+    country: 'United Arab Emirates',
+    image: hdImage('https://images.unsplash.com/photo-1512453979798-5ea266f8880c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1400&q=80'),
+  },
+  {
+    id: 'vietnam',
+    name: 'Hanoi',
+    country: 'Vietnam',
+    image: hdImage('https://images.unsplash.com/photo-1557750255-c76072a7aad1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1400&q=80'),
+  },
+  {
+    id: 'ladakh',
+    name: 'Ladakh',
+    country: 'India',
+    image: hdImage('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1400&q=80'),
+  },
+  {
+    id: 'kashmir',
+    name: 'Kashmir',
+    country: 'India',
+    image: hdImage('https://images.unsplash.com/photo-1614056965546-42fbe24eb36c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1400&q=80'),
+  },
+  {
+    id: 'north-east-india',
+    name: 'North East India',
+    country: 'India',
+    image: hdImage('https://images.unsplash.com/photo-1544735716-392fe2489ffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1400&q=80'),
+  },
+];
+
+const destinationImage = (id: string) =>
+  holidayDestinations.find((item) => item.id === id)?.image ?? '';
+
+export const heroSlides: HeroSlide[] = [
+  {
+    id: 'dubai-video',
+    type: 'video',
+    src: 'https://upload.wikimedia.org/wikipedia/commons/4/4d/Dubai_creek.webm',
+    poster: destinationImage('dubai'),
+    title: 'Dubai',
+    subtitle: 'Creek sunsets, skylines, and desert nights',
+    destinationId: 'dubai',
+  },
+  {
+    id: 'dubai-image',
+    type: 'image',
+    src: destinationImage('dubai'),
+    poster: destinationImage('dubai'),
+    title: 'Flight-inclusive Dubai',
+    subtitle: 'Stays, airport transfers, and a planned city break',
+    destinationId: 'dubai',
+  },
+  {
+    id: 'vietnam-video',
+    type: 'video',
+    src: 'https://upload.wikimedia.org/wikipedia/commons/transcoded/9/98/Ha_Long_cruise_20220731_180024568.webm/Ha_Long_cruise_20220731_180024568.webm.480p.vp9.webm',
+    poster: destinationImage('vietnam'),
+    title: 'Hanoi & Halong',
+    subtitle: 'Cruise limestone bays and lantern-lit streets',
+    destinationId: 'vietnam',
+  },
+  {
+    id: 'vietnam-image',
+    type: 'image',
+    src: destinationImage('vietnam'),
+    poster: destinationImage('vietnam'),
+    title: 'Vietnam',
+    subtitle: 'Handpicked stays across the north and coast',
+    destinationId: 'vietnam',
+  },
+  {
+    id: 'ladakh-image',
+    type: 'image',
+    src: destinationImage('ladakh'),
+    poster: destinationImage('ladakh'),
+    title: 'Ladakh',
+    subtitle: 'High passes, monasteries, and open sky',
+    destinationId: 'ladakh',
+  },
+  {
+    id: 'kashmir-image',
+    type: 'image',
+    src: destinationImage('kashmir'),
+    poster: destinationImage('kashmir'),
+    title: 'Kashmir',
+    subtitle: 'Dal Lake mornings and mountain stays',
+    destinationId: 'kashmir',
+  },
+  {
+    id: 'north-east-image',
+    type: 'image',
+    src: destinationImage('north-east-india'),
+    poster: destinationImage('north-east-india'),
+    title: 'North East India',
+    subtitle: 'Valleys, tea gardens, and slow travel',
+    destinationId: 'north-east-india',
+  },
 ];
 
 // Tours data
@@ -59,8 +137,8 @@ export const tours: TourPackage[] = [
   {
     id: 1,
     images: [
-      'https://images.unsplash.com/photo-1602343168117-bb8ffe3e2e9f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80',
       'https://images.unsplash.com/photo-1512632578888-169bbbc64f33?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1602343168117-bb8ffe3e2e9f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80',
       'https://images.unsplash.com/photo-1583997052301-0042b33fc598?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80',
       'https://images.unsplash.com/photo-1550077770-0962b9a962db?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80',
       'https://images.unsplash.com/photo-1582672008243-2569804aec3e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80'
@@ -101,7 +179,7 @@ export const tours: TourPackage[] = [
       {
         id: '4',
         src: 'https://images.unsplash.com/photo-1628859017536-c2f1d69f3c84?q=80&w=2137&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-        alt: 'Desert fort in Abu Dhabi',
+        alt: 'Desert fort',
         label: 'Cultural Landmark'
       }
     ],
@@ -356,137 +434,12 @@ export const tours: TourPackage[] = [
     ]
   },
   {
-    id: 2,
-    images: [
-      'https://images.unsplash.com/photo-1580139906626-472142ceab5f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1537996194471-e657df975ab4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1555912881-1ecd82307e0e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1506665531195-3566af2b4dfa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80',
-      'https://images.unsplash.com/photo-1565967511849-76a60a516170?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80'
-    ],
-    title: 'Singapore And Bali Honeymoon Bliss | City Romance To Tropical Retreat',
-    duration: '7 days & 6 nights',
-    rating: 5.0,
-    reviews: 512,
-    originalPrice: 84616,
-    discountedPrice: 55000,
-    savings: 29616,
-    locations: [
-      { days: 3, place: 'Singapore' },
-      { days: 4, place: 'Kuta' }
-    ],
-    mainImage: {
-      src: 'https://images.unsplash.com/photo-1602891382287-daa85a949cd1?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      alt: 'Singapore skyline'
-    },
-    thumbnails: [
-      {
-        "id": "1",
-        "src": "https://images.unsplash.com/photo-1674911848136-59493fd61ad7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        "alt": "Singapore skyline",
-        "label": "Destination"
-      },
-      {
-        "id": "2",
-        "src": "https://images.unsplash.com/photo-1735697538857-c80118739f50?q=80&w=1972&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        "alt": "Thai longtail boat at sunset",
-        "label": "Beach Tour"
-      },
-      {
-        "id": "3",
-        "src": "https://plus.unsplash.com/premium_photo-1661963646506-e822afdd50cb?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        "alt": "Bangkok Grand Palace",
-        "label": "Cultural Site"
-      },
-      {
-        "id": "4",
-        "src": "https://images.unsplash.com/photo-1605792657660-596af9009e82?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-        "alt": "Krabi Island View",
-        "label": "Island Hopping"
-      },
-      
-    ],
-    description: 'The perfect honeymoon package that combines the urban sophistication of Singapore with the tropical paradise of Bali.',
-    packageOptions: [
-      {
-        days: 7,
-        price: 55000,
-        image: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80'
-      }
-    ],
-    highlights: [
-      "Experience the perfect blend of urban sophistication in Singapore and tropical paradise in Bali.",
-      "Enjoy luxurious accommodations handpicked for a romantic honeymoon experience."
-    ],
-    bannerImages: [
-      {
-        src: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1200&q=80',
-        alt: 'Singapore Marina Bay'
-      }
-    ],
-    itinerary: [
-      {
-        day: 1,
-        title: "Arrival in Singapore",
-        description: "Arrive at Singapore Changi Airport and transfer to your hotel."
-      },
-      {
-        day: 2,
-        title: "Exploring Singapore",
-        description: "Visit popular attractions like Marina Bay Sands, Gardens by the Bay, and enjoy a night safari adventure."
-      },
-      {
-        day: 3,
-        title: "Sentosa Island Tour",
-        description: "Spend the day at Sentosa Island exploring beaches, adventure parks, and watching the Wings of Time show."
-      },
-      {
-        day: 4,
-        title: "Flight to Bali",
-        description: "Check out from your Singapore hotel and fly to Bali. Upon arrival, transfer to your beach resort."
-      },
-      {
-        day: 5,
-        title: "Ubud and Kintamani Volcano Tour",
-        description: "Discover the cultural heart of Bali, visit Ubud, Tegallalang rice terraces, and enjoy views of Mt. Batur."
-      },
-      {
-        day: 6,
-        title: "Romantic Beach Day",
-        description: "Relax at a private beach resort or opt for a couple's spa and sunset dinner cruise."
-      },
-      {
-        day: 7,
-        title: "Departure from Bali",
-        description: "Check out from the hotel and transfer to the airport for your flight back home."
-      }
-    ],
-    inclusions: [
-      "Return flights between origin city and Singapore/Bali",
-      "3 nights accommodation in Singapore (4-star hotel)",
-      "4 nights accommodation in Bali (5-star beach resort)",
-      "Daily breakfast at hotels",
-      "Private airport transfers in Singapore and Bali",
-      "Half-day Singapore city tour",
-      "Full-day Sentosa Island excursion with lunch",
-      "Romantic sunset dinner cruise in Bali",
-      "Full-day Ubud and Kintamani Volcano tour",
-      "All hotel taxes and service charges"
-    ],
-    exclusions: [
-      "Singapore tourism tax (to be paid directly at the hotel)",
-      "Bali departure tax (if applicable)",
-      "Personal expenses and gratuities",
-      "Travel insurance",
-      "Optional tours and activities not mentioned in inclusions",
-      "Visa fees (if applicable)",
-      "Any COVID-19 related requirements or tests"
-    ]
-  },
-  {
     id: 3,
     images: [
-      'https://images.unsplash.com/photo-1590001155093-a3c66ab0c3ff?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80'
+      'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1590001155093-a3c66ab0c3ff?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1583997052301-0042b33fc598?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1582672008243-2569804aec3e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80'
     ],
     title: 'Dubai Kids Special With FREE Tickets To Aquaventure Waterpark',
     duration: '6 days & 5 nights',
@@ -972,8 +925,159 @@ export const tours: TourPackage[] = [
     "Visa fees (if applicable)",
     "Any COVID-19 related requirements or tests"
   ]
+  },
+  {
+    id: 7,
+    images: [
+      'https://images.unsplash.com/photo-1557750255-c76072a7aad1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1504457047772-27faf1c00561?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+    ],
+    title: 'Hanoi & Halong Bay | Flights Inclusive Deal',
+    duration: '5 days & 4 nights',
+    rating: 4.9,
+    reviews: 860,
+    originalPrice: 98900,
+    discountedPrice: 62900,
+    savings: 36000,
+    locations: [
+      { days: 3, place: 'Hanoi' },
+      { days: 2, place: 'Halong Bay' }
+    ],
+    mainImage: {
+      src: 'https://images.unsplash.com/photo-1557750255-c76072a7aad1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80',
+      alt: 'Halong Bay limestone karsts in Vietnam'
+    },
+    itinerary: [
+      {
+        day: 1,
+        title: 'Arrival in Hanoi',
+        description: 'Arrive in Hanoi and transfer to your hotel. Evening walking tour through the Old Quarter and a welcome dinner of classic Vietnamese street food.'
+      },
+      {
+        day: 2,
+        title: 'Hanoi City Highlights',
+        description: 'Visit Hoan Kiem Lake, the Temple of Literature, and Ho Chi Minh Mausoleum. Afternoon at leisure for coffee and shopping around the French Quarter.'
+      },
+      {
+        day: 3,
+        title: 'Halong Bay Cruise',
+        description: 'Transfer to Halong Bay for an overnight cruise. Kayak among limestone karsts, visit a cave, and enjoy a sunset dinner on board.'
+      },
+      {
+        day: 4,
+        title: 'Bay Morning & Return to Hanoi',
+        description: 'Tai chi on deck, breakfast on the bay, then return to Hanoi. Evening water puppet show and free time at the night market.'
+      },
+      {
+        day: 5,
+        title: 'Departure from Hanoi',
+        description: 'Check out and transfer to Noi Bai International Airport for your return flight.'
+      }
+    ],
+    inclusions: [
+      'Return flights between origin city and Hanoi',
+      '3 nights accommodation in Hanoi (4-star hotel)',
+      '1 night Halong Bay cruise with meals on board',
+      'Daily breakfast',
+      'Private airport and Halong Bay transfers',
+      'Hanoi city tour with English-speaking guide',
+      'Kayaking and cave visit on Halong Bay',
+      'All hotel taxes and service charges'
+    ],
+    exclusions: [
+      'Vietnam visa fees',
+      'Personal expenses and gratuities',
+      'Travel insurance',
+      'Optional tours and activities not mentioned in inclusions',
+      'Meals not mentioned in the itinerary'
+    ]
+  },
+  {
+    id: 8,
+    images: [
+      'https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1583417319070-4a69db38a482?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1528183429752-a97d0bf99b5a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+    ],
+    title: 'Vietnam Highlights | Hanoi, Halong & Hoi An',
+    duration: '7 days & 6 nights',
+    rating: 5.0,
+    reviews: 640,
+    originalPrice: 132500,
+    discountedPrice: 84900,
+    savings: 47600,
+    locations: [
+      { days: 2, place: 'Hanoi' },
+      { days: 2, place: 'Halong Bay' },
+      { days: 3, place: 'Hoi An' }
+    ],
+    mainImage: {
+      src: 'https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80',
+      alt: 'Lanterns in Hoi An Ancient Town, Vietnam'
+    },
+    itinerary: [
+      {
+        day: 1,
+        title: 'Arrival in Hanoi',
+        description: 'Arrive in Hanoi and settle into your hotel. Evening cyclo ride through the Old Quarter.'
+      },
+      {
+        day: 2,
+        title: 'Hanoi Culture Day',
+        description: 'Guided tour of Hoan Kiem Lake, Ngoc Son Temple, and a local cooking class featuring pho and fresh spring rolls.'
+      },
+      {
+        day: 3,
+        title: 'Overnight Halong Bay',
+        description: 'Cruise Halong Bay, visit limestone caves, and spend the night on a traditional junk boat.'
+      },
+      {
+        day: 4,
+        title: 'Fly to Da Nang & Hoi An',
+        description: 'Return from the bay and take a domestic flight to Da Nang. Transfer to Hoi An Ancient Town.'
+      },
+      {
+        day: 5,
+        title: 'Hoi An Ancient Town',
+        description: 'Walking tour of Japanese Covered Bridge, assembly halls, and tailor streets. Evening lantern boat ride on the Thu Bon River.'
+      },
+      {
+        day: 6,
+        title: 'Tra Que Village & Beach',
+        description: 'Morning bicycle ride through Tra Que vegetable village, then an afternoon at An Bang Beach.'
+      },
+      {
+        day: 7,
+        title: 'Departure from Da Nang',
+        description: 'Transfer to Da Nang International Airport for your return flight.'
+      }
+    ],
+    inclusions: [
+      'Return international flights and one domestic flight to Da Nang',
+      '2 nights in Hanoi, 1 night Halong cruise, 3 nights in Hoi An',
+      'Daily breakfast and cruise meals',
+      'Private airport and intercity transfers',
+      'Guided sightseeing in Hanoi, Halong Bay, and Hoi An',
+      'Lantern boat ride in Hoi An',
+      'All hotel taxes and service charges'
+    ],
+    exclusions: [
+      'Vietnam visa fees',
+      'Personal expenses and gratuities',
+      'Travel insurance',
+      'Optional tours and activities not mentioned in inclusions',
+      'Meals not mentioned in the itinerary'
+    ]
   }
 ];
+
+const isOffFocusTour = (tour: TourPackage) => {
+  const text = [tour.title, ...tour.locations.map((location) => location.place)].join(' ').toLowerCase();
+  return /thailand|bangkok|phuket|krabi|pattaya|bali/.test(text);
+};
+
+export const focusTours = tours.filter((tour) => !isOffFocusTour(tour));
 
 // Activities data
 export const activities: Activity[] = [
@@ -1055,7 +1159,7 @@ export const activities: Activity[] = [
     rating: 4.7,
     reviews: 912,
     price: 3450,
-    location: 'Dubai'
+    location: 'Abu Dhabi'
   },
   {
     id: 12,
@@ -1066,36 +1170,6 @@ export const activities: Activity[] = [
     reviews: 425,
     price: 5500,
     location: 'Dubai'
-  },
-  {
-    id: 4,
-    image: 'https://cdn-imgix.headout.com/media/images/7e64811cdc4a25715f77a941467793e9-7442-singapore-universal-studio-singapore-one-day-ticket-15.jpg?auto=format&w=1170&h=576&q=90&ar=16%3A10&crop=faces%2Ccenter&fit=crop',
-    title: 'Universal Studios Singapore™ Admission Ticket',
-    duration: 'Full day',
-    rating: 4.8,
-    reviews: 2156,
-    price: 5200,
-    location: 'Singapore'
-  },
-  {
-    id: 5,
-    image: 'https://media1.thrillophilia.com/filestore/gi9abq82dcd46byem361ihc67sn7_universal_studio3_d260730cd9.jpg',
-    title: 'Gardens by the Bay Admission Ticket',
-    duration: '3 hours',
-    rating: 4.7,
-    reviews: 1876,
-    price: 2100,
-    location: 'Singapore'
-  },
-  {
-    id: 6,
-    image: 'https://4.imimg.com/data4/OK/RL/MY-10838749/item_3-thumbnail-carousel-img-740-416.jpg',
-    title: 'Singapore Night Safari Admission with Transfer',
-    duration: '4 hours',
-    rating: 4.9,
-    reviews: 1543,
-    price: 4300,
-    location: 'Singapore'
   },
   {
     id: 13,
@@ -1146,6 +1220,26 @@ export const activities: Activity[] = [
     reviews: 542,
     price: 2250,
     location: 'Abu Dhabi'
+  },
+  {
+    id: 18,
+    image: 'https://images.unsplash.com/photo-1557750255-c76072a7aad1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    title: 'Halong Bay Day Cruise with Cave Visit',
+    duration: '8 hours',
+    rating: 4.8,
+    reviews: 724,
+    price: 4200,
+    location: 'Vietnam'
+  },
+  {
+    id: 19,
+    image: 'https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    title: 'Hoi An Ancient Town Lantern Evening Walk',
+    duration: '3 hours',
+    rating: 4.7,
+    reviews: 518,
+    price: 1850,
+    location: 'Vietnam'
   }
 ];
 
@@ -1155,46 +1249,783 @@ export const currencies: Currency[] = [
   { code: 'USD', symbol: '$', name: 'US Dollar', countryCode: 'us' },
   { code: 'EUR', symbol: '€', name: 'Euro', countryCode: 'eu' },
   { code: 'GBP', symbol: '£', name: 'British Pound', countryCode: 'gb' },
-  { code: 'AED', symbol: 'د.إ', name: 'UAE Dirham', countryCode: 'ae' },
-  { code: 'SGD', symbol: 'S$', name: 'Singapore Dollar', countryCode: 'sg' }
+  { code: 'AED', symbol: 'د.إ', name: 'UAE Dirham', countryCode: 'ae' }
 ];
 
 // Tourism board alliances
 export const tourismBoardAlliances: TourismBoard[] = [
   {
     id: 1,
-    name: 'Dubai Tourism',
-    logo: '/images/tourism/dubai-tourism.webp',
-    website: 'https://www.visitdubai.com/'
+    name: 'Visit Dubai',
+    place: 'Dubai',
+    website: 'https://www.visitdubai.com/',
   },
   {
     id: 2,
-    name: 'Singapore Tourism Board',
-    logo: '/images/tourism/singapore-tourism.png',
-    website: 'https://www.visitsingapore.com/'
+    name: 'Vietnam Tourism',
+    place: 'Vietnam',
+    website: 'https://vietnam.travel/',
   },
   {
     id: 3,
-    name: 'Tourism Authority of Thailand',
-    logo: '/images/tourism/thailand-tourism.png',
-    website: 'https://www.tourismthailand.org/'
+    name: 'Incredible India',
+    place: 'India',
+    website: 'https://www.incredibleindia.gov.in/',
+  },
+];
+
+export const touristFeedback: TouristFeedback[] = [
+  {
+    id: 1,
+    name: 'Cameron Williamson',
+    location: 'Traveller, USA',
+    quote: 'If you planned to spend your holidays at Istanbul, then don’t wait. Start now. The best place to explore and spend time. Don’t plan from here. If you planned to spend..',
+    avatar: '/images/testimonials/cameron.svg',
+    avatarBg: '#6B3D7A',
+  },
+  {
+    id: 2,
+    name: 'Jenny Wilson',
+    location: 'Traveller, USA',
+    quote: 'If you planned to spend your holidays at Istanbul, then don’t wait. Start now. The best place to explore and spend time. Don’t plan from here. If you planned to spend..',
+    avatar: '/images/testimonials/jenny.svg',
+    avatarBg: '#E8D5C4',
+  },
+  {
+    id: 3,
+    name: 'Robert Fox',
+    location: 'Traveller, USA',
+    quote: 'If you planned to spend your holidays at Istanbul, then don’t wait. Start now. The best place to explore and spend time. Don’t plan from here. If you planned to spend..',
+    avatar: '/images/testimonials/robert.svg',
+    avatarBg: '#4A6FA5',
   },
   {
     id: 4,
-    name: 'Saudi Tourism',
-    logo: '/images/tourism/saudi-arabia.png',
-    website: 'https://www.saudiarabia.travel/'
+    name: 'Leslie Alexander',
+    location: 'Traveller, USA',
+    quote: 'Our Dubai family package was seamless from airport pickup to the desert safari. The itinerary was thoughtful and every stay felt well chosen.',
+    avatar: '/images/testimonials/leslie.svg',
+    avatarBg: '#D7B8A3',
+    destinationId: 'dubai',
+    trip: 'Dubai holiday',
   },
   {
     id: 5,
-    name: 'Malaysia Tourism',
-    logo: '/images/tourism/malaysia-tourism.png',
-    website: 'https://www.malaysia.travel/'
+    name: 'Wade Warren',
+    location: 'Traveller, USA',
+    quote: 'Vietnam was the highlight of our year. Halong at dawn, Hanoi food walks, and quiet evenings were all planned without us having to chase a single booking.',
+    avatar: '/images/testimonials/wade.svg',
+    avatarBg: '#3E6B5A',
+    destinationId: 'vietnam',
+    trip: 'Vietnam holiday',
   },
   {
     id: 6,
-    name: 'Qatar Tourism',
-    logo: '/images/tourism/qatar-tourism.png',
-    website: 'https://www.qatar.travel/'
+    name: 'Kristin Watson',
+    location: 'Traveller, USA',
+    quote: 'Ladakh felt unhurried and wide open. From the monastery mornings to the high-pass drives, every detail was looked after so we could just enjoy the trip.',
+    avatar: '/images/testimonials/kristin.svg',
+    avatarBg: '#C9A227',
+    destinationId: 'ladakh',
+    trip: 'Ladakh',
+  },
+];
+
+export const trustIndicators: TrustIndicator[] = [
+  { id: 'itineraries', label: 'Handpicked itineraries', icon: 'clipboard' },
+  { id: 'planning', label: 'Local expert planning', icon: 'compass' },
+  { id: 'support', label: 'Trip support on call', icon: 'receiver' },
+];
+
+export const trustSocialLinks: TrustSocialLink[] = [
+  {
+    id: 'linkedin',
+    label: 'LinkedIn',
+    href: 'https://linkedin.com/company/happyTrails',
+  },
+  {
+    id: 'instagram',
+    label: 'Instagram',
+    href: 'https://www.instagram.com/happytrailstourism/',
+  },
+  {
+    id: 'twitter',
+    label: 'Twitter',
+    href: 'https://twitter.com/happyTrails',
+  },
+  {
+    id: 'facebook',
+    label: 'Facebook',
+    href: 'https://www.facebook.com/profile.php?id=61575506399505',
+  },
+];
+
+const catalogRatings = [
+  ...tours.map((tour) => ({ rating: tour.rating, reviews: tour.reviews })),
+  ...activities.map((activity) => ({ rating: activity.rating, reviews: activity.reviews })),
+].filter((item) => Number.isFinite(item.rating) && Number.isFinite(item.reviews));
+
+const happyTravelers = catalogRatings.reduce((sum, item) => sum + item.reviews, 0);
+const guestSatisfaction = Math.round(
+  (catalogRatings.reduce((sum, item) => sum + item.rating, 0) / catalogRatings.length / 5) * 100,
+);
+
+export const trustStats: TrustStat[] = [
+  {
+    id: 'travelers',
+    label: 'Happy Travelers',
+    value: happyTravelers,
+    suffix: '+',
+    icon: 'person',
+  },
+  {
+    id: 'experiences',
+    label: 'Tours & Activities',
+    value: focusTours.length + activities.length,
+    suffix: '+',
+    icon: 'tickets',
+  },
+  {
+    id: 'destinations',
+    label: 'Destinations Covered',
+    value: navigationItems.filter((item) => item.id !== 'explore').length,
+    suffix: '+',
+    icon: 'map',
+  },
+  {
+    id: 'satisfaction',
+    label: 'Guest Satisfaction',
+    value: guestSatisfaction,
+    suffix: '%',
+    icon: 'glowStar',
+  },
+];
+
+export const destinationPages = [
+  {
+    id: 'dubai',
+    name: 'Dubai',
+    heading: 'Dubai holiday packages',
+    description:
+      'A flight-inclusive city break and a family package with Aquaventure tickets. Open a card for the stay, inclusions, and enquiry form. You do not pay on this website.',
+    seoTitle: 'Dubai Holiday Packages | Happy Trails Tourism',
+    seoDescription:
+      'Dubai holidays from Happy Trails: flight-inclusive deals, family packages, and day activities. Enquire for dates — no payment on the form.',
+    visaHelp: true,
+  },
+  {
+    id: 'vietnam',
+    name: 'Vietnam',
+    heading: 'Vietnam holidays',
+    description:
+      'Hanoi, Halong, and Hoi An packages we currently list. The team confirms stays and dates after you enquire — no payment on the form.',
+    seoTitle: 'Vietnam Holiday Packages | Happy Trails Tourism',
+    seoDescription:
+      'Vietnam holidays from Happy Trails: Hanoi, Halong, and Hoi An packages. Enquire for dates — no payment on the form.',
+    visaHelp: true,
+  },
+  {
+    id: 'ladakh',
+    name: 'Ladakh',
+    heading: 'Ladakh holidays',
+    description:
+      'High-pass and monastery itineraries we currently list for Ladakh. The team confirms the plan after you enquire — no payment on the form.',
+    seoTitle: 'Ladakh Holiday Packages | Happy Trails Tourism',
+    seoDescription:
+      'Ladakh holidays from Happy Trails. Enquire for dates and stay category — no payment on the form.',
+    visaHelp: false,
+  },
+  {
+    id: 'kashmir',
+    name: 'Kashmir',
+    heading: 'Kashmir holidays',
+    description:
+      'Dal Lake and mountain stays we currently list for Kashmir. The team confirms dates after you enquire — no payment on the form.',
+    seoTitle: 'Kashmir Holiday Packages | Happy Trails Tourism',
+    seoDescription:
+      'Kashmir holidays from Happy Trails. Enquire for dates and stay category — no payment on the form.',
+    visaHelp: false,
+  },
+  {
+    id: 'north-east-india',
+    name: 'North East India',
+    heading: 'North East India holidays',
+    description:
+      'Valley and tea-garden itineraries we currently list for North East India. The team confirms the plan after you enquire — no payment on the form.',
+    seoTitle: 'North East India Holiday Packages | Happy Trails Tourism',
+    seoDescription:
+      'North East India holidays from Happy Trails. Enquire for dates — no payment on the form.',
+    visaHelp: false,
+  },
+];
+
+export const destinationGuides: DestinationGuide[] = [
+  {
+    id: 'dubai',
+    kicker: 'Plan Dubai',
+    heading: 'A city break with a desert evening',
+    intro:
+      'Dubai fits a short holiday: skyline, malls, and the creek by day, then a desert camp or a marina dinner after dark. This page lists only the Dubai holidays and day experiences we currently sell. The team confirms dates after you enquire.',
+    facts: [
+      { label: 'Best time', value: 'November to March' },
+      { label: 'Typical stay', value: '4 or 5 nights' },
+      { label: 'Tourist visa', value: 'Help available. Fee is separate.' },
+      { label: 'Getting around', value: 'Transfers, taxis, and the metro' },
+    ],
+    highlights: [
+      {
+        title: 'Skyline and Burj Khalifa',
+        text: 'A city tour plus At the Top tickets on levels 124 and 125, when that stop is on your package or added as a ticket.',
+        icon: 'building',
+      },
+      {
+        title: 'Desert safari',
+        text: 'Dune drive, BBQ dinner, and live shows. Cooler months are the comfortable time for this evening.',
+        icon: 'desert',
+      },
+      {
+        title: 'Marina dhow cruise',
+        text: 'Dinner on the water along Dubai Marina. Easy to add to a stay, or book on its own.',
+        icon: 'ship',
+      },
+      {
+        title: 'Family days',
+        text: 'The kids package includes Aquaventure tickets. Aquarium, Miracle Garden, Dubai Frame, and IMG Worlds can be added as tickets.',
+        icon: 'tickets',
+      },
+    ],
+    notes: [
+      'May to September is extremely hot. Outdoor desert time and walking tours are easier from November to March.',
+      'The local weekend is Friday and Saturday. Desert camps and malls are busiest then.',
+      'Cover shoulders and knees in souks. Beach clubs and resorts are more relaxed.',
+      'Flights and a tourist visa are included only when that package says so. Government visa fees are paid separately.',
+    ],
+  },
+  {
+    id: 'vietnam',
+    kicker: 'Plan Vietnam',
+    heading: 'Hanoi, Halong, and the central coast',
+    intro:
+      'The Vietnam holidays we list move from Hanoi’s old quarter to a Halong Bay cruise, and on the longer trip down to Hoi An. This page stays on those places. The team confirms stays and dates after you enquire.',
+    facts: [
+      { label: 'Best time', value: 'November to April in the north' },
+      { label: 'Listed trips', value: 'Hanoi, Halong, Hoi An' },
+      { label: 'Tourist visa', value: 'Help available. Fee is separate.' },
+      { label: 'Pace', value: 'City days, then a bay cruise' },
+    ],
+    highlights: [
+      {
+        title: 'Hanoi on foot',
+        text: 'Old-quarter streets, food, and a culture day are the city part of both Vietnam packages.',
+        icon: 'map',
+      },
+      {
+        title: 'Halong Bay',
+        text: 'A day cruise or an overnight on the bay, with limestone islands. Cave visits are on the day cruise we list.',
+        icon: 'ship',
+      },
+      {
+        title: 'Hoi An',
+        text: 'The highlights package continues to Da Nang and Hoi An: ancient town, Tra Que village, and beach time.',
+        icon: 'camera',
+      },
+    ],
+    notes: [
+      'North Vietnam is cooler and drier from about November to April. Summer brings heat and heavier rain.',
+      'Halong weather can cancel or shorten a cruise. The team confirms the sailing after you enquire.',
+      'A tourist visa is a separate government fee, even when we help with the paperwork.',
+    ],
+  },
+  {
+    id: 'ladakh',
+    kicker: 'Plan Ladakh',
+    heading: 'High passes and slow mountain days',
+    intro:
+      'Ladakh is a high-altitude holiday: monasteries, open roads, and nights that get cold even in summer. Send your dates and who is travelling. The team confirms the route, stay, and any permits before the trip is locked.',
+    facts: [
+      { label: 'Best time', value: 'June to September' },
+      { label: 'Typical stay', value: '6 to 8 nights' },
+      { label: 'Tourist visa', value: 'Usually none for Indian passports' },
+      { label: 'Pace', value: 'Rest on the first day' },
+    ],
+    highlights: [
+      {
+        title: 'Monastery mornings',
+        text: 'The first days stay lower, around Leh, so the body can adjust before longer drives.',
+        icon: 'mountain',
+      },
+      {
+        title: 'High passes',
+        text: 'Routes over the passes depend on the month and road conditions. We do not promise a road that is closed.',
+        icon: 'compass',
+      },
+      {
+        title: 'Lakes and valleys',
+        text: 'Pangong and Nubra are common add-ons when the season and your pace allow them.',
+        icon: 'camera',
+      },
+    ],
+    notes: [
+      'Roads are generally open from late spring through September. Winter needs a different, slower plan.',
+      'Altitude sickness is common. A rest day in Leh is part of a sensible itinerary.',
+      'Indian passports usually do not need a tourist visa. Inner-line permits, if the route needs them, are confirmed with the plan.',
+    ],
+  },
+  {
+    id: 'kashmir',
+    kicker: 'Plan Kashmir',
+    heading: 'Dal Lake mornings and valley stays',
+    intro:
+      'A Kashmir holiday is built around Srinagar, the lake, and gardens, with optional days toward Gulmarg or Pahalgam when the season is right. Share your dates and the team will confirm what can be held.',
+    facts: [
+      { label: 'Best time', value: 'March to October' },
+      { label: 'Typical stay', value: '5 to 7 nights' },
+      { label: 'Tourist visa', value: 'Usually none for Indian passports' },
+      { label: 'Stay style', value: 'Houseboat or valley hotel' },
+    ],
+    highlights: [
+      {
+        title: 'Dal Lake',
+        text: 'Mornings on the lake and a houseboat stay are the centre of most first trips.',
+        icon: 'ship',
+      },
+      {
+        title: 'Gardens and the old city',
+        text: 'Shalimar, Nishat, and a slow walk through Srinagar fill an easy day.',
+        icon: 'leaf',
+      },
+      {
+        title: 'Gulmarg or Pahalgam',
+        text: 'A day or an overnight out of Srinagar, depending on snow, road time, and how many nights you have.',
+        icon: 'mountain',
+      },
+    ],
+    notes: [
+      'Spring and autumn are the comfortable months. July and August are warmer and busier.',
+      'Gulmarg in winter is a snow trip, not the same plan as a summer valley holiday.',
+      'Indian passports usually do not need a tourist visa for this trip.',
+    ],
+  },
+  {
+    id: 'north-east-india',
+    kicker: 'Plan North East India',
+    heading: 'Valleys, tea gardens, and unhurried roads',
+    intro:
+      'North East India is not one city break. Trips are usually Sikkim and Darjeeling, Meghalaya, or Assam’s tea country — one region at a time. Tell us which valleys you want and the team will shape the route.',
+    facts: [
+      { label: 'Best time', value: 'October to April' },
+      { label: 'Typical stay', value: '6 to 8 nights' },
+      { label: 'Tourist visa', value: 'Usually none for Indian passports' },
+      { label: 'Pace', value: 'One region, not all seven states' },
+    ],
+    highlights: [
+      {
+        title: 'Tea gardens',
+        text: 'Darjeeling and Assam days are built around the gardens, a toy train stretch, and short walks.',
+        icon: 'leaf',
+      },
+      {
+        title: 'Living root bridges',
+        text: 'Meghalaya trips need extra time on foot. They are not a fit for a rushed long weekend.',
+        icon: 'mountain',
+      },
+      {
+        title: 'Monasteries in Sikkim',
+        text: 'Gangtok and nearby monasteries, with mountain views when the sky is clear.',
+        icon: 'compass',
+      },
+    ],
+    notes: [
+      'Monsoon, roughly June to September, makes waterfalls dramatic and roads slow. October to April is the easier window.',
+      'Permits for some areas are arranged with the itinerary. Indian passports usually do not need a tourist visa.',
+      'Pick one circuit. Combining Meghalaya and Sikkim in a week spends the holiday in transit.',
+    ],
+  },
+];
+
+export const destinationFaqs: Record<string, FaqItem[]> = {
+  dubai: [
+    {
+      id: 'dubai-when',
+      question: 'When is the best time to visit Dubai?',
+      answer:
+        'November to March is the comfortable season for desert safaris, marina time, and walking the city. May to September is very hot, so outdoor plans move to early morning or evening.',
+    },
+    {
+      id: 'dubai-days',
+      question: 'How many nights do the Dubai packages cover?',
+      answer:
+        'The holidays listed here are about 4 or 5 nights. That is enough for a city tour, one desert evening, and a marina or theme-park day. Ask if you want a slower plan.',
+    },
+    {
+      id: 'dubai-flights',
+      question: 'Are flights included?',
+      answer:
+        'Only when the package title says flight-inclusive. Other holidays cover the stay, transfers, and the activities written on that page. Open the card and read the inclusions before you enquire.',
+    },
+    {
+      id: 'dubai-visa',
+      question: 'Do I need a tourist visa for Dubai?',
+      answer:
+        'Most travellers do. Happy Trails can help with the tourist-visa paperwork for a Dubai holiday. The government visa fee is paid separately.',
+    },
+    {
+      id: 'dubai-included',
+      question: 'What is usually included?',
+      answer:
+        'A typical Dubai holiday includes the hotel, airport transfers, and daily breakfast, plus the tours named on that package — such as a city tour, desert safari, or dhow cruise. Tickets, visas, and meals are included only when the package lists them.',
+    },
+    {
+      id: 'dubai-customise',
+      question: 'Can you change the Dubai plan?',
+      answer:
+        'Yes. Tell us your dates, who is travelling, and what you want more of — a rest day, Burj Khalifa tickets, or a different hotel category. The team adjusts the plan and confirms availability. There is no payment on the enquiry form.',
+    },
+    {
+      id: 'dubai-cancel',
+      question: 'What is the cancellation policy?',
+      answer:
+        'Each Dubai package page lists the confirmation, refund, and cancellation terms. Charges usually rise as the travel date gets closer, so read that section before you confirm.',
+    },
+  ],
+  vietnam: [
+    {
+      id: 'vietnam-list',
+      question: 'What Vietnam holidays do you list?',
+      answer:
+        'This page lists Hanoi, Halong, and Hoi An packages we currently offer. Open a card for stays, inclusions, and the enquiry form.',
+    },
+    {
+      id: 'vietnam-flights',
+      question: 'Are flights included in Vietnam packages?',
+      answer:
+        'Some Vietnam holidays are marked as flight-inclusive in the title. Others cover stays, transfers, and activities only. The inclusions on that package page say exactly what is included.',
+    },
+    {
+      id: 'vietnam-book',
+      question: 'How do I request a Vietnam plan?',
+      answer:
+        'Use Request a plan on this page or Request Callback on a Vietnam package. There is no payment on that form. The team checks dates and availability, then confirms with you.',
+    },
+    {
+      id: 'vietnam-visa',
+      question: 'Do you help with a Vietnam tourist visa?',
+      answer:
+        'Yes. Visa help is available from the Visas section. Government visa fees are paid separately.',
+    },
+    {
+      id: 'vietnam-cancel',
+      question: 'What is the cancellation policy?',
+      answer:
+        'Each Vietnam package page lists confirmation, refund, cancellation, and payment terms. Read those before you confirm.',
+    },
+  ],
+  ladakh: [
+    {
+      id: 'ladakh-list',
+      question: 'What Ladakh holidays do you list?',
+      answer:
+        'This page lists the Ladakh itineraries we currently offer. Open a card for stays, inclusions, and the enquiry form.',
+    },
+    {
+      id: 'ladakh-book',
+      question: 'How do I request a Ladakh plan?',
+      answer:
+        'Use Request a plan on this page or Request Callback on a Ladakh package. There is no payment on that form. The team checks dates and availability, then confirms with you.',
+    },
+    {
+      id: 'ladakh-visa',
+      question: 'Do I need a tourist visa for Ladakh?',
+      answer:
+        'India trips usually do not need a tourist visa for Indian passports. The team confirms any permits the itinerary needs after you enquire.',
+    },
+    {
+      id: 'ladakh-cancel',
+      question: 'What is the cancellation policy?',
+      answer:
+        'Each Ladakh package page lists confirmation, refund, cancellation, and payment terms. Read those before you confirm.',
+    },
+  ],
+  kashmir: [
+    {
+      id: 'kashmir-list',
+      question: 'What Kashmir holidays do you list?',
+      answer:
+        'This page lists the Kashmir itineraries we currently offer. Open a card for stays, inclusions, and the enquiry form.',
+    },
+    {
+      id: 'kashmir-book',
+      question: 'How do I request a Kashmir plan?',
+      answer:
+        'Use Request a plan on this page or Request Callback on a Kashmir package. There is no payment on that form.',
+    },
+    {
+      id: 'kashmir-visa',
+      question: 'Do I need a tourist visa for Kashmir?',
+      answer:
+        'India trips usually do not need a tourist visa for Indian passports. The team confirms any extra documents after you enquire.',
+    },
+    {
+      id: 'kashmir-cancel',
+      question: 'What is the cancellation policy?',
+      answer:
+        'Each Kashmir package page lists confirmation, refund, cancellation, and payment terms. Read those before you confirm.',
+    },
+  ],
+  'north-east-india': [
+    {
+      id: 'ne-list',
+      question: 'What North East India holidays do you list?',
+      answer:
+        'This page lists the North East India itineraries we currently offer. Open a card for stays, inclusions, and the enquiry form.',
+    },
+    {
+      id: 'ne-book',
+      question: 'How do I request a North East India plan?',
+      answer:
+        'Use Request a plan on this page or Request Callback on a package. There is no payment on that form.',
+    },
+    {
+      id: 'ne-visa',
+      question: 'Do I need a tourist visa for North East India?',
+      answer:
+        'India trips usually do not need a tourist visa for Indian passports. Some circuits need inner-line permits — the team confirms that after you enquire.',
+    },
+    {
+      id: 'ne-cancel',
+      question: 'What is the cancellation policy?',
+      answer:
+        'Each package page lists confirmation, refund, cancellation, and payment terms. Read those before you confirm.',
+    },
+  ],
+};
+
+export const faqs: FaqItem[] = [
+  {
+    id: 'destinations',
+    question: 'What destinations can I book with Happy Trails?',
+    answer:
+      'Happy Trails currently lists holidays and activities for Dubai, Vietnam, and India — Ladakh, Kashmir, and North East India. Open Holidays or a destination from the menu to see what is available.',
+  },
+  {
+    id: 'flights',
+    question: 'Are flights included in the packages?',
+    answer:
+      'Some holidays are marked as flight-inclusive in the title. Others cover stays, transfers, and activities only. The inclusions on each package page say exactly what that trip includes.',
+  },
+  {
+    id: 'booking',
+    question: 'How do I book a trip?',
+    answer:
+      'Use Request Callback or the enquiry form on a package page. There is no payment on that form. The team checks dates and availability, then confirms the plan with you.',
+  },
+  {
+    id: 'customise',
+    question: 'Can you customise a holiday?',
+    answer:
+      'Yes. Share travel dates, who is going, and what you want more of — slower days, family tickets, or a stay category. The team shapes the itinerary around that.',
+  },
+  {
+    id: 'inclusions',
+    question: 'What is usually included in a holiday?',
+    answer:
+      'It varies by package. Typical holiday inclusions are stays, airport transfers, daily breakfast, and the activities listed on that page. Flights, visas, insurance, and personal expenses are included only when the package says so.',
+  },
+  {
+    id: 'visas',
+    question: 'Do you help with visas?',
+    answer:
+      'Yes. Visa help is available from the Visas section, and some holidays include tourist visa processing assistance. Visa fees are usually paid separately.',
+  },
+  {
+    id: 'holidays-vs-activities',
+    question: 'What is the difference between Holidays and Activities?',
+    answer:
+      'Holidays are multi-day packages with stays and a planned itinerary. Activities are single experiences — city tours, desert safaris, or cruises — that you can add on or book on their own.',
+  },
+  {
+    id: 'cancellation',
+    question: 'What is the cancellation policy?',
+    answer:
+      'Each package page lists confirmation, refund, cancellation, and payment terms. Read those before you confirm, because charges change with how close you are to the travel date.',
+  },
+];
+
+export const visaDestinations: VisaDestination[] = [
+  {
+    id: 'dubai',
+    name: 'Dubai',
+    country: 'United Arab Emirates',
+    image: destinationImage('dubai'),
+    note: 'UAE tourist visa assistance. Some Dubai holidays already include processing help.',
+  },
+  {
+    id: 'vietnam',
+    name: 'Vietnam',
+    country: 'Hanoi & Halong',
+    image: destinationImage('vietnam'),
+    note: 'E-visa help for Vietnam holidays. Government fees are paid separately.',
+  },
+];
+
+export const visaHeroSlides: VisaHeroSlide[] = [
+  {
+    id: 'dubai-skyline',
+    name: 'Dubai',
+    country: 'United Arab Emirates',
+    image: destinationImage('dubai'),
+    destinationId: 'dubai',
+    label: 'Dubai',
+  },
+  {
+    id: 'dubai-desert',
+    name: 'Dubai',
+    country: 'Desert nights and city lights',
+    image: hdImage('https://images.unsplash.com/photo-1512632578888-169bbbc64f33?ixlib=rb-4.0.3&auto=format&fit=crop&w=1400&q=80'),
+    destinationId: 'dubai',
+    label: 'Desert',
+  },
+  {
+    id: 'vietnam-halong',
+    name: 'Vietnam',
+    country: 'Hanoi & Halong',
+    image: destinationImage('vietnam'),
+    destinationId: 'vietnam',
+    label: 'Halong',
+  },
+  {
+    id: 'vietnam-hoian',
+    name: 'Vietnam',
+    country: 'Hoi An & the coast',
+    image: hdImage('https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1400&q=80'),
+    destinationId: 'vietnam',
+    label: 'Hoi An',
+  },
+  {
+    id: 'india-ladakh',
+    name: 'India',
+    country: 'Ladakh',
+    image: destinationImage('ladakh'),
+    destinationId: 'ladakh',
+    label: 'Ladakh',
+  },
+  {
+    id: 'india-kashmir',
+    name: 'India',
+    country: 'Kashmir',
+    image: destinationImage('kashmir'),
+    destinationId: 'kashmir',
+    label: 'Kashmir',
+  },
+];
+
+export const visaHelpSteps: VisaHelpStep[] = [
+  {
+    id: 'enquire',
+    title: 'Send an enquiry',
+    text: 'Share the destination, travel dates, and nationality. There is no payment on this form.',
+    icon: 'clipboard',
+  },
+  {
+    id: 'documents',
+    title: 'Share documents',
+    text: 'Passport bio page, a recent photo, and stay dates. The team flags anything missing.',
+    icon: 'document',
+  },
+  {
+    id: 'confirm',
+    title: 'We confirm next steps',
+    text: 'You get the document list, government fee, and a processing window before anything is filed.',
+    icon: 'check',
+  },
+];
+
+export const visaDocuments: VisaDocumentItem[] = [
+  {
+    id: 'passport',
+    title: 'Valid passport',
+    text: 'Usually at least six months validity from the travel date, with a clear bio page.',
+    icon: 'passport',
+  },
+  {
+    id: 'photo',
+    title: 'Recent photograph',
+    text: 'A passport-style photo, often on a white background. The team confirms the size.',
+    icon: 'camera',
+  },
+  {
+    id: 'flights',
+    title: 'Travel dates',
+    text: 'Intended arrival and return. A flight hold helps if you already have one.',
+    icon: 'airplane',
+  },
+  {
+    id: 'stay',
+    title: 'Stay details',
+    text: 'Hotel or holiday booking, or the package you are planning with Happy Trails.',
+    icon: 'building',
+  },
+  {
+    id: 'form',
+    title: 'Personal details',
+    text: 'Name as in the passport, nationality, and a phone or email the team can reach.',
+    icon: 'clipboard',
+  },
+  {
+    id: 'insurance',
+    title: 'Insurance if asked',
+    text: 'Some destinations ask for travel insurance covering the stay. Included only when required.',
+    icon: 'document',
+  },
+];
+
+export const visaFaqs: FaqItem[] = [
+  {
+    id: 'visa-where',
+    question: 'Which destinations do you help with visas?',
+    answer:
+      'Visa help is for Dubai and Vietnam holidays. Ladakh, Kashmir, and North East India trips usually do not need a tourist visa for Indian passports.',
+  },
+  {
+    id: 'visa-enquiry',
+    question: 'Is the form a visa application? Do I pay here?',
+    answer:
+      'No. The form is a request for help. There is no payment on this page. The team replies with documents, the government fee, and a processing window before anything is filed.',
+  },
+  {
+    id: 'visa-fees',
+    question: 'Are government visa fees included?',
+    answer:
+      'No. Government visa fees, portal charges, and any embassy appointment costs stay separate. Happy Trails confirms the amount after the enquiry.',
+  },
+  {
+    id: 'visa-documents',
+    question: 'What documents will I need?',
+    answer:
+      'Most files start with a valid passport, a recent photograph, intended travel dates, and stay details. Exact papers change by nationality and destination — the list on this page is a starting point, not a final checklist.',
+  },
+  {
+    id: 'visa-time',
+    question: 'How long does visa help take?',
+    answer:
+      'It depends on the destination, visa type, and how complete the documents are. The team confirms a processing window after the enquiry. Requirements and windows change, so nothing is filed until that is checked.',
+  },
+  {
+    id: 'visa-approval',
+    question: 'Do you guarantee the visa will be approved?',
+    answer:
+      'No. Happy Trails helps with the request and the papers. Approval is always with the immigration authority.',
+  },
+  {
+    id: 'visa-packages',
+    question: 'Do some holidays already include visa help?',
+    answer:
+      'Some Dubai holidays include tourist visa processing assistance. Check the inclusions on that package page. Government fees are still usually paid separately.',
+  },
+  {
+    id: 'visa-types',
+    question: 'Which visa types can I request?',
+    answer:
+      'The form accepts tourist, transit, and business. The team confirms what that destination actually issues for your nationality and travel dates.',
   },
 ]; 

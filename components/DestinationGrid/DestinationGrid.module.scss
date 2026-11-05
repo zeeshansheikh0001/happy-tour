@@ -1,0 +1,141 @@
+.section {
+  width: 100%;
+  background: #ffffff;
+}
+
+.inner {
+  width: 100%;
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding: 56px var(--page-gutter) 28px;
+}
+
+.heading {
+  margin: 0 0 12px;
+  color: var(--color-navy);
+  font-size: var(--type-section-size);
+  font-weight: var(--type-section-weight);
+  letter-spacing: var(--type-heading-track);
+  line-height: var(--type-section-leading);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr 1.2fr 1.05fr;
+  grid-template-rows: 196px 196px;
+  grid-template-areas:
+    'dubai hanoi ladakh northeast'
+    'dubai kashmir ladakh northeast';
+  gap: 12px;
+}
+
+.dubai {
+  grid-area: dubai;
+}
+
+.hanoi {
+  grid-area: hanoi;
+}
+
+.ladakh {
+  grid-area: ladakh;
+}
+
+.kashmir {
+  grid-area: kashmir;
+}
+
+.northeast {
+  grid-area: northeast;
+}
+
+.card {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: 18px;
+  text-decoration: none;
+
+  &:hover .image,
+  &:focus-visible .image {
+    transform: scale(1.04);
+  }
+
+  &:focus-visible {
+    outline: 2px solid #1e2a4a;
+    outline-offset: 3px;
+  }
+}
+
+.image {
+  object-fit: cover;
+  transition: transform 420ms ease;
+}
+
+.pill {
+  position: absolute;
+  bottom: 14px;
+  left: 14px;
+  max-width: calc(100% - 28px);
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.94);
+  color: #1c1c1c;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.2;
+  box-shadow: 0 4px 14px rgba(17, 24, 39, 0.12);
+}
+
+@media (max-width: 991px) {
+  .grid {
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 180px 180px;
+    grid-template-areas:
+      'dubai hanoi ladakh'
+      'dubai kashmir northeast';
+  }
+}
+
+@media (max-width: 767px) {
+  .inner {
+    width: 100%;
+    padding: 40px var(--page-gutter) 12px;
+  }
+
+  .heading {
+    color: var(--color-navy);
+    font-size: var(--type-section-size);
+    font-weight: var(--type-section-weight);
+    letter-spacing: var(--type-heading-track);
+    line-height: var(--type-section-leading);
+  }
+
+  .pill {
+    font-size: var(--type-meta-size);
+    font-weight: var(--type-meta-weight);
+    line-height: var(--type-meta-leading);
+  }
+
+  .grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 168px 168px 200px;
+    grid-template-areas:
+      'dubai hanoi'
+      'ladakh kashmir'
+      'northeast northeast';
+  }
+
+  .pill {
+    bottom: 10px;
+    left: 10px;
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .image {
+    transition: none;
+  }
+}

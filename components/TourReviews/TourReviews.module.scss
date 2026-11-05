@@ -42,10 +42,12 @@
 }
 
 .ratingNumber {
-  font-size: 48px;
-  font-weight: 700;
-  color: $primary-color;
   margin-bottom: 8px;
+  color: var(--color-navy);
+  font-size: var(--type-hero-size);
+  font-weight: var(--type-hero-weight);
+  letter-spacing: var(--type-heading-track);
+  line-height: var(--type-hero-leading);
 }
 
 .starsDisplay {
@@ -55,7 +57,7 @@
 }
 
 .starIcon {
-  color: $primary-color;
+  color: #1e2a4a;
   font-size: 20px;
 }
 
@@ -71,7 +73,7 @@
   
   &:hover {
     text-decoration: underline;
-    color: $primary-color;
+    color: #1e2a4a;
   }
 }
 
@@ -92,9 +94,12 @@
 }
 
 .starLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  width: 48px;
   font-size: 14px;
   color: $text-color;
-  width: 40px;
 }
 
 .barContainer {
@@ -107,7 +112,7 @@
 
 .barFill {
   height: 100%;
-  background-color: $primary-color;
+  background-color: #1e2a4a;
   border-radius: 10px;
   transition: width 0.6s ease-in-out;
 }
@@ -129,10 +134,12 @@
 }
 
 .sectionTitle {
-  font-size: 20px;
-  font-weight: 600;
-  color: $text-color;
-  margin-bottom: 20px;
+  margin: 0 0 16px;
+  color: var(--color-navy);
+  font-size: var(--type-section-size);
+  font-weight: var(--type-section-weight);
+  letter-spacing: var(--type-heading-track);
+  line-height: var(--type-section-leading);
 }
 
 .reviewsList {
@@ -192,10 +199,11 @@
 }
 
 .reviewerName {
-  font-size: 16px;
-  font-weight: 600;
   margin: 0;
-  color: $text-color;
+  color: var(--color-navy);
+  font-size: var(--type-card-size);
+  font-weight: var(--type-card-weight);
+  line-height: var(--type-card-leading);
 }
 
 .reviewDate {
@@ -231,7 +239,7 @@
 }
 
 .tourLink {
-  color: $primary-color;
+  color: #1e2a4a;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
@@ -243,14 +251,16 @@
 }
 
 .linkIcon {
-  font-size: 12px;
+  margin-left: 4px;
+  vertical-align: -2px;
 }
 
 .reviewText {
-  font-size: 15px;
-  line-height: 1.6;
-  color: $text-color;
   margin: 0;
+  color: var(--color-slate);
+  font-size: var(--type-body-size);
+  font-weight: var(--type-body-weight);
+  line-height: var(--type-body-leading);
 }
 
 .readMoreButton {
@@ -260,7 +270,7 @@
   margin-left: 8px;
   font-size: 14px;
   font-weight: 500;
-  color: $primary-color;
+  color: #1e2a4a;
   cursor: pointer;
   
   &:hover {

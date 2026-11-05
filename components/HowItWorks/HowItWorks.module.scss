@@ -1,0 +1,309 @@
+.section {
+  width: 100%;
+  background: #ffffff;
+  scroll-margin-top: 140px;
+}
+
+.inner {
+  width: 100%;
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding: 64px var(--page-gutter) 56px;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 6px 12px 6px 10px;
+  border-radius: 999px;
+  background: #f2f4f8;
+  color: #667085;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+
+  svg {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+.head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 24px;
+  align-items: center;
+}
+
+.head h2 {
+  margin: 16px 0 0;
+  color: #1b2559;
+  font-size: 44px;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+}
+
+.mark {
+  position: relative;
+  display: inline-block;
+}
+
+.mark::after {
+  content: '';
+  position: absolute;
+  right: 0.35em;
+  bottom: -3px;
+  left: 0;
+  height: 4px;
+  border-radius: 999px;
+  background: #ddd6fe;
+}
+
+.lede {
+  max-width: 42ch;
+  margin: 14px 0 0;
+  color: #667085;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.cta,
+.ctaMobile {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 0 22px;
+  border-radius: 999px;
+  background: #1e2433;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.cta:hover,
+.ctaMobile:hover,
+.cta:focus-visible,
+.ctaMobile:focus-visible {
+  background: #121820;
+}
+
+.ctaMobile {
+  display: none;
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 40px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.step {
+  position: relative;
+  min-width: 0;
+  padding-right: 28px;
+}
+
+.marker {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 52px;
+  margin-bottom: 16px;
+}
+
+.icon {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+
+  svg {
+    width: 22px;
+    height: 22px;
+  }
+}
+
+.blue {
+  background: #eef2ff;
+  color: #5b6cff;
+}
+
+.orange {
+  background: #fff1e8;
+  color: #f08a3c;
+}
+
+.pink {
+  background: #fde8f2;
+  color: #ef5d92;
+}
+
+.num {
+  position: relative;
+  z-index: 1;
+  color: #98a2b3;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.connector {
+  position: absolute;
+  top: 26px;
+  right: -28px;
+  left: 86px;
+  height: 1px;
+  background: #e6e8ef;
+}
+
+.connector::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  border: 1.5px solid #d5d9e2;
+  border-radius: 50%;
+  background: #ffffff;
+  transform: translate(-50%, -50%);
+}
+
+.step:last-child .connector {
+  display: none;
+}
+
+.title {
+  margin: 0;
+  color: #1b2559;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.text {
+  max-width: 32ch;
+  margin: 8px 0 0;
+  color: #667085;
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.note {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 28px 0 0;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: #f4f7ff;
+  color: #667085;
+  font-size: 14px;
+  font-weight: 600;
+
+  svg {
+    flex: 0 0 auto;
+    width: 18px;
+    height: 18px;
+    color: #7c8db5;
+  }
+}
+
+.cta:focus-visible,
+.ctaMobile:focus-visible {
+  outline: 2px solid #1e2a4a;
+  outline-offset: 2px;
+}
+
+@media (max-width: 800px) {
+  .inner {
+    padding: 40px var(--page-gutter) 32px;
+  }
+
+  .head {
+    grid-template-columns: 1fr;
+  }
+
+  .head h2 {
+    font-size: 34px;
+  }
+
+  .cta {
+    display: none;
+  }
+
+  .steps {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    margin-top: 28px;
+  }
+
+  .step {
+    display: grid;
+    grid-template-columns: 48px minmax(0, 1fr);
+    column-gap: 12px;
+    padding-right: 0;
+  }
+
+  .marker {
+    display: contents;
+  }
+
+  .icon {
+    grid-row: 1;
+    grid-column: 1;
+    width: 48px;
+    height: 48px;
+  }
+
+  .num {
+    grid-row: 1;
+    grid-column: 2;
+    align-self: end;
+  }
+
+  .title {
+    grid-column: 2;
+    margin-top: 2px;
+  }
+
+  .text {
+    grid-column: 2;
+    max-width: none;
+  }
+
+  .connector {
+    top: 48px;
+    right: auto;
+    bottom: -22px;
+    left: 23px;
+    width: 1px;
+    height: auto;
+  }
+
+  .connector::before {
+    display: none;
+  }
+
+  .ctaMobile {
+    display: flex;
+    width: 100%;
+    margin-top: 22px;
+  }
+}
+

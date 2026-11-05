@@ -1,123 +1,95 @@
 @import 'colors';
 @import 'breakpoints';
 
+.page {
+  width: 100%;
+  background: #ffffff;
+  color: #111827;
+}
+
+.inner {
+  width: 100%;
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding: 28px var(--page-gutter) 80px;
+}
+
 .breadcrumb {
-  font-size: 20px;
-  color: $gray-600;
-  
-  span {
-    &:first-child {
-      cursor: pointer;
-      
-      &:hover {
-        color: $primary-color;
-        text-decoration: underline;
-      }
-    }
-  }
-}
-
-.pageNavigation {
-  margin: 20px;
-  @media (max-width: $breakpoint-sm) {
-    margin: 0;
-  }
-}
-
-.navigationTabs {
   display: flex;
-  border-bottom: 1px solid #ddd;
-  margin-top: 20px;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  
-  &::-webkit-scrollbar {
-    display: none;
-  }
-  
-  @include breakpoints('mob-only') {
-    flex-wrap: nowrap;
-    margin-top: 16px;
-  }
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 22px;
+  color: #9ca3af;
+  font-size: var(--type-meta-size);
+  font-weight: var(--type-meta-weight);
+  line-height: var(--type-meta-leading);
 }
 
-.navTab {
-  padding: 12px 20px;
+.crumb {
+  color: #6b7280;
+  text-decoration: none;
+  cursor: pointer;
   background: none;
   border: none;
-  font-size: 15px;
+  padding: 0;
+  font: inherit;
+
+  &:hover,
+  &:focus-visible {
+    color: #1e2a4a;
+  }
+}
+
+.crumbCurrent {
+  color: #111827;
   font-weight: 500;
-  color: #666;
-  white-space: nowrap;
-  cursor: pointer;
-  transition: color 0.2s ease;
-  position: relative;
-  
-  &:hover {
-    color: $primary-color;
-  }
-  
-  &.active {
-    color: $primary-color;
-    font-weight: 600;
-    
-    &::after {
-      content: '';
-      position: absolute;
-      bottom: -1px;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background-color: $primary-color;
-      border-radius: 2px 2px 0 0;
-    }
-  }
-  
-  @media (max-width: $breakpoint-sm) {
-    padding: 10px 16px;
-    font-size: 14px;
-  }
 }
 
-.packageHeader {
-  margin-bottom: 24px;
-  font-size: 24px;
-  
+.crumbSep {
+  color: #d1d5db;
+}
+
+.emptyState {
+  padding: 80px 20px;
+  text-align: center;
+
   h1 {
+    margin: 0 0 12px;
+    color: #111827;
     font-size: 32px;
-    font-weight: 600;
-    margin-bottom: 12px;
-    color: $gray-800;
-    line-height: 1.2;
-    
-    @include breakpoints('mob-only') {
-      font-size: 24px;
-    }
+    font-weight: 700;
   }
-  
+
   p {
-    font-size: 16px;
-    color: $gray-600;
+    margin: 0 0 24px;
+    color: #6b7280;
   }
 }
 
-.packageDescription {
-  margin-top: 40px;
-  margin-bottom: 30px;
-  
-  h2 {
-    font-size: 24px;
+.backButton {
+  padding: 12px 22px;
+  border: none;
+  border-radius: 999px;
+  background: #1e2a4a;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+
+  &:hover,
+  &:focus-visible {
+    background: #162238;
+  }
+}
+
+@media (max-width: 767px) {
+  .inner {
+    padding: 16px var(--page-gutter) 48px;
+  }
+
+  .breadcrumb {
     margin-bottom: 16px;
-    color: $gray-800;
-    
-    @include breakpoints('mob-only') {
-      font-size: 20px;
-    }
+    font-size: 12px;
   }
-  
-  p {
-    line-height: 1.6;
-    color: $gray-700;
-  }
-} 
+}

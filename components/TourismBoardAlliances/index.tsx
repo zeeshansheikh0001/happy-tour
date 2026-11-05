@@ -1,92 +1,170 @@
-import React, { useState, useRef, useEffect } from 'react';
-import Image from 'next/image';
+import React, { useEffect, useRef, useState } from 'react';
 import { tourismBoardAlliances } from '../../data/staticData';
+import SectionHeading from '../SectionHeading';
 import styles from './TourismBoardAlliances.module.scss';
 
-// Tourism board logo interface
-interface TourismBoardLogo {
-  id: number;
-  name: string;
-  logo: string;
-  website: string;
-}
-
 interface TourismBoardAlliancesProps {
-  scrollSpeed?: number; // Speed in pixels per second
+  scrollSpeed?: number;
 }
 
-const TourismBoardAlliances: React.FC<TourismBoardAlliancesProps> = ({ 
-  scrollSpeed = 30 
-}) => {
-  const [isPaused, setIsPaused] = useState(false);
-  const carouselRef = useRef<HTMLDivElement>(null);
-  
-  // Create a duplicate array of logos for seamless scrolling
-  const allLogos = [...tourismBoardAlliances, ...tourismBoardAlliances];
+const COPIES = 4;
+
+const TourismBoardAlliances: React.FC<TourismBoardAlliancesProps> = ({ scrollSpeed = 40 }) => {
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const offsetRef = useRef(0);
+  const halfRef = useRef(0);
+  const pausedRef = useRef(false);
+  const [reducedMotion, setReducedMotion] = useState(false);
+
+  const sequence = Array.from({ length: COPIES }, () => tourismBoardAlliances).flat();
+  const loop = [...sequence, ...sequence];
 
   useEffect(() => {
-    if (!carouselRef.current || isPaused) return;
+    const media = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const sync = () => setReducedMotion(media.matches);
+    sync();
+    media.addEventListener('change', sync);
+    return () => media.removeEventListener('change', sync);
+  }, []);
 
-    let animationFrameId: number;
-    let startTime: number;
-    let lastScrollPosition = 0;
+  useEffect(() => {
+    const track = trackRef.current;
+    const viewport = viewportRef.current;
+    if (!track || !viewport || reducedMotion) return;
 
-    const animate = (timestamp: number) => {
-      if (!startTime) startTime = timestamp;
-      if (!carouselRef.current) return;
+    const measure = () => {
+      halfRef.current = track.scrollWidth / 2;
+    };
+    measure();
 
-      const elapsed = timestamp - startTime;
-      // Calculate how many pixels to move based on elapsed time and speed
-      const pixelsToMove = (elapsed * scrollSpeed) / 1000;
-      
-      // Get the scroll position
-      const scrollPosition = pixelsToMove % carouselRef.current.scrollWidth;
-      
-      // Only update scroll position if it has changed significantly
-      if (Math.abs(scrollPosition - lastScrollPosition) > 0.5) {
-        carouselRef.current.scrollLeft = scrollPosition;
-        lastScrollPosition = scrollPosition;
+    let frame = 0;
+    let last = 0;
+
+    const draw = () => {
+      const width = halfRef.current;
+      if (width > 0) {
+        offsetRef.current = ((offsetRef.current % width) + width) % width;
+        track.style.transform = `translate3d(${-offsetRef.current}px, 0, 0)`;
       }
-
-      // If we've scrolled past half of the logos, reset scroll position
-      if (carouselRef.current.scrollLeft >= carouselRef.current.scrollWidth / 2) {
-        carouselRef.current.scrollLeft = 0;
-      }
-
-      animationFrameId = requestAnimationFrame(animate);
     };
 
-    animationFrameId = requestAnimationFrame(animate);
+    const tick = (now: number) => {
+      if (!last) last = now;
+      const delta = now - last;
+      last = now;
+      if (!pausedRef.current) {
+        offsetRef.current += (scrollSpeed * delta) / 1000;
+      }
+      draw();
+      frame = window.requestAnimationFrame(tick);
+    };
+
+    frame = window.requestAnimationFrame(tick);
+    window.addEventListener('resize', measure);
 
     return () => {
-      cancelAnimationFrame(animationFrameId);
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener('resize', measure);
     };
-  }, [isPaused, scrollSpeed]);
+  }, [reducedMotion, scrollSpeed]);
+
+  if (tourismBoardAlliances.length === 0) return null;
 
   return (
-    <div className={styles.tourismBoardAlliances}>
-      <h2 className={styles.heading}>Tourism Board Alliances</h2>
-      <div 
-        className={styles.carouselContainer}
-        onMouseEnter={() => setIsPaused(true)}
-        onMouseLeave={() => setIsPaused(false)}
+    <section className={styles.section} aria-labelledby="tourism-boards-heading">
+      <h2 id="tourism-boards-heading" className={styles.heading}>
+        Tourism board alliances
+      </h2>
+      <div
+        className={styles.viewport}
+        ref={viewportRef}
+        onMouseEnter={() => {
+          pausedRef.current = true;
+        }}
+        onMouseLeave={() => {
+          pausedRef.current = false;
+        }}
       >
-        <div className={styles.carousel} ref={carouselRef}>
-          {allLogos.map((logo, index) => (
-            <div key={index} className={styles.logoItem}>
-              <Image 
-                src={logo.logo}
-                alt={logo.name}
-                width={120}
-                height={60}
-                className={styles.logo}
-              />
-            </div>
-          ))}
+        <div className={styles.track} ref={trackRef}>
+          {loop.map((board, index) => {
+            const hidden = index >= sequence.length;
+            return (
+              <a
+                key={`${board.id}-${index}`}
+                className={styles.logoItem}
+                href={board.website}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={hidden ? undefined : board.name}
+                aria-hidden={hidden || undefined}
+                tabIndex={hidden ? -1 : undefined}
+              >
+                <BoardLogo id={board.id} />
+              </a>
+            );
+          })}
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 
-export default TourismBoardAlliances; 
+export default TourismBoardAlliances;
+
+function BoardLogo({ id }: { id: number }) {
+  if (id === 1) return <VisitDubaiLogo />;
+  if (id === 2) return <VietnamLogo />;
+  return <IndiaLogo />;
+}
+
+function VisitDubaiLogo() {
+  return (
+    <svg className={styles.logo} viewBox="0 0 168 48" role="img" aria-hidden="true">
+      <rect x="2" y="6" width="36" height="36" rx="10" fill="#1C2430" />
+      <circle cx="20" cy="16" r="3.5" fill="#C4A574" />
+      <rect x="11" y="26" width="4" height="8" rx="1" fill="#F4F1EA" />
+      <rect x="18" y="21" width="4" height="13" rx="1" fill="#F4F1EA" />
+      <rect x="25" y="24" width="4" height="10" rx="1" fill="#F4F1EA" />
+      <text x="48" y="20" fill="#8A93A0" fontFamily="var(--font-figtree), sans-serif" fontSize="11" letterSpacing="1.6">
+        VISIT
+      </text>
+      <text x="48" y="38" fill="#1C2430" fontFamily="var(--font-figtree), sans-serif" fontSize="18" fontWeight="700">
+        Dubai
+      </text>
+    </svg>
+  );
+}
+
+function VietnamLogo() {
+  return (
+    <svg className={styles.logo} viewBox="0 0 196 48" role="img" aria-hidden="true">
+      <circle cx="20" cy="24" r="16" fill="#DA251D" />
+      <path
+        d="M20 12c1.6 3.4 1.6 6.2 0 9.2-1.6-3-1.6-5.8 0-9.2zm0 14.8c1.6-3 1.6-5.8 0-9.2 1.6 3.4 1.6 6.2 0 9.2zM12.2 17.2c3.6.6 6.2 2.2 8.4 4.6-3.2-1.2-6-1.6-8.4-4.6zm15.6 0c-2.4 3-5.2 3.4-8.4 4.6 2.2-2.4 4.8-4 8.4-4.6zM12.2 30.8c2.4-3 5.2-3.4 8.4-4.6-2.2 2.4-4.8 4-8.4 4.6zm15.6 0c-3.6-.6-6.2-2.2-8.4-4.6 3.2 1.2 6 1.6 8.4 4.6z"
+        fill="#ffffff"
+      />
+      <text x="44" y="22" fill="#1C2430" fontFamily="var(--font-figtree), sans-serif" fontSize="16" fontWeight="700">
+        Vietnam
+      </text>
+      <text x="44" y="38" fill="#DA251D" fontFamily="var(--font-figtree), sans-serif" fontSize="11" letterSpacing="1.8">
+        TOURISM
+      </text>
+    </svg>
+  );
+}
+
+function IndiaLogo() {
+  return (
+    <svg className={styles.logo} viewBox="0 0 210 48" role="img" aria-hidden="true">
+      <circle cx="20" cy="24" r="15" fill="none" stroke="#FF9933" strokeWidth="3" />
+      <circle cx="20" cy="24" r="6" fill="#138808" />
+      <text x="44" y="20" fill="#1C2430" fontFamily="var(--font-figtree), sans-serif" fontSize="12" letterSpacing="0.4">
+        Incredible
+      </text>
+      <text x="44" y="38" fill="#FF9933" fontFamily="var(--font-figtree), sans-serif" fontSize="18" fontWeight="700">
+        India
+      </text>
+    </svg>
+  );
+}

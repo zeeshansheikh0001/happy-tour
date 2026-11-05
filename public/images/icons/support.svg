@@ -1,8 +1,0 @@
-<svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="30" cy="30" r="30" fill="#FFF5E9" />
-  <circle cx="30" cy="30" r="15" stroke="#333" stroke-width="1.5" />
-  <path d="M30 15V17M30 43V45M45 30H43M17 30H15M40.5 19.5L39.1 20.9M20.9 39.1L19.5 40.5M40.5 40.5L39.1 39.1M20.9 20.9L19.5 19.5" stroke="#333" stroke-width="1.5" stroke-linecap="round" />
-  <circle cx="37" cy="24" r="7" fill="#FFB800" />
-  <text x="33" y="28" font-family="Arial" font-size="10" font-weight="bold" fill="white">24</text>
-  <path d="M25 23C23.8954 23 23 23.8954 23 25V29C23 31.2091 24.7909 33 27 33H27.3288C27.5392 33 27.7396 33.1054 27.8757 33.2793L29.4547 35.3962C29.5079 35.4661 29.6158 35.4636 29.6661 35.3915L31.1376 33.2684C31.2716 33.0801 31.4817 32.9648 31.7058 32.9648H33C35.2091 32.9648 37 31.1739 37 28.9648V25C37 23.8954 36.1046 23 35 23H25Z" stroke="#333" stroke-width="1.5" />
-</svg> 

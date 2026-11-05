@@ -63,6 +63,7 @@ const CurrencySelector: React.FC = () => {
         onClick={() => setIsOpen(!isOpen)}
         type="button"
         ref={buttonRef}
+        aria-label={`Currency ${selectedCurrency.code}`}
         aria-expanded={isOpen}
         aria-haspopup="listbox"
       >

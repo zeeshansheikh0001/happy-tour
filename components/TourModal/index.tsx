@@ -27,7 +27,9 @@ const TourModal: React.FC<TourModalProps> = ({
   const [countryCode, setCountryCode] = useState('+91');
   const bodyStyleRef = useRef<{ overflow: string }>({ overflow: '' });
   const [isMounted, setIsMounted] = useState(false);
+  const onCloseRef = useRef(onClose);
   const { convertPrice, formatPrice } = useCurrency();
+  onCloseRef.current = onClose;
   
   // Convert prices using currency context
   const convertedDiscountedPrice = convertPrice(discountedPrice);
@@ -57,9 +59,26 @@ const TourModal: React.FC<TourModalProps> = ({
       document.body.style.overflow = bodyStyleRef.current.overflow;
     };
   }, [isOpen]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        onCloseRef.current();
+      }
+    };
+
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [isOpen]);
   
   const handleClose = () => {
     onClose();
+  };
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
   };
   
   const modalContent = (
@@ -94,7 +113,7 @@ const TourModal: React.FC<TourModalProps> = ({
             </div>
           </div>
           
-          <form className={styles.inquiryForm}>
+          <form className={styles.inquiryForm} onSubmit={handleSubmit}>
             <div className={styles.formField}>
               <input 
                 type="text" 

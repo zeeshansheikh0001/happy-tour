@@ -1,15 +1,9 @@
-@import '../../styles/colors';
-@import '../../styles/breakpoints';
-
 .activityCard {
   display: flex;
   flex-direction: column;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
-  background-color: white;
-  height: 100%;
   width: 100%;
+  height: 100%;
+  background: transparent;
 }
 
 .imageContainer {
@@ -17,141 +11,151 @@
   width: 100%;
   height: 220px;
   overflow: hidden;
+  border-radius: 18px;
+  background: #f3f4f6;
 }
 
 .image {
   object-fit: cover;
 }
 
-.content {
+.metaInfo {
   display: flex;
-  flex-direction: column;
-  padding: 16px;
-  flex-grow: 1;
-  @media (max-width: 768px) {
-    padding: 12px;
-  }
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 12px;
 }
 
 .duration {
-  font-family: 'Poppins', sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  color: #666;
-  margin-bottom: 6px;
-  @media (max-width: 768px) {
-    font-size: 12px;
-    margin-bottom: 2px;
-  }
+  font-size: 13px;
+  color: #6b7280;
 }
 
 .rating {
   display: flex;
   align-items: center;
-  margin-bottom: 6px;
-  
-  .starIcon {
-    color: #4CD964;
-    margin-right: 4px;
-    font-size: 16px;
-    @media (max-width: 768px) {
-      font-size: 12px;
-    }
-  }
-  
-  .ratingValue {
-    font-family: 'Poppins', sans-serif;
-    font-weight: 600;
-    color: #4CD964;
-    margin-right: 4px;
-  }
-  
-  .reviews {
-    font-family: 'Poppins', sans-serif;
-    color: #888;
-    font-size: 14px;
-    font-weight: 400;
-    @media (max-width: 768px) {
-      font-size: 12px;
-    }
-  }
+  color: #22c55e;
+}
+
+.starIcon {
+  margin-right: 4px;
+  font-size: 13px;
+}
+
+.ratingValue {
+  margin-right: 4px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.reviews {
+  color: #9ca3af;
+  font-size: 13px;
+  font-weight: 400;
 }
 
 .title {
-  font-family: 'Poppins', sans-serif;
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 1.4;
-  color: #333;
-  margin: 0 0 14px 0;
-  min-height: 44px;
-  @media (max-width: 768px) {
-    font-size: 15px;
-    margin: 0 0 6px 0;
-  }
+  display: -webkit-box;
+  margin: 8px 0 12px;
+  overflow: hidden;
+  color: var(--color-navy);
+  font-size: var(--type-card-size);
+  font-weight: var(--type-card-weight);
+  line-height: var(--type-card-leading);
+  -webkit-line-clamp: unset;
+  -webkit-box-orient: vertical;
 }
 
 .priceSection {
   margin-bottom: 14px;
 }
 
-.priceContainer {
+.priceMeta {
   display: flex;
-  align-items: baseline;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
   margin-bottom: 4px;
-  
-  .discountedPrice {
-    font-family: 'Poppins', sans-serif;
-    font-size: 18px;
-    font-weight: 700;
-    color: #333;
-    margin-right: 8px;
-  }
-  
-  .originalPrice {
-    font-family: 'Poppins', sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    color: #888;
-    text-decoration: line-through;
-  }
+}
+
+.originalPrice {
+  color: #9ca3af;
+  font-size: 13px;
+  text-decoration: line-through;
 }
 
 .savingsLabel {
-  display: inline-block;
-  background-color: #ecf8f0;
-  color: #4CD964;
+  color: #22c55e;
   font-size: 12px;
+  font-weight: 600;
+}
+
+.discountedPrice {
+  color: #111827;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.perAdult {
+  margin-left: 4px;
+  color: #6b7280;
+  font-size: 13px;
   font-weight: 500;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-family: 'Poppins', sans-serif;
-  text-transform: uppercase;
 }
 
 .bookButton {
   width: 100%;
-  background-color: #ff6b00;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  padding: 12px 16px;
+  height: 44px;
+  margin-top: auto;
+  border: 0;
+  border-radius: 10px;
+  background: #1e2a4a;
+  color: #ffffff;
+  font-size: 14px;
   font-weight: 600;
-  font-size: 16px;
   cursor: pointer;
-  transition: background-color 0.2s;
-  font-family: 'Poppins', sans-serif;
-  
-  &:hover {
-    background-color: darken(#ff6b00, 5%);
+
+  &:hover,
+  &:focus-visible {
+    background: #162238;
   }
-  @media (max-width: 768px) {
-    font-size: 14px;
-}
 }
 
 @media (max-width: 768px) {
   .imageContainer {
     height: 200px;
   }
-} 
+
+  .title {
+    display: block;
+    overflow: visible;
+    color: var(--color-navy);
+    font-size: var(--type-card-size);
+    font-weight: var(--type-card-weight);
+    letter-spacing: normal;
+    line-height: var(--type-card-leading);
+    -webkit-line-clamp: unset;
+    -webkit-box-orient: unset;
+  }
+
+  .reviews,
+  .savingsLabel,
+  .originalPrice {
+    font-size: var(--type-label-size);
+    line-height: var(--type-label-leading);
+  }
+
+  .bookButton {
+    height: auto;
+    min-height: 44px;
+    font-size: var(--type-control-size);
+    font-weight: var(--type-control-weight);
+    line-height: var(--type-control-leading);
+  }
+
+  .discountedPrice {
+    font-size: 18px;
+  }
+}

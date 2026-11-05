@@ -1,8 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import Image from 'next/image';
-import { FaCommentAlt, FaChevronLeft, FaChevronRight, FaTimes } from 'react-icons/fa';
+import { ChevronLeftIcon, ChevronRightIcon, CloseIcon } from '../Icons';
+import Icon3D from '../Icon3D';
 import styles from './TourDetails.module.scss';
-import { useCurrency } from '../../context/CurrencyContext';
 
 export interface ImageGalleryProps {
   mainImage: {
@@ -23,7 +24,12 @@ const TourDetails: React.FC<ImageGalleryProps> = ({ mainImage, thumbnails, class
   const [showModal, setShowModal] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [currentModalImage, setCurrentModalImage] = useState(0);
+  const [isMounted, setIsMounted] = useState(false);
   const carouselRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   // Check if we're on mobile
   useEffect(() => {
@@ -44,20 +50,24 @@ const TourDetails: React.FC<ImageGalleryProps> = ({ mainImage, thumbnails, class
 
   // Navigate carousel
   const nextSlide = () => {
-    setCurrentSlide(prev => (prev + 1) % thumbnails.length);
+    const nextIndex = thumbnails.length ? (currentSlide + 1) % thumbnails.length : 0;
+    setCurrentSlide(nextIndex);
     if (carouselRef.current) {
       carouselRef.current.scrollTo({
-        left: (currentSlide + 1) * carouselRef.current.offsetWidth,
+        left: nextIndex * carouselRef.current.offsetWidth,
         behavior: 'smooth'
       });
     }
   };
 
   const prevSlide = () => {
-    setCurrentSlide(prev => (prev - 1 + thumbnails.length) % thumbnails.length);
+    const prevIndex = thumbnails.length
+      ? (currentSlide - 1 + thumbnails.length) % thumbnails.length
+      : 0;
+    setCurrentSlide(prevIndex);
     if (carouselRef.current) {
       carouselRef.current.scrollTo({
-        left: (currentSlide - 1) * carouselRef.current.offsetWidth,
+        left: prevIndex * carouselRef.current.offsetWidth,
         behavior: 'smooth'
       });
     }
@@ -72,18 +82,41 @@ const TourDetails: React.FC<ImageGalleryProps> = ({ mainImage, thumbnails, class
     setCurrentModalImage(prev => (prev - 1 + allImages.length) % allImages.length);
   };
 
-  // Open modal with specific image
   const openModal = (index: number) => {
     setCurrentModalImage(index);
     setShowModal(true);
-    document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
   };
 
-  // Close modal
   const closeModal = () => {
     setShowModal(false);
-    document.body.style.overflow = 'auto'; // Restore scrolling
   };
+
+  useEffect(() => {
+    if (!showModal) {
+      document.body.style.overflow = '';
+      return;
+    }
+
+    document.body.style.overflow = 'hidden';
+
+    const handleKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        closeModal();
+      }
+      if (event.key === 'ArrowRight') {
+        nextModalImage();
+      }
+      if (event.key === 'ArrowLeft') {
+        prevModalImage();
+      }
+    };
+
+    document.addEventListener('keydown', handleKey);
+    return () => {
+      document.removeEventListener('keydown', handleKey);
+      document.body.style.overflow = '';
+    };
+  }, [showModal]);
   
   return (
     <>
@@ -116,10 +149,10 @@ const TourDetails: React.FC<ImageGalleryProps> = ({ mainImage, thumbnails, class
               ))}
             </div>
             <button className={`${styles.carouselNav} ${styles.prevBtn}`} onClick={prevSlide}>
-              <FaChevronLeft />
+              <ChevronLeftIcon />
             </button>
             <button className={`${styles.carouselNav} ${styles.nextBtn}`} onClick={nextSlide}>
-              <FaChevronRight />
+              <ChevronRightIcon />
             </button>
             <div className={styles.carouselDots}>
               {thumbnails.map((_, index) => (
@@ -155,68 +188,100 @@ const TourDetails: React.FC<ImageGalleryProps> = ({ mainImage, thumbnails, class
               </div>
             ))}
             
-            <button className={styles.viewAllButton} onClick={() => openModal(0)}>
-              <FaCommentAlt className={styles.viewAllIcon} />
-              <span>View All Images</span>
+            <button type="button" className={styles.viewAllButton} onClick={() => openModal(0)}>
+              <Icon3D name="camera" alt="" size={18} />
+              <span>View all photos</span>
             </button>
           </div>
         )}
       </div>
 
-      {/* Image Gallery Modal */}
-      {showModal && (
-        <div className={styles.modal}>
-          <div className={styles.modalContent}>
-            <button className={styles.closeButton} onClick={closeModal}>
-              <FaTimes />
-            </button>
-            
-            <div className={styles.modalImageContainer}>
-              <Image 
-                src={allImages[currentModalImage].src}
-                alt={allImages[currentModalImage].alt}
-                fill
-                className={styles.modalImage}
-              />
-            </div>
-            
-            <button 
-              className={`${styles.modalNav} ${styles.modalPrev}`} 
-              onClick={prevModalImage}
-            >
-              <FaChevronLeft />
-            </button>
-            
-            <button 
-              className={`${styles.modalNav} ${styles.modalNext}`} 
-              onClick={nextModalImage}
-            >
-              <FaChevronRight />
-            </button>
-            
+      {isMounted && showModal && createPortal(
+        <div
+          className={styles.lightbox}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Photo gallery"
+          onClick={closeModal}
+        >
+          <button
+            type="button"
+            className={styles.closeButton}
+            onClick={closeModal}
+            aria-label="Close gallery"
+          >
+            <CloseIcon size={18} />
+          </button>
+
+          <button
+            type="button"
+            className={`${styles.modalNav} ${styles.modalPrev}`}
+            onClick={(event) => {
+              event.stopPropagation();
+              prevModalImage();
+            }}
+            aria-label="Previous photo"
+          >
+            <ChevronLeftIcon size={20} />
+          </button>
+
+          <div
+            className={styles.lightboxStage}
+            onClick={(event) => event.stopPropagation()}
+          >
+            <Image
+              src={allImages[currentModalImage].src}
+              alt={allImages[currentModalImage].alt}
+              width={1600}
+              height={1066}
+              className={styles.modalImage}
+              sizes="90vw"
+              priority
+            />
+          </div>
+
+          <button
+            type="button"
+            className={`${styles.modalNav} ${styles.modalNext}`}
+            onClick={(event) => {
+              event.stopPropagation();
+              nextModalImage();
+            }}
+            aria-label="Next photo"
+          >
+            <ChevronRightIcon size={20} />
+          </button>
+
+          <div
+            className={styles.lightboxBar}
+            onClick={(event) => event.stopPropagation()}
+          >
             <div className={styles.modalCounter}>
               {currentModalImage + 1} / {allImages.length}
             </div>
-            
             <div className={styles.modalThumbnails}>
               {allImages.map((image, index) => (
-                <div 
-                  key={index}
+                <button
+                  type="button"
+                  key={`${image.src}-${index}`}
                   className={`${styles.modalThumbnail} ${currentModalImage === index ? styles.activeThumbnail : ''}`}
                   onClick={() => setCurrentModalImage(index)}
+                  aria-label={`Show photo ${index + 1}`}
+                  aria-current={currentModalImage === index ? true : undefined}
                 >
-                  <Image 
+                  <Image
                     src={image.src}
                     alt={image.alt}
                     width={80}
                     height={60}
                     className={styles.modalThumbnailImage}
                   />
-                </div>
+                </button>
               ))}
             </div>
           </div>
-        </div>
+        </div>,
+        document.body,
       )}
     </>
   );

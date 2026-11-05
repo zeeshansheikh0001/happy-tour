@@ -1,113 +1,74 @@
 import React, { useState } from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { FaChevronUp, FaChevronDown } from 'react-icons/fa';
+import { ChevronDownIcon, ChevronUpIcon } from '../Icons';
+import Icon3D from '../Icon3D';
 import styles from './TourBookingInfo.module.scss';
-import TravelersGallery, { TravelerPhoto } from '../TravelersGallery';
 
-interface TourBookingInfoProps {
-  // Props can be expanded in the future
-}
-
-const TourBookingInfo: React.FC<TourBookingInfoProps> = () => {
+const TourBookingInfo: React.FC = () => {
   const [expandedPolicies, setExpandedPolicies] = useState<string[]>(['cancellation']);
 
   const togglePolicy = (policy: string) => {
-    setExpandedPolicies(prev => 
-      prev.includes(policy)
-        ? prev.filter(p => p !== policy)
-        : [...prev, policy]
+    setExpandedPolicies((prev) =>
+      prev.includes(policy) ? prev.filter((item) => item !== policy) : [...prev, policy],
     );
   };
 
   const isPolicyExpanded = (policy: string) => expandedPolicies.includes(policy);
 
-  // Gallery sample photos
-  const samplePhotos: TravelerPhoto[] = [
-    { src: '/images/tour-booking/photos/photo1.jpg', alt: 'Tour experience photo 1' },
-    { src: '/images/tour-booking/photos/photo2.jpg', alt: 'Tour experience photo 2' },
-    { src: '/images/tour-booking/photos/photo3.jpg', alt: 'Tour experience photo 3' },
-    { src: '/images/tour-booking/photos/photo4.jpg', alt: 'Tour experience photo 4' },
-    { src: '/images/tour-booking/photos/photo5.jpg', alt: 'Tour experience photo 5' },
-    { src: '/images/tour-booking/photos/photo6.jpg', alt: 'Tour experience photo 6' },
-    { src: '/images/tour-booking/photos/photo7.jpg', alt: 'Tour experience photo 7' },
-  ];
-
   return (
     <div className={styles.bookingInfoContainer}>
-      {/* Statistics Section */}
       <div className={styles.statsContainer}>
         <div className={styles.statItem}>
           <div className={styles.statIcon}>
-            <Image 
-              src="/images/icons/hearts.svg" 
-              alt="Happy Customers" 
-              width={60} 
-              height={60} 
-            />
+            <Icon3D name="clipboard" alt="" size={40} />
           </div>
-          <h3 className={styles.statTitle}>10 Million+</h3>
+          <h3 className={styles.statTitle}>Handpicked itineraries</h3>
           <p className={styles.statDescription}>
-            Happy customers from 65+ countries all around.
+            Each day is planned around the destination, not a template.
           </p>
         </div>
 
         <div className={styles.statItem}>
           <div className={styles.statIcon}>
-            <Image 
-              src="/images/icons/star-rating.svg" 
-              alt="Rating" 
-              width={60} 
-              height={60} 
-            />
+            <Icon3D name="compass" alt="" size={40} />
           </div>
-          <h3 className={styles.statTitle}>4.6 / 5.0</h3>
+          <h3 className={styles.statTitle}>Local expert planning</h3>
           <p className={styles.statDescription}>
-            Cumulative ratings of our trips across platforms.
+            Stays, transfers, and activities coordinated on the ground.
           </p>
         </div>
 
         <div className={styles.statItem}>
           <div className={styles.statIcon}>
-            <Image 
-              src="/images/icons/heart.svg" 
-              alt="Curated with love" 
-              width={60} 
-              height={60} 
-            />
+            <Icon3D name="glowStar" alt="" size={40} />
           </div>
-          <h3 className={styles.statTitle}>Curated with love</h3>
+          <h3 className={styles.statTitle}>Rated by travellers</h3>
           <p className={styles.statDescription}>
-            Expert-guided trips with meticulous planning.
+            Reviews come from the packages we actually list.
           </p>
         </div>
 
         <div className={styles.statItem}>
           <div className={styles.statIcon}>
-            <Image 
-              src="/images/icons/support.svg" 
-              alt="24/7 Support" 
-              width={60} 
-              height={60} 
-            />
+            <Icon3D name="receiver" alt="" size={40} />
           </div>
-          <h3 className={styles.statTitle}>24*7 Support</h3>
+          <h3 className={styles.statTitle}>Trip support on call</h3>
           <p className={styles.statDescription}>
-            We are always there to help you pre, post and on the trip.
+            Help before departure, during the trip, and after you return.
           </p>
         </div>
       </div>
-      {/* Policy Sections */}
+
       <div className={styles.policySection}>
-        <div 
-          className={styles.sectionHeader} 
+        <button
+          type="button"
+          className={styles.sectionHeader}
           onClick={() => togglePolicy('confirmation')}
         >
           <h3 className={styles.sectionTitle}>Confirmation Policy</h3>
-          <div className={styles.toggleIcon}>
-            {isPolicyExpanded('confirmation') ? <FaChevronUp /> : <FaChevronDown />}
-          </div>
-        </div>
+          <span className={styles.toggleIcon}>
+            {isPolicyExpanded('confirmation') ? <ChevronUpIcon /> : <ChevronDownIcon />}
+          </span>
+        </button>
         {isPolicyExpanded('confirmation') && (
           <div className={styles.policyContent}>
             <ul className={styles.policyList}>
@@ -121,15 +82,16 @@ const TourBookingInfo: React.FC<TourBookingInfoProps> = () => {
       </div>
 
       <div className={styles.policySection}>
-        <div 
-          className={styles.sectionHeader} 
+        <button
+          type="button"
+          className={styles.sectionHeader}
           onClick={() => togglePolicy('refund')}
         >
           <h3 className={styles.sectionTitle}>Refund Policy</h3>
-          <div className={styles.toggleIcon}>
-            {isPolicyExpanded('refund') ? <FaChevronUp /> : <FaChevronDown />}
-          </div>
-        </div>
+          <span className={styles.toggleIcon}>
+            {isPolicyExpanded('refund') ? <ChevronUpIcon size={18} /> : <ChevronDownIcon size={18} />}
+          </span>
+        </button>
         {isPolicyExpanded('refund') && (
           <div className={styles.policyContent}>
             <ul className={styles.policyList}>
@@ -144,15 +106,16 @@ const TourBookingInfo: React.FC<TourBookingInfoProps> = () => {
       </div>
 
       <div className={styles.policySection}>
-        <div 
-          className={styles.sectionHeader} 
+        <button
+          type="button"
+          className={styles.sectionHeader}
           onClick={() => togglePolicy('cancellation')}
         >
           <h3 className={styles.sectionTitle}>Cancellation Policy</h3>
-          <div className={styles.toggleIcon}>
-            {isPolicyExpanded('cancellation') ? <FaChevronUp /> : <FaChevronDown />}
-          </div>
-        </div>
+          <span className={styles.toggleIcon}>
+            {isPolicyExpanded('cancellation') ? <ChevronUpIcon size={18} /> : <ChevronDownIcon size={18} />}
+          </span>
+        </button>
         {isPolicyExpanded('cancellation') && (
           <div className={styles.policyContent}>
             <ul className={styles.policyList}>
@@ -166,15 +129,16 @@ const TourBookingInfo: React.FC<TourBookingInfoProps> = () => {
       </div>
 
       <div className={styles.policySection}>
-        <div 
-          className={styles.sectionHeader} 
+        <button
+          type="button"
+          className={styles.sectionHeader}
           onClick={() => togglePolicy('payment')}
         >
           <h3 className={styles.sectionTitle}>Payment Term Policy</h3>
-          <div className={styles.toggleIcon}>
-            {isPolicyExpanded('payment') ? <FaChevronUp /> : <FaChevronDown />}
-          </div>
-        </div>
+          <span className={styles.toggleIcon}>
+            {isPolicyExpanded('payment') ? <ChevronUpIcon size={18} /> : <ChevronDownIcon size={18} />}
+          </span>
+        </button>
         {isPolicyExpanded('payment') && (
           <div className={styles.policyContent}>
             <ul className={styles.policyList}>
@@ -192,4 +156,4 @@ const TourBookingInfo: React.FC<TourBookingInfoProps> = () => {
   );
 };
 
-export default TourBookingInfo; 
+export default TourBookingInfo;

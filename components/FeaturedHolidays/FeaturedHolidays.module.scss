@@ -1,0 +1,115 @@
+.section {
+  width: 100%;
+  background: #ffffff;
+  scroll-margin-top: 108px;
+}
+
+.inner {
+  width: 100%;
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding: 48px var(--page-gutter) 24px;
+}
+
+.intro {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 28px;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: #c4a574;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.heading {
+  margin: 0 0 10px;
+  color: #1e2a4a;
+  font-size: var(--type-section-size);
+  font-weight: var(--type-section-weight);
+  letter-spacing: var(--type-heading-track);
+  line-height: var(--type-section-leading);
+}
+
+.description {
+  max-width: 520px;
+  margin: 0;
+  color: var(--color-slate);
+  font-size: var(--type-body-size);
+  font-weight: var(--type-body-weight);
+  line-height: var(--type-body-leading);
+}
+
+.viewAll {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #1e2a4a;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 28px;
+
+  @media (min-width: 576px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media (min-width: 992px) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 767px) {
+  .inner {
+    padding: 32px var(--page-gutter) 8px;
+  }
+
+  .intro {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .eyebrow {
+    font-size: var(--type-label-size);
+    font-weight: var(--type-label-weight);
+    letter-spacing: var(--type-badge-track);
+    line-height: var(--type-label-leading);
+  }
+
+  .heading {
+    margin-bottom: 10px;
+    color: var(--color-navy);
+    font-size: var(--type-section-size);
+    font-weight: var(--type-section-weight);
+    letter-spacing: var(--type-heading-track);
+    line-height: var(--type-section-leading);
+  }
+
+  .description {
+    color: var(--color-slate);
+    font-size: var(--type-body-size);
+    font-weight: var(--type-body-weight);
+    letter-spacing: normal;
+    line-height: var(--type-body-leading);
+  }
+
+  .viewAll {
+    height: auto;
+    min-height: 44px;
+    font-size: var(--type-control-size);
+    font-weight: var(--type-control-weight);
+    line-height: var(--type-control-leading);
+  }
+}

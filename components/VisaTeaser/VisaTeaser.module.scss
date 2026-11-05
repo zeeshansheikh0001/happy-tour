@@ -1,0 +1,128 @@
+.section {
+  width: 100%;
+  background: #ffffff;
+  padding: 0 0 72px;
+}
+
+.inner {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  gap: 24px 32px;
+  width: min(calc(var(--page-max) - 2 * var(--page-gutter)), calc(100% - 2 * var(--page-gutter)));
+  max-width: none;
+  margin: 0 auto;
+  padding: 36px 32px;
+  overflow: hidden;
+  border-radius: 24px;
+  background-color: #1e2a4a;
+  background-position: center;
+  background-size: cover;
+  color: #ffffff;
+}
+
+.inner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(90deg, rgba(14, 20, 36, 0.78) 0%, rgba(14, 20, 36, 0.46) 58%, rgba(14, 20, 36, 0.28) 100%);
+}
+
+.inner > * {
+  position: relative;
+  z-index: 1;
+}
+
+.copy,
+.visaHeading {
+  flex: 1;
+  min-width: 0;
+  margin-bottom: 0;
+}
+
+.eyebrow {
+  margin: 0 0 6px;
+  color: #c4a574;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.heading {
+  margin: 0 0 10px;
+  color: #ffffff;
+  font-size: var(--type-section-size);
+  font-weight: var(--type-section-weight);
+  letter-spacing: var(--type-heading-track);
+  line-height: var(--type-section-leading);
+}
+
+.text {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 46px;
+  padding: 0 18px;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #1e2a4a;
+  font-size: var(--type-button-size);
+  font-weight: var(--type-button-weight);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.cta:hover,
+.cta:focus-visible {
+  background: #f3f0ea;
+}
+
+@media (max-width: 767px) {
+  .section {
+    padding: 8px 0 40px;
+  }
+
+  .inner {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 24px;
+  }
+
+  .eyebrow {
+    letter-spacing: var(--type-badge-track);
+    line-height: var(--type-label-leading);
+  }
+
+  .heading {
+    margin-bottom: 10px;
+    font-size: var(--type-section-size);
+    font-weight: var(--type-section-weight);
+    letter-spacing: var(--type-heading-track);
+    line-height: var(--type-section-leading);
+  }
+
+  .text {
+    font-size: var(--type-body-size);
+    font-weight: var(--type-body-weight);
+    letter-spacing: normal;
+    line-height: var(--type-body-leading);
+  }
+
+  .cta {
+    height: auto;
+    min-height: 44px;
+    font-size: var(--type-control-size);
+    font-weight: var(--type-control-weight);
+    line-height: var(--type-control-leading);
+  }
+}

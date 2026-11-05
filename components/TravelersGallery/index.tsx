@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, memo } from 'react';
 import Image from 'next/image';
-import { FaCamera, FaChevronLeft, FaChevronRight, FaTimes } from 'react-icons/fa';
+import { FaChevronLeft, FaChevronRight, FaTimes } from 'react-icons/fa';
 import { createPortal } from 'react-dom';
 import styles from './TravelersGallery.module.scss';
 import { GALLERY_CONSTANTS } from '../../utils/galleryConstants';
@@ -43,22 +43,28 @@ const TravelersGallery: React.FC<TravelersGalleryProps> = ({ photos, title = '' 
     return () => setIsMounted(false);
   }, []);
   
-  // Handle modal open
   const openModal = useCallback((index: number) => {
     setCurrentModalImage(index);
     setShowModal(true);
-    // Prevent body scrolling
-    document.body.style.overflow = 'hidden';
-    document.body.style.paddingRight = 'var(--scrollbar-width, 15px)'; // Prevent layout shift
   }, []);
   
-  // Handle modal close
   const closeModal = useCallback(() => {
     setShowModal(false);
-    // Re-enable body scrolling
-    document.body.style.overflow = 'auto';
-    document.body.style.paddingRight = '0';
   }, []);
+
+  useEffect(() => {
+    if (!showModal) return;
+
+    const previousOverflow = document.body.style.overflow;
+    const previousPadding = document.body.style.paddingRight;
+    document.body.style.overflow = 'hidden';
+    document.body.style.paddingRight = 'var(--scrollbar-width, 15px)';
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.body.style.paddingRight = previousPadding;
+    };
+  }, [showModal]);
   
   // Handle modal image navigation - memoized with useCallback
   const prevModalImage = useCallback(() => {
@@ -69,11 +75,10 @@ const TravelersGallery: React.FC<TravelersGalleryProps> = ({ photos, title = '' 
     setCurrentModalImage((prev) => (prev + 1) % photos.length);
   }, [photos.length]);
   
-  // Keyboard navigation
   useEffect(() => {
+    if (!showModal) return;
+
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (!showModal) return;
-      
       if (e.key === 'Escape') closeModal();
       if (e.key === 'ArrowLeft') prevModalImage();
       if (e.key === 'ArrowRight') nextModalImage();

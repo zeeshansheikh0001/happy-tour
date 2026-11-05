@@ -1,8 +1,9 @@
 import React, { useState, useCallback, memo } from 'react';
 import Image from 'next/image';
-import { FaStar, FaStarHalfAlt, FaExternalLinkAlt } from 'react-icons/fa';
+import { ExternalIcon, StarIcon } from '../Icons';
 import styles from './TourReviews.module.scss';
 import TravelersGallery, { TravelerPhoto } from '../TravelersGallery';
+import SectionHeading from '../SectionHeading';
 
 export interface Rating {
   stars: number;
@@ -60,24 +61,17 @@ const TourReviews: React.FC<TourReviewsProps> = ({
   }, []);
 
   const renderStars = useCallback((rating: number) => {
-    const stars = [];
-    const fullStars = Math.floor(rating);
-    const hasHalfStar = rating % 1 !== 0;
-
-    for (let i = 0; i < fullStars; i++) {
-      stars.push(<FaStar key={`full-${i}`} className={styles.starIcon} />);
-    }
-
-    if (hasHalfStar) {
-      stars.push(<FaStarHalfAlt key="half" className={styles.starIcon} />);
-    }
-
-    const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
-    for (let i = 0; i < emptyStars; i++) {
-      stars.push(<FaStar key={`empty-${i}`} className={styles.starIconEmpty} />);
-    }
-
-    return stars;
+    return Array.from({ length: 5 }, (_, index) => {
+      const amount: 0 | 0.5 | 1 = rating >= index + 1 ? 1 : rating >= index + 0.5 ? 0.5 : 0;
+      return (
+        <StarIcon
+          key={index}
+          size={18}
+          amount={amount}
+          className={amount === 0 ? styles.starIconEmpty : styles.starIcon}
+        />
+      );
+    });
   }, []);
 
   // Format large numbers with K suffix
@@ -91,7 +85,12 @@ const TourReviews: React.FC<TourReviewsProps> = ({
   return (
     <div className={styles.reviewsContainer}>
       <div className={styles.reviewsHeader}>
-        <h2 className={styles.reviewsTitle}>{title}</h2>
+        <SectionHeading
+          eyebrow="Reviews"
+          icon="star"
+          title={title}
+          description={tourName ? `Notes from travelers on ${tourName}.` : 'Notes from travelers on this holiday.'}
+        />
         {tourName && <div className={styles.tourName}>{tourName}</div>}
       </div>
 
@@ -112,7 +111,10 @@ const TourReviews: React.FC<TourReviewsProps> = ({
         <div className={styles.ratingsDistribution}>
           {ratings.map((rating, index) => (
             <div key={index} className={styles.ratingBar}>
-              <div className={styles.starLabel}>{rating.stars} ★</div>
+              <div className={styles.starLabel}>
+                {rating.stars}
+                <StarIcon size={12} />
+              </div>
               <div className={styles.barContainer}>
                 <div 
                   className={styles.barFill} 
@@ -163,7 +165,7 @@ const TourReviews: React.FC<TourReviewsProps> = ({
                   <span>Booked: </span>
                   <a href={review.tourLink} className={styles.tourLink}>
                     {review.tourBooked}
-                    {review.tourLink && <FaExternalLinkAlt className={styles.linkIcon} />}
+                    {review.tourLink && <ExternalIcon size={12} className={styles.linkIcon} />}
                   </a>
                 </div>
                 

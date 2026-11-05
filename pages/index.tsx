@@ -1,124 +1,154 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
+import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router';
 import { motion, AnimatePresence } from 'framer-motion';
 import Header from '../components/Header';
-import Tours from '../components/Tours';
-import Activities from '../components/Activities';
-import Visa from '../components/Visa';
-import styles from './HomePage.module.scss';
-import { navigationItems, tours, activities } from '../data/staticData';
-import Image from 'next/image';
+import HeroSlider from '../components/HeroSlider';
 import SEO from '../components/SEO';
-import { useCurrency } from '../context/CurrencyContext';
+import TouristFeedback from '../components/TouristFeedback';
+import TrustSocialProof from '../components/TrustSocialProof';
+import FAQ from '../components/FAQ';
+import DestinationGrid from '../components/DestinationGrid';
+import FeaturedHolidays from '../components/FeaturedHolidays';
+import CustomizeSection from '../components/CustomizeSection';
+import HowItWorks from '../components/HowItWorks';
+import ActivitiesTeaser from '../components/ActivitiesTeaser';
+import DestinationGuide from '../components/DestinationGuide';
+import VisaTeaser from '../components/VisaTeaser';
+import TourCard from '../components/TourCard';
+import ActivityCard from '../components/ActivityCard';
+import {
+  activities,
+  destinationFaqs,
+  destinationPages,
+  faqs,
+  focusTours,
+  touristFeedback,
+} from '../data/staticData';
+import styles from './HomePage.module.scss';
 
-// A component to display destination-specific content
+const Activities = dynamic(() => import('../components/Activities'));
+const Visa = dynamic(() => import('../components/Visa'));
+const TourismBoardAlliances = dynamic(() => import('../components/TourismBoardAlliances'));
+
+const DESTINATION_ALIASES: Record<string, string[]> = {
+  dubai: ['dubai'],
+  vietnam: ['vietnam', 'hanoi', 'da nang', 'danang', 'ho chi minh', 'saigon', 'halong', 'hoi an', 'phu quoc'],
+  bali: ['bali', 'kuta'],
+  thailand: ['thailand', 'bangkok', 'phuket', 'krabi', 'pattaya'],
+  ladakh: ['ladakh'],
+  kashmir: ['kashmir'],
+  'north-east-india': ['north east', 'northeast'],
+};
+
+const matchesDestination = (haystack: string, destination: string) => {
+  const aliases = DESTINATION_ALIASES[destination] || [destination.replace(/-/g, ' ')];
+  const text = haystack.toLowerCase();
+  return aliases.some((alias) => text.includes(alias));
+};
+
 const DestinationContent = ({ destination }: { destination: string }) => {
-  // Filter tours based on the selected destination
-  const destinationTours = tours.filter(tour => 
-    tour.locations.some(location => 
-      location.place.toLowerCase() === destination.toLowerCase()
-    )
+  const page = destinationPages.find((item) => item.id === destination);
+  const destinationName = page?.name || destination.replace(/-/g, ' ');
+  const destinationTours = focusTours.filter((tour) =>
+    matchesDestination(
+      [tour.title, ...tour.locations.map((location) => location.place)].join(' '),
+      destination,
+    ),
   );
-
-  // Filter activities based on the selected destination
-  const destinationActivities = activities.filter(activity => 
-    activity.location.toLowerCase() === destination.toLowerCase()
-  );
-
-  // Find the navigation item to get its details
-  const navItem = navigationItems.find(item => item.id === destination);
+  const activityLocation = destination === 'vietnam' ? 'Vietnam' : destinationName;
 
   return (
-    <div style={{ padding: '20px' }}>
-      <h1 className={styles.destinationTitle}>
-        {navItem?.name || destination.charAt(0).toUpperCase() + destination.slice(1)}
-      </h1>
-      
-      {destinationTours.length > 0 && (
-        <div className={styles.destinationSection}>
-          <h2>Popular Tours</h2>
-          <div className={styles.destinationGrid}>
-            {destinationTours.map(tour => (
-              <div key={tour.id} className={styles.destinationCard}>
-                <div className={styles.destinationImageContainer}>
-                  <Image 
-                    src={tour.images[0]} 
-                    alt={tour.title}
-                    width={300}
-                    height={200}
-                    style={{ objectFit: 'cover' }}
-                  />
-                </div>
-                <div className={styles.destinationCardContent}>
-                  <h3>{tour.title}</h3>
-                  <p>{tour.duration}</p>
-                  <div className={styles.priceInfo}>
-                    <span className={styles.originalPrice}>₹{tour.originalPrice.toLocaleString()}</span>
-                    <span className={styles.discountedPrice}>₹{tour.discountedPrice.toLocaleString()}</span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-      
-      {destinationActivities.length > 0 && (
-        <div className={styles.destinationSection}>
-          <h2>Popular Activities</h2>
-          <div className={styles.destinationGrid}>
-            {destinationActivities.map(activity => (
-              <div key={activity.id} className={styles.destinationCard}>
-                <div className={styles.destinationImageContainer}>
-                  <Image 
-                    src={activity.image} 
-                    alt={activity.title}
-                    width={300}
-                    height={200}
-                    style={{ objectFit: 'cover' }}
-                  />
-                </div>
-                <div className={styles.destinationCardContent}>
-                  <h3>{activity.title}</h3>
-                  <p>{activity.duration}</p>
-                  <div className={styles.priceInfo}>
-                    <span className={styles.discountedPrice}>₹{activity.price.toLocaleString()}</span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-      
-      {destinationTours.length === 0 && destinationActivities.length === 0 && (
-        <p className={styles.noContentMessage}>
-          We're currently expanding our offerings for {navItem?.name || destination}. 
-          Check back soon for exciting tours and activities!
-        </p>
-      )}
-    </div>
+    <>
+      <DestinationGuide destinationId={destination} />
+      <FeaturedHolidays
+        tours={destinationTours}
+        eyebrow={destinationName}
+        heading={page?.heading || `${destinationName} holidays`}
+        description={
+          page?.description ||
+          `Packages we currently list for ${destinationName}. The team confirms dates after you enquire.`
+        }
+        showViewAll={false}
+      />
+      <CustomizeSection destinationId={destination} destinationName={destinationName} />
+      <ActivitiesTeaser
+        location={activityLocation}
+        heading={`Things to do in ${destinationName}`}
+        description={`Tickets and day experiences you can add to a ${destinationName} stay, or book on their own.`}
+        showViewAll={false}
+      />
+      <HowItWorks destinationName={destinationName} />
+      <VisaTeaser destinationId={destination} />
+    </>
   );
 };
 
+const getSearchParams = (asPath: string) => {
+  const query = asPath.includes('?') ? asPath.slice(asPath.indexOf('?') + 1).split('#')[0] : '';
+  return new URLSearchParams(query);
+};
+
 const Home: React.FC = () => {
+  const router = useRouter();
+  const params = getSearchParams(router.asPath);
+  const destFromUrl = params.get('destination') || '';
+  const tabFromUrl = params.get('tab') || '';
+
   const [activeTab, setActiveTab] = useState('tours');
   const [activeNavItem, setActiveNavItem] = useState('explore');
-  const [showDestination, setShowDestination] = useState(false);
-  const { selectedCurrency } = useCurrency();
+  const [hasMounted, setHasMounted] = useState(false);
+  const resolvedTab = tabFromUrl === 'activities' || tabFromUrl === 'visa' ? tabFromUrl : 'tours';
+  const resolvedNav = destFromUrl || activeNavItem;
+  const showDestination = hasMounted && Boolean(destFromUrl) && resolvedTab === 'tours';
+  const showToursChrome = !hasMounted || resolvedTab === 'tours';
+  const showVisaPage = hasMounted && resolvedTab === 'visa';
+  const destinationPage = showDestination
+    ? destinationPages.find((item) => item.id === destFromUrl)
+    : undefined;
+  const pageFaqs = useMemo(
+    () => (showDestination ? destinationFaqs[destFromUrl] || faqs : faqs),
+    [showDestination, destFromUrl],
+  );
+  const feedbackItems = useMemo(
+    () =>
+      showDestination
+        ? touristFeedback.filter((item) => item.destinationId === destFromUrl)
+        : touristFeedback,
+    [showDestination, destFromUrl],
+  );
 
-  // Show destination content when a destination is selected
   useEffect(() => {
-    if (activeNavItem !== 'explore' && !showDestination) {
-      setShowDestination(true);
-    } else if (activeNavItem === 'explore') {
-      setShowDestination(false);
+    setHasMounted(true);
+  }, []);
+
+  useEffect(() => {
+    const hash = router.asPath.split('#')[1];
+    if (!hash) return;
+
+    const node = document.getElementById(hash);
+    if (node) {
+      node.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-  }, [activeNavItem, showDestination]);
+  }, [router.asPath]);
+
+  useEffect(() => {
+    if (tabFromUrl === 'activities' || tabFromUrl === 'visa') {
+      setActiveTab(tabFromUrl);
+      setActiveNavItem('explore');
+      return;
+    }
+
+    setActiveTab('tours');
+    setActiveNavItem(destFromUrl || 'explore');
+  }, [destFromUrl, tabFromUrl]);
 
   const handleTabChange = (tab: string) => {
     setActiveTab(tab);
-    
-    // Scroll to the top of the page when switching tabs
+    if (tab !== 'tours') {
+      setActiveNavItem('explore');
+    }
+
     window.scrollTo({
       top: 0,
       behavior: 'smooth'
@@ -127,40 +157,28 @@ const Home: React.FC = () => {
 
   const handleNavigate = (id: string) => {
     setActiveNavItem(id);
+    if (id !== 'explore') {
+      setActiveTab('tours');
+    }
   };
-
-  // Content visibility control based on active tab and selected destination
-  const isExploreMode = activeNavItem === 'explore';
 
   // Animation variants
   const tabContentVariants = {
-    hidden: { 
-      opacity: 0,
-      y: 50,
-      scale: 0.95,
-      transition: { duration: 0.3, ease: "easeOut" }
-    },
-    visible: { 
+    hidden: { opacity: 0, y: 12 },
+    visible: {
       opacity: 1,
-      y: 0, 
-      scale: 1,
-      transition: { 
-        duration: 0.5, 
-        ease: "easeOut",
-        y: { duration: 0.4, ease: [0.33, 1, 0.68, 1] },
-        opacity: { duration: 0.3 }
-      } 
+      y: 0,
+      transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] }
     },
-    exit: { 
+    exit: {
       opacity: 0,
-      y: -20,
-      scale: 0.98,
-      transition: { duration: 0.2, ease: "easeIn" }
+      y: -8,
+      transition: { duration: 0.2, ease: 'easeIn' }
     }
   };
 
   // Featured tour packages for structured data
-  const featuredTours = tours.slice(0, 3).map(tour => ({
+  const featuredTours = focusTours.slice(0, 3).map(tour => ({
     '@type': 'Product',
     name: tour.title,
     description: tour.description || `${tour.duration} tour package including ${tour.locations.map(l => l.place).join(', ')}`,
@@ -174,36 +192,17 @@ const Home: React.FC = () => {
     sku: `TOUR-${tour.id}`
   }));
   
-  // Create FAQ structured data
   const faqsStructuredData = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    mainEntity: [
-      {
-        '@type': 'Question',
-        name: 'What destinations do Happy Trails Tourism offer packages for?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Happy Trails Tourism offers travel packages to popular destinations including Dubai, Singapore, Thailand, Bali, and many other locations across Asia. Our packages are customizable based on your preferences.'
-        }
+    mainEntity: pageFaqs.map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.answer,
       },
-      {
-        '@type': 'Question',
-        name: 'Are flights included in your packages?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Many of our packages include flights, such as our "Escape To Dubai | Flights Inclusive Deal". When browsing packages, look for "Flights Inclusive" in the title or description to find these all-inclusive options.'
-        }
-      },
-      {
-        '@type': 'Question',
-        name: 'How can I get assistance with planning my trip?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'You can request a callback from our travel experts by clicking the "Request Callback" button on any package page. Our experienced consultants will contact you to discuss your requirements and help customize your perfect vacation.'
-        }
-      }
-    ]
+    })),
   };
 
   // Get unique activity locations
@@ -212,9 +211,9 @@ const Home: React.FC = () => {
   return (
     <div className={styles.container}>
       <SEO 
-        title="Happy Trails Tourism | Explore Dubai, Singapore, Thailand & More"
-        description="Book unforgettable travel experiences with Happy Trails Tourism. Discover our best flight-inclusive deals, family packages, and honeymoon specials to Dubai, Singapore, Thailand, and Bali."
-        keywords="travel packages, dubai tours, singapore packages, thailand holiday, bali honeymoon, flight inclusive deals, family vacation packages, best tour deals"
+        title={destinationPage?.seoTitle || 'Happy Trails Tourism | Dubai, Vietnam & India Holidays'}
+        description={destinationPage?.seoDescription || 'Book holidays with Happy Trails Tourism. Flight-inclusive deals and family packages for Dubai, Vietnam, and India — Ladakh, Kashmir, and North East India.'}
+        keywords="travel packages, dubai tours, vietnam packages, ladakh holiday, kashmir packages, north east india tours, flight inclusive deals, family vacation packages"
         ogImage="/images/happy-trails-og.jpg" 
         ogType="website"
         structuredData={[
@@ -224,7 +223,7 @@ const Home: React.FC = () => {
             name: 'Happy Trails Tourism',
             url: 'https://happytrailstourism.com',
             logo: 'https://happytrailstourism.com/images/logo.png',
-            description: 'Happy Trails Tourism offers personalized travel experiences including tours, holiday packages, adventure trips, and cultural excursions to destinations like Dubai, Singapore, Thailand and Bali.',
+            description: 'Happy Trails Tourism offers holiday packages, activities, and visa help for Dubai, Vietnam, and India — Ladakh, Kashmir, and North East India.',
             address: {
               '@type': 'PostalAddress',
               streetAddress: '123 Tourism Avenue',
@@ -257,23 +256,31 @@ const Home: React.FC = () => {
       />
 
       <Header 
-        activeTab={activeTab} 
+        activeTab={resolvedTab} 
         onTabChange={handleTabChange} 
-        activeNavItem={activeNavItem} 
+        activeNavItem={resolvedNav} 
         onNavigate={handleNavigate}
       />
+
+      {showToursChrome && (
+        <>
+          <HeroSlider activeDestination={showDestination ? destFromUrl : ''} />
+        </>
+      )}
+
+      {!showVisaPage && !showDestination && <TrustSocialProof />}
 
       <main className={styles.main}>
         <AnimatePresence mode="wait">
           {showDestination ? (
             <motion.div
-              key="destination"
+              key={destFromUrl}
               initial="hidden"
               animate="visible"
               exit="exit"
               variants={tabContentVariants}
             >
-              <DestinationContent destination={activeNavItem} />
+              <DestinationContent destination={destFromUrl} />
             </motion.div>
           ) : (
             <motion.div
@@ -284,24 +291,35 @@ const Home: React.FC = () => {
               variants={tabContentVariants}
               className={styles.tabContent}
             >
-              {activeTab === 'tours' && <Tours />}
+              {activeTab === 'tours' && (
+                <>
+                  <DestinationGrid />
+                  <FeaturedHolidays />
+                  <CustomizeSection />
+                  <HowItWorks />
+                  <ActivitiesTeaser />
+                  <VisaTeaser />
+                  <TourismBoardAlliances scrollSpeed={40} />
+                </>
+              )}
               {activeTab === 'activities' && (
                 <>
-                  <Activities 
-                    title="Featured Dubai Activities" 
-                    location="Dubai" 
+                  <Activities
+                    title="Dubai day trips and tickets"
+                    subtitle="Add these to a holiday, or open the full list across all seven emirates."
+                    location="Dubai"
                   />
-                  
+
                   {activityLocations
-                    .filter(location => location !== 'Dubai') // Skip Dubai since it's already shown above
-                    .map(location => (
-                      <Activities 
+                    .filter((location) => location !== 'Dubai')
+                    .map((location) => (
+                      <Activities
                         key={location}
-                        title={`Let's Explore ${location}`}
+                        title={`${location} activities`}
+                        subtitle={`Experiences in ${location} you can book on their own.`}
                         location={location}
                       />
-                    ))
-                  }
+                    ))}
                 </>
               )}
               {activeTab === 'visa' && <Visa />}
@@ -309,29 +327,20 @@ const Home: React.FC = () => {
           )}
         </AnimatePresence>
       </main>
-
-      <style jsx>{`
-        main {
-          padding: 1rem;
-          max-width: 1200px;
-          margin: 0 auto;
-        }
-        .main-title {
-          font-size: 1.8rem;
-          font-weight: 700;
-          margin-bottom: 1rem;
-          color: #333;
-          text-align: center;
-        }
-        .currency-info {
-          text-align: center;
-          margin-bottom: 1.5rem;
-          color: #666;
-          background-color: #f9f9f9;
-          padding: 0.5rem;
-          border-radius: 4px;
-        }
-      `}</style>
+      {!showVisaPage && feedbackItems.length > 0 && (
+        <TouristFeedback items={feedbackItems} />
+      )}
+      {!showVisaPage && (
+        <FAQ
+          items={pageFaqs}
+          title={destinationPage ? `${destinationPage.name} questions` : undefined}
+          description={
+            destinationPage
+              ? `Season, stay length, visa, and how a ${destinationPage.name} enquiry is confirmed.`
+              : undefined
+          }
+        />
+      )}
     </div>
   );
 };

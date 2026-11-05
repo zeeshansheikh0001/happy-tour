@@ -213,7 +213,7 @@
 .submitButton {
   margin-top: 8px;
   padding: 16px;
-  background-color: $primary-color;
+  background-color: #1e2a4a;
   color: $white;
   border: none;
   border-radius: 8px;
@@ -223,6 +223,6 @@
   transition: background-color 0.2s ease;
   
   &:hover {
-    background-color: darken($primary-color, 5%);
+    background-color: #162238;
   }
 } 

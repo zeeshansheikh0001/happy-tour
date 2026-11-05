@@ -2,22 +2,18 @@
 @import '../../styles/breakpoints';
 
 .galleryContainer {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  max-width: 1200px;
-  margin: 0 auto;
-  border-radius: 12px;
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 12px;
+  width: 100%;
 }
 
 .mainImageContainer {
   position: relative;
-  flex: 1 1 60%;
-  min-width: 320px;
-  height: 500px;
-  border-radius: 16px;
+  min-width: 0;
+  height: 520px;
+  border-radius: 22px;
   overflow: hidden;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   cursor: pointer;
 
   &:hover {
@@ -33,21 +29,21 @@
 }
 
 .thumbnailsGrid {
-  flex: 1 1 38%;
-  min-width: 300px;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-  gap: 16px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: 12px;
   position: relative;
+  min-width: 0;
+  height: 520px;
 }
 
 .thumbnailItem {
   position: relative;
-  height: 240px;
-  border-radius: 16px;
+  min-height: 0;
+  height: 100%;
+  border-radius: 18px;
   overflow: hidden;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 
@@ -72,34 +68,35 @@
 
 .thumbnailLabel {
   position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  color: white;
-  padding: 12px 16px;
-  font-size: 16px;
+  left: 10px;
+  bottom: 10px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(17, 24, 39, 0.72);
+  color: #ffffff;
+  font-size: 12px;
   font-weight: 500;
   transition: background-color 0.3s ease;
-  text-align: center;
 }
 
 .viewAllButton {
   position: absolute;
-  bottom: 16px;
-  right: 16px;
-  background-color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 10px 14px;
+  right: 12px;
+  bottom: 12px;
+  z-index: 10;
   display: flex;
   align-items: center;
   gap: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  cursor: pointer;
-  z-index: 10;
-  font-size: 14px;
+  min-height: 44px;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 999px;
+  background: #ffffff;
+  box-shadow: 0 8px 20px rgba(17, 24, 39, 0.12);
+  color: #1e2a4a;
+  font-size: 13px;
   font-weight: 600;
+  cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 
   &:hover {
@@ -156,8 +153,8 @@
   transform: translateY(-50%);
   background-color: rgba(255, 255, 255, 0.8);
   color: #333;
-  width: 36px;
-  height: 36px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -206,146 +203,145 @@
   }
 }
 
-// Modal styles
-.modal {
+.lightbox {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.9);
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-}
-
-.modalContent {
-  position: relative;
-  width: 100%;
-  max-width: 1200px;
-  height: 90vh;
+  inset: 0;
+  z-index: 100000;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
+  isolation: isolate;
+  background: #0b0d12;
+}
+
+.lightboxStage {
+  position: relative;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+  margin: 72px 88px 12px;
+  overflow: hidden;
+}
+
+.modalImage {
+  width: auto !important;
+  height: auto !important;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
 }
 
 .closeButton {
   position: absolute;
-  top: 20px;
-  right: 20px;
-  background-color: rgba(255, 255, 255, 0.2);
-  color: white;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: none;
+  top: 18px;
+  right: 18px;
+  z-index: 2;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+  font-size: 18px;
   cursor: pointer;
-  z-index: 10;
-  font-size: 20px;
-  transition: all 0.2s ease;
-  
-  &:hover {
-    background-color: rgba(255, 255, 255, 0.4);
+
+  &:hover,
+  &:focus-visible {
+    background: rgba(255, 255, 255, 0.28);
   }
-}
-
-.modalImageContainer {
-  position: relative;
-  width: 100%;
-  height: 70vh;
-  margin-bottom: 16px;
-}
-
-.modalImage {
-  object-fit: contain;
 }
 
 .modalNav {
   position: absolute;
   top: 50%;
-  transform: translateY(-50%);
-  background-color: rgba(255, 255, 255, 0.2);
-  color: white;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
+  z-index: 2;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 48px;
+  height: 48px;
   border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+  font-size: 20px;
   cursor: pointer;
-  z-index: 10;
-  font-size: 24px;
-  transition: all 0.2s ease;
-  
-  &:hover {
-    background-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-50%);
+
+  &:hover,
+  &:focus-visible {
+    background: rgba(255, 255, 255, 0.28);
   }
-  
+
   &.modalPrev {
     left: 20px;
   }
-  
+
   &.modalNext {
     right: 20px;
   }
 }
 
+.lightboxBar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 20px 24px;
+}
+
 .modalCounter {
-  position: absolute;
-  bottom: 20px;
-  left: 20px;
-  background-color: rgba(0, 0, 0, 0.6);
-  color: white;
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-size: 14px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 500;
 }
 
 .modalThumbnails {
   display: flex;
+  justify-content: center;
   gap: 8px;
+  max-width: 100%;
   overflow-x: auto;
-  padding: 10px 0;
-  margin-top: auto;
-  
+  padding: 4px 0;
+
   &::-webkit-scrollbar {
-    height: 6px;
+    height: 4px;
   }
-  
-  &::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-  }
-  
+
   &::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.28);
     border-radius: 10px;
   }
 }
 
 .modalThumbnail {
   flex: 0 0 auto;
-  width: 80px;
-  height: 60px;
-  border-radius: 6px;
+  width: 76px;
+  height: 56px;
+  padding: 0;
   overflow: hidden;
-  cursor: pointer;
-  opacity: 0.6;
-  transition: all 0.2s ease;
   border: 2px solid transparent;
-  
-  &:hover {
+  border-radius: 10px;
+  background: transparent;
+  opacity: 0.55;
+  cursor: pointer;
+
+  &:hover,
+  &:focus-visible {
     opacity: 0.9;
   }
-  
+
   &.activeThumbnail {
+    border-color: #ffffff;
     opacity: 1;
-    border-color: white;
   }
 }
 
@@ -357,44 +353,41 @@
 
 // Responsive adjustments
 @media (max-width: 991px) {
-  .mainImageContainer {
-    height: 450px;
-  }
-
-  .thumbnailItem {
-    height: 220px;
+  .mainImageContainer,
+  .thumbnailsGrid {
+    height: 420px;
   }
 
   .thumbnailLabel {
     font-size: 14px;
   }
-  
-  .modalImageContainer {
-    height: 60vh;
+
+  .lightboxStage {
+    margin: 64px 56px 12px;
   }
   
   .modalNav {
     width: 40px;
     height: 40px;
-    font-size: 20px;
+    font-size: 18px;
   }
 }
 
 @media (max-width: 768px) {
   .galleryContainer {
-    flex-direction: column;
+    grid-template-columns: 1fr;
   }
 
   .mainImageContainer {
-    height: 400px;
+    height: 320px;
   }
-  
-  .modalContent {
-    height: 85vh;
+
+  .thumbnailsGrid {
+    height: auto;
   }
-  
-  .modalImageContainer {
-    height: 50vh;
+
+  .lightboxStage {
+    margin: 60px 16px 8px;
   }
   
   .modalThumbnail {
@@ -430,9 +423,9 @@
     padding: 8px 12px;
     font-size: 12px;
   }
-  
-  .modalImageContainer {
-    height: 40vh;
+
+  .lightboxStage {
+    margin: 56px 12px 8px;
   }
   
   .modalNav {

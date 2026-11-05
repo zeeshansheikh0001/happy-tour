@@ -1,23 +1,26 @@
 import React, { useState, useEffect, useCallback, useMemo, memo, useRef } from 'react';
 import Image from 'next/image';
-import { 
-  FaChevronLeft, 
-  FaChevronRight, 
-  FaChevronDown, 
-  FaFilter,
-  FaRegCalendarAlt,
-  FaListUl,
-  FaRegPlayCircle,
-  FaPlane,
-  FaBed,
-  FaCar,
-  FaCheck,
-  FaStar,
-  FaTimes
-} from 'react-icons/fa';
 import styles from './TourItinerary.module.scss';
-import TourPackageDetails from '../TourPackageDetails';
-import TourReviews from '../TourReviews';
+import SectionHeading from '../SectionHeading';
+import {
+  BedIcon,
+  BuildingIcon,
+  CalendarIcon,
+  CameraIcon,
+  CarIcon,
+  CheckBadgeIcon,
+  CheckIcon,
+  ChevronDownIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  ClipboardIcon,
+  CloseIcon,
+  FilterIcon,
+  MapPinIcon,
+  PlaneIcon,
+  PlayIcon,
+  StarIcon,
+} from '../Icons';
 import { useCurrency } from '../../context/CurrencyContext';
 import { TourActivity, TourFlight, TourStay, TourSummary, TourTransfer } from '../../types/staticData';
 
@@ -113,8 +116,9 @@ const TourItinerary: React.FC<TourItineraryProps> = ({
     }
   }, [filterCriteria, itinerary]);
 
-  // Close filter menu when clicking outside
   useEffect(() => {
+    if (!showFilterMenu) return;
+
     const handleClickOutside = (event: MouseEvent) => {
       if (filterRef.current && !filterRef.current.contains(event.target as Node)) {
         setShowFilterMenu(false);
@@ -125,7 +129,7 @@ const TourItinerary: React.FC<TourItineraryProps> = ({
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, []);
+  }, [showFilterMenu]);
 
   // Handle filter button click
   const toggleFilterMenu = useCallback(() => {
@@ -180,52 +184,45 @@ const TourItinerary: React.FC<TourItineraryProps> = ({
       <div className={styles.bannerSection}>
         <div className={styles.bannerImageWrapper}>
           <div className={styles.imageNavigation}>
-            <button 
-              className={styles.navButton}
+            <button
+              type="button"
+              className={`${styles.navButton} ${styles.prevBtn}`}
               onClick={() => handleImageNavigation('prev')}
               aria-label="Previous image"
             >
-              <FaChevronLeft />
+              <ChevronLeftIcon size={18} />
             </button>
             <div className={styles.mainImage}>
-              <Image 
+              <Image
                 src={bannerImages[activeImageIndex].src}
                 alt={bannerImages[activeImageIndex].alt}
                 fill
-                sizes="(max-width: 768px) 100vw, 50vw"
+                sizes="(max-width: 768px) 100vw, 70vw"
                 className={styles.bannerImage}
                 priority={activeImageIndex === 0}
               />
             </div>
-            <button 
-              className={styles.navButton}
+            <button
+              type="button"
+              className={`${styles.navButton} ${styles.nextBtn}`}
               onClick={() => handleImageNavigation('next')}
               aria-label="Next image"
             >
-              <FaChevronRight />
+              <ChevronRightIcon size={18} />
             </button>
           </div>
           <div className={styles.imageDots}>
-            {bannerImages.slice(0, 3).map((_, index) => (
+            {bannerImages.slice(0, 6).map((_, index) => (
               <button
                 key={index}
+                type="button"
                 className={`${styles.imageDot} ${activeImageIndex === index ? styles.active : ''}`}
                 onClick={() => setActiveImageIndex(index)}
                 aria-label={`Go to image ${index + 1}`}
-              >
-                <div className={styles.dotImage}>
-                  <Image
-                    src={bannerImages[index].src}
-                    alt={`Thumbnail ${index + 1}`}
-                    fill
-                    sizes="32px"
-                    className={styles.thumbnailImage}
-                  />
-                </div>
-              </button>
+              />
             ))}
-            {bannerImages.length > 3 && (
-              <div className={styles.remainingImages}>+{bannerImages.length - 3}</div>
+            {bannerImages.length > 6 && (
+              <span className={styles.remainingImages}>+{bannerImages.length - 6}</span>
             )}
           </div>
         </div>
@@ -241,17 +238,18 @@ const TourItinerary: React.FC<TourItineraryProps> = ({
           key={item.day} 
           className={`${styles.dayItem} ${expandedDays.includes(item.day) ? styles.expanded : ''}`}
         >
-          <div 
-            className={styles.dayHeader} 
+          <button
+            type="button"
+            className={styles.dayHeader}
             onClick={() => toggleDayExpansion(item.day)}
             aria-expanded={expandedDays.includes(item.day)}
           >
-            <div className={styles.dayNumber}>Day {item.day}</div>
-            <div className={styles.dayTitle}>{item.title}</div>
-            <div className={styles.iconContainer}>
-              <FaChevronDown className={styles.expandIcon} />
-            </div>
-          </div>
+            <span className={styles.dayNumber}>Day {item.day}</span>
+            <span className={styles.dayTitle}>{item.title}</span>
+            <span className={styles.iconContainer}>
+              <ChevronDownIcon size={16} className={styles.expandIcon} />
+            </span>
+          </button>
           
           <div className={styles.dayDescription}>
             {item.description}
@@ -279,11 +277,11 @@ const TourItinerary: React.FC<TourItineraryProps> = ({
                 onClick={toggleFilterMenu}
                 aria-expanded={showFilterMenu}
               >
-                <FaFilter className={styles.filterIcon} /> 
+                <FilterIcon size={16} className={styles.filterIcon} />
                 {filterCriteria ? 'Filtered' : 'Filter'}
                 {filterCriteria && (
                   <button className={styles.clearFilter} onClick={(e) => { e.stopPropagation(); resetFilter(); }}>
-                    <FaTimes />
+                    <CloseIcon size={14} />
                   </button>
                 )}
               </button>
@@ -354,7 +352,7 @@ const TourItinerary: React.FC<TourItineraryProps> = ({
                 <h4>Why Book This Tour</h4>
                 <ul className={styles.summaryList}>
                   {summary.usps.map((usp, index) => (
-                    <li key={index} className={styles.uspItem}><FaCheck className={styles.checkIcon} /> {usp}</li>
+                    <li key={index} className={styles.uspItem}><CheckIcon size={16} className={styles.checkIcon} /> {usp}</li>
                   ))}
                 </ul>
               </div>
@@ -428,7 +426,7 @@ const TourItinerary: React.FC<TourItineraryProps> = ({
               ))
             ) : (
               <div className={styles.emptyState}>
-                <FaRegPlayCircle className={styles.emptyStateIcon} />
+                <PlayIcon size={36} className={styles.emptyStateIcon} />
                 <h3>No Activities Information Available</h3>
                 <p>This tour package doesn't include detailed activity information yet. Please check the itinerary section for included activities.</p>
               </div>
@@ -477,7 +475,7 @@ const TourItinerary: React.FC<TourItineraryProps> = ({
             ))
           ) : (
             <div className={styles.emptyState}>
-              <FaPlane className={styles.emptyStateIcon} />
+              <PlaneIcon size={36} className={styles.emptyStateIcon} />
               <h3>Flight Details Not Available</h3>
               <p>Flight information will be provided closer to your booking date. Contact our travel experts for more details.</p>
             </div>
@@ -503,9 +501,11 @@ const TourItinerary: React.FC<TourItineraryProps> = ({
                   <h3>{hotel.hotelName}</h3>
                   <div className={styles.hotelRating}>
                     {[...Array(5)].map((_, idx) => (
-                      <FaStar 
-                        key={idx} 
-                        className={idx < hotel.rating ? styles.activeStar : styles.inactiveStar} 
+                      <StarIcon
+                        key={idx}
+                        size={16}
+                        amount={idx < hotel.rating ? 1 : 0}
+                        className={idx < hotel.rating ? styles.activeStar : styles.inactiveStar}
                       />
                     ))}
                     <span>({hotel.rating}-star hotel)</span>
@@ -531,7 +531,7 @@ const TourItinerary: React.FC<TourItineraryProps> = ({
             ))
           ) : (
             <div className={styles.emptyState}>
-              <FaBed className={styles.emptyStateIcon} />
+              <BedIcon size={36} className={styles.emptyStateIcon} />
               <h3>Accommodation Details Not Available</h3>
               <p>Stay information for this tour is currently being updated. Please refer to the package inclusions or contact us for details.</p>
             </div>
@@ -545,7 +545,7 @@ const TourItinerary: React.FC<TourItineraryProps> = ({
             transfers.map(transfer => (
               <div key={transfer.id} className={styles.transferCard}>
                 <div className={styles.transferType}>
-                  <FaCar className={styles.transferIcon} />
+                  <CarIcon size={28} className={styles.transferIcon} />
                   <h3>{transfer.type}</h3>
                 </div>
                 <div className={styles.transferDetails}>
@@ -564,7 +564,7 @@ const TourItinerary: React.FC<TourItineraryProps> = ({
             ))
           ) : (
             <div className={styles.emptyState}>
-              <FaCar className={styles.emptyStateIcon} />
+              <CarIcon size={36} className={styles.emptyStateIcon} />
               <h3>Transfer Information Not Available</h3>
               <p>Transportation details for this tour are currently being updated. Most packages include airport transfers and local transportation between destinations.</p>
             </div>
@@ -606,37 +606,43 @@ const TourItinerary: React.FC<TourItineraryProps> = ({
         className={`${styles.navTab} ${localActiveTab === 'Itinerary' ? styles.active : ''}`}
         onClick={() => handleTabChange('Itinerary')}
       >
-        <FaRegCalendarAlt className={styles.tabIcon} /> Itinerary
+        <CalendarIcon size={18} className={styles.tabIcon} />
+        Itinerary
       </button>
       <button
         className={`${styles.navTab} ${localActiveTab === 'Summarised View' ? styles.active : ''}`}
         onClick={() => handleTabChange('Summarised View')}
       >
-        <FaListUl className={styles.tabIcon} /> Overview
+        <ClipboardIcon size={18} className={styles.tabIcon} />
+        Overview
       </button>
       <button
         className={`${styles.navTab} ${localActiveTab === 'Activities' ? styles.active : ''}`}
         onClick={() => handleTabChange('Activities')}
       >
-        <FaRegPlayCircle className={styles.tabIcon} /> Activities
+        <CameraIcon size={18} className={styles.tabIcon} />
+        Activities
       </button>
       <button
         className={`${styles.navTab} ${localActiveTab === 'Flights' ? styles.active : ''}`}
         onClick={() => handleTabChange('Flights')}
       >
-        <FaPlane className={styles.tabIcon} /> Flights
+        <PlaneIcon size={18} className={styles.tabIcon} />
+        Flights
       </button>
       <button
         className={`${styles.navTab} ${localActiveTab === 'Stay' ? styles.active : ''}`}
         onClick={() => handleTabChange('Stay')}
       >
-        <FaBed className={styles.tabIcon} /> Stay
+        <BuildingIcon size={18} className={styles.tabIcon} />
+        Stay
       </button>
       <button
         className={`${styles.navTab} ${localActiveTab === 'Transfers' ? styles.active : ''}`}
         onClick={() => handleTabChange('Transfers')}
       >
-        <FaCar className={styles.tabIcon} /> Transfers
+        <MapPinIcon size={18} className={styles.tabIcon} />
+        Transfers
       </button>
     </div>
   ), [localActiveTab, handleTabChange]);
@@ -644,10 +650,19 @@ const TourItinerary: React.FC<TourItineraryProps> = ({
   // Memoized highlights section to prevent unnecessary re-renders
   const HighlightsSection = useMemo(() => (
     <div className={styles.highlightsSection}>
-      <h2 className={styles.sectionTitle}>Trip Highlights</h2>
+      <SectionHeading
+        eyebrow="Highlights"
+        icon="star"
+        title="Trip Highlights"
+        accent={false}
+        className={styles.sectionHeading}
+      />
       <ul className={styles.highlightsList}>
         {highlights.map((highlight, index) => (
-          <li key={index} className={styles.highlightItem}>{highlight}</li>
+          <li key={index} className={styles.highlightItem}>
+            <CheckBadgeIcon size={20} />
+            <span>{highlight}</span>
+          </li>
         ))}
       </ul>
     </div>

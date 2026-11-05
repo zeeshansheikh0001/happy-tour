@@ -1,39 +1,30 @@
-@import '../../styles/colors';
-@import '../../styles/breakpoints';
-
 .tourCard {
   display: flex;
   flex-direction: column;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  background-color: white;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 100%;
   height: 100%;
-  padding-bottom: 16px;
-  
-  &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-    
-    .carouselNav {
-      opacity: 1;
-    }
-  }
+  background: transparent;
+  cursor: pointer;
 }
 
 .imageContainer {
   position: relative;
+  flex-shrink: 0;
   width: 100%;
-  height: 300px;
+  height: 220px;
   overflow: hidden;
+  border-radius: 18px;
+  background: #f3f4f6;
+
+  &:hover .carouselNav {
+    opacity: 1;
+  }
 }
 
 .carousel {
   position: absolute;
   width: 100%;
   height: 100%;
-  transition: transform 0.3s ease-in-out;
 }
 
 .slide-left {
@@ -45,80 +36,47 @@
 }
 
 @keyframes slideLeftAnimation {
-  0% {
-    transform: translateX(0);
-    opacity: 1;
-  }
-  
-  45% {
-    transform: translateX(-10%);
-    opacity: 0;
-  }
-  
-  55% {
-    transform: translateX(10%);
-    opacity: 0;
-  }
-  
-  100% {
-    transform: translateX(0);
-    opacity: 1;
-  }
+  0% { transform: translateX(0); opacity: 1; }
+  45% { transform: translateX(-10%); opacity: 0; }
+  55% { transform: translateX(10%); opacity: 0; }
+  100% { transform: translateX(0); opacity: 1; }
 }
 
 @keyframes slideRightAnimation {
-  0% {
-    transform: translateX(0);
-    opacity: 1;
-  }
-  
-  45% {
-    transform: translateX(10%);
-    opacity: 0;
-  }
-  
-  55% {
-    transform: translateX(-10%);
-    opacity: 0;
-  }
-  
-  100% {
-    transform: translateX(0);
-    opacity: 1;
-  }
+  0% { transform: translateX(0); opacity: 1; }
+  45% { transform: translateX(10%); opacity: 0; }
+  55% { transform: translateX(-10%); opacity: 0; }
+  100% { transform: translateX(0); opacity: 1; }
 }
 
 .image {
-  transition: transform 0.5s ease;
+  object-fit: cover;
 }
 
 .carouselNav {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background-color: rgba(255, 255, 255, 0.7);
-  border-radius: 50%;
-  width: 32px;
-  height: 32px;
+  z-index: 2;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  border: none;
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
   color: #333;
+  cursor: pointer;
   opacity: 0;
-  transition: opacity 0.3s ease, background-color 0.3s ease;
-  z-index: 2;
-  
-  &:hover {
-    background-color: rgba(255, 255, 255, 0.9);
-  }
-  
-  &:focus {
-    outline: none;
+  transition: opacity 0.2s ease, background-color 0.2s ease;
+
+  &:hover,
+  &:focus-visible {
+    background: #ffffff;
     opacity: 1;
   }
-  
+
   &:disabled {
     cursor: not-allowed;
     opacity: 0.4;
@@ -137,198 +95,252 @@
   position: absolute;
   bottom: 12px;
   left: 50%;
-  transform: translateX(-50%);
+  z-index: 2;
   display: flex;
   align-items: center;
-  gap: 8px;
-  z-index: 2;
+  gap: 6px;
+  transform: translateX(-50%);
+}
+
+.dot,
+.activeDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  cursor: pointer;
 }
 
 .dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.5);
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  
-  &:hover {
-    background-color: rgba(255, 255, 255, 0.8);
-  }
+  background: rgba(255, 255, 255, 0.55);
 }
 
 .activeDot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background-color: white;
-  cursor: pointer;
+  background: #ffffff;
 }
 
 .metaInfo {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 10px 16px 8px;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 12px;
 }
 
 .duration {
-  font-size: 14px;
-  color: #666;
+  font-size: 13px;
+  color: #6b7280;
 }
 
 .rating {
   display: flex;
   align-items: center;
+  color: #22c55e;
 
   .starIcon {
-    color: #4CD964;
     margin-right: 4px;
-    font-size: 16px;
+    font-size: 13px;
   }
 
   .ratingValue {
-    font-weight: bold;
-    color: #4CD964;
     margin-right: 4px;
+    font-size: 13px;
+    font-weight: 600;
   }
 
   .reviews {
-    color: #888;
-    font-size: 14px;
+    color: #9ca3af;
+    font-size: 13px;
+    font-weight: 400;
   }
 }
 
 .title {
-  font-size: 18px;
-  margin: 0 16px 12px;
-  font-weight: 600;
-  line-height: 1.4;
-  color: #333;
-  @media (max-width: 768px) {
-    margin: 0 16px 8px;
-  }
+  display: block;
+  margin: 8px 0 10px;
+  color: var(--color-navy);
+  font-size: var(--type-card-size);
+  font-weight: var(--type-card-weight);
+  line-height: var(--type-card-leading);
 }
 
 .locationInfo {
   display: flex;
-  align-items: center;
-  margin: 0px 12px 6px;
   flex-wrap: wrap;
-  
-  .locationDays {
-    background-color: #f5f5f5;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 13px;
-    font-weight: 500;
-    margin-right: 4px;
-  }
-  
-  .locationName {
-    color: #666;
-    font-size: 14px;
-  }
-  
-  .locationDot {
-    margin: 0 8px;
-    color: #999;
-  }
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.locationDays {
+  margin-right: 6px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: #f3f4f6;
+  color: #4b5563;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.locationName {
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.locationDot {
+  margin: 0 8px;
+  color: #d1d5db;
 }
 
 .priceSection {
-  margin: 0 16px 10px;
+  margin-bottom: 14px;
 }
 
-.priceContainer {
+.priceMeta {
   display: flex;
-  align-items: baseline;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
   margin-bottom: 4px;
-  
-  .discountedPrice {
-    font-size: 20px;
-    font-weight: bold;
-    color: #333;
-    margin-right: 8px;
-    @media (max-width: 768px) {
-        font-size: 18px;
-      }
-    }
-  }
-  
-  .originalPrice {
-    font-size: 14px;
-    color: #888;
-    text-decoration: line-through;
-  }
+}
 
+.originalPrice {
+  color: #9ca3af;
+  font-size: 13px;
+  text-decoration: line-through;
+}
 
 .savingsLabel {
-  display: inline-block;
-  background-color: #ecf8f0;
-  color: #4CD964;
+  color: #22c55e;
   font-size: 12px;
+  font-weight: 600;
+}
+
+.discountedPrice {
+  color: #111827;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.perAdult {
+  margin-left: 4px;
+  color: #6b7280;
+  font-size: 13px;
   font-weight: 500;
-  padding: 4px 8px;
-  border-radius: 4px;
 }
 
 .actions {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
-  margin: auto 16px 0;
+  margin-top: auto;
 }
 
 .callButton {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: white;
-  border: 1px solid #ff6b00;
-  color: #ff6b00;
-  border-radius: 6px;
-  padding: 12px;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1.5px solid #1e2a4a;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #1e2a4a;
   cursor: pointer;
-  transition: background-color 0.2s;
-  
-  &:hover {
-    background-color: rgba(255, 107, 0, 0.05);
+}
+
+.callIcon {
+  width: 24px;
+  height: 24px;
+
+  &:hover,
+  &:focus-visible {
+    background: #eef1f6;
+  }
+}
+
+.customizeLink {
+  display: flex;
+  flex: 1 0 100%;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  border: 1.5px solid #1e2a4a;
+  border-radius: 10px;
+  color: #1e2a4a;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+
+  &:hover,
+  &:focus-visible {
+    background: #eef1f6;
   }
 }
 
 .requestButton {
   flex: 1;
-  background-color: #ff6b00;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  padding: 12px 16px;
-  font-weight: 500;
-  font-size: 16px;
+  height: 44px;
+  border: 0;
+  border-radius: 10px;
+  background: #1e2a4a;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.2s;
-  
-  &:hover {
-    background-color: darken(#ff6b00, 5%);
-  }
-  @media (max-width: 768px) {
-    font-size: 15px;
+
+  &:hover,
+  &:focus-visible {
+    background: #162238;
   }
 }
 
-// Mobile styles
 @media (max-width: 768px) {
   .imageContainer {
-    height: 220px;
+    height: 200px;
   }
-  
-  .title {
-    font-size: 15px;
-  }
-  
+
   .carouselNav {
     opacity: 1;
     width: 28px;
     height: 28px;
   }
-} 
+
+  .title {
+    font-size: var(--type-card-size);
+    font-weight: var(--type-card-weight);
+    letter-spacing: normal;
+    line-height: var(--type-card-leading);
+  }
+
+  .locationDays,
+  .reviews,
+  .ratingValue {
+    font-size: var(--type-label-size);
+    font-weight: var(--type-label-weight);
+    line-height: var(--type-label-leading);
+  }
+
+  .requestButton {
+    height: auto;
+    min-height: 44px;
+    font-size: var(--type-control-size);
+    font-weight: var(--type-control-weight);
+    line-height: var(--type-control-leading);
+  }
+
+  .discountedPrice {
+    font-size: 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slide-left,
+  .slide-right,
+  .carouselNav,
+  .requestButton,
+  .callButton {
+    animation: none;
+    transition: none;
+  }
+}

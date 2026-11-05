@@ -1,9 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
+import Icon3D from '../Icon3D';
 import styles from './SearchBar.module.scss';
 
 interface SearchBarProps {
   placeholder?: string;
 }
+
+const SEARCH_DESTINATIONS = [
+  'Dubai',
+  'Hanoi',
+  'Ladakh',
+  'Kashmir',
+  'North East India',
+] as const;
 
 const SearchBar: React.FC<SearchBarProps> = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -13,67 +22,57 @@ const SearchBar: React.FC<SearchBarProps> = () => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [isTyping, setIsTyping] = useState(true);
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const pauseTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Countries to cycle through
-  const countries = [
-    'Dubai',
-    'Tokyo',
-    'Paris',
-    'New York',
-    'Rome',
-    'Bangkok',
-    'Singapore',
-    'Bali',
-  ];
+  useEffect(() => () => {
+    if (pauseTimeoutRef.current) {
+      clearTimeout(pauseTimeoutRef.current);
+    }
+  }, []);
 
   useEffect(() => {
-    // Simple reliable typing animation
-    const typingInterval = 120; // Milliseconds between typing actions
-    const deletingInterval = 80; // Faster deletion
-    const wordPause = 1500; // Pause at complete word
+    const typingInterval = 120;
+    const deletingInterval = 80;
+    const wordPause = 1500;
 
-    let timeout: NodeJS.Timeout;
+    let timeout: ReturnType<typeof setTimeout> | undefined;
 
     if (isTyping) {
-      const word = countries[currentWord];
+      const word = SEARCH_DESTINATIONS[currentWord];
       
       if (!isDeleting) {
-        // Typing forward
         timeout = setTimeout(() => {
           setDisplayText(word.substring(0, currentIndex + 1));
           
           if (currentIndex >= word.length - 1) {
-            // Reached end of word - pause before deleting
             setIsTyping(false);
-            setTimeout(() => {
+            pauseTimeoutRef.current = setTimeout(() => {
               setIsDeleting(true);
               setIsTyping(true);
             }, wordPause);
           } else {
-            // Continue typing
             setCurrentIndex(currentIndex + 1);
           }
         }, typingInterval);
       } else {
-        // Deleting
         timeout = setTimeout(() => {
           setDisplayText(word.substring(0, currentIndex - 1));
           
           if (currentIndex <= 1) {
-            // Finished deleting - move to next word
             setIsDeleting(false);
-            setCurrentWord((currentWord + 1) % countries.length);
+            setCurrentWord((currentWord + 1) % SEARCH_DESTINATIONS.length);
             setCurrentIndex(0);
           } else {
-            // Continue deleting
             setCurrentIndex(currentIndex - 1);
           }
         }, deletingInterval);
       }
     }
 
-    return () => clearTimeout(timeout);
-  }, [displayText, currentIndex, currentWord, isDeleting, isTyping, countries]);
+    return () => {
+      if (timeout) clearTimeout(timeout);
+    };
+  }, [currentIndex, currentWord, isDeleting, isTyping]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -93,10 +92,7 @@ const SearchBar: React.FC<SearchBarProps> = () => {
           className={styles['search-bar__container']} 
           onClick={handleInputFocus}
         >
-          <svg className={styles['search-bar__icon']} xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-          </svg>
+          <Icon3D name="search" size={18} className={styles['search-bar__icon']} />
           <input
             ref={searchInputRef}
             type="text"

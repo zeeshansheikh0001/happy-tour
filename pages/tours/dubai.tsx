@@ -1,8 +1,18 @@
 import React from 'react';
-import Tours from '../../components/Tours';
+import { useRouter } from 'next/router';
+import Header from '../../components/Header';
+import TourCard from '../../components/TourCard';
 import SEO from '../../components/SEO';
+import SectionHeading from '../../components/SectionHeading';
+import { focusTours } from '../../data/staticData';
+import styles from '../../components/FeaturedHolidays/FeaturedHolidays.module.scss';
+
+const dubaiTours = focusTours.filter((tour) =>
+  [tour.title, ...tour.locations.map((location) => location.place)].join(' ').toLowerCase().includes('dubai'),
+);
 
 const DubaiToursPage: React.FC = () => {
+  const router = useRouter();
   // Create breadcrumb structured data
   const breadcrumbStructuredData = {
     '@context': 'https://schema.org',
@@ -59,8 +69,47 @@ const DubaiToursPage: React.FC = () => {
         ogImageAlt="Luxury Dubai Tour Packages by Happy Trails Tourism"
         structuredData={[breadcrumbStructuredData, destinationStructuredData]}
       />
+      <Header
+        activeTab="tours"
+        onTabChange={(tab) => {
+          if (tab === 'activities') router.push('/activities');
+          else if (tab === 'visa') router.push('/?tab=visa');
+          else router.push('/');
+        }}
+        onNavigate={(id) => {
+          router.push(id === 'explore' ? '/' : `/?destination=${id}`);
+        }}
+      />
       <main>
-        <Tours />
+        <section className={styles.section} aria-labelledby="dubai-tours-heading">
+          <div className={styles.inner}>
+            <SectionHeading
+              as="h1"
+              eyebrow="Dubai"
+              icon="umbrella"
+              title="Dubai holidays"
+              titleId="dubai-tours-heading"
+              description="Flight-inclusive and family packages we currently list for Dubai."
+            />
+            <div className={styles.grid}>
+              {dubaiTours.map((tour) => (
+                <TourCard
+                  key={tour.id}
+                  id={tour.id}
+                  images={tour.images}
+                  title={tour.title}
+                  duration={tour.duration}
+                  rating={tour.rating}
+                  reviews={tour.reviews}
+                  originalPrice={tour.originalPrice}
+                  discountedPrice={tour.discountedPrice}
+                  savings={tour.savings}
+                  locations={tour.locations}
+                />
+              ))}
+            </div>
+          </div>
+        </section>
       </main>
     </>
   );

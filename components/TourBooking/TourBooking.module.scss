@@ -2,91 +2,70 @@
 @import '../../styles/breakpoints';
 
 .tourBookingContainer {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 32px;
-  margin-top: 24px;
-  max-width: 1200px;
-  margin: 0 auto;
-  // padding: 0 20px;
-  
-  @include breakpoints('tab-down') {
-    flex-direction: column;
+  width: 100%;
+  margin-top: 36px;
+}
+
+.bookingLayout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: 40px 48px;
+  align-items: start;
+
+  @media (max-width: 991px) {
+    grid-template-columns: 1fr;
+    gap: 28px;
+
+    .bookingForm {
+      position: static;
+    }
   }
 }
 
 .bookingDetails {
-  flex: 1 1 60%;
-  min-width: 300px;
+  min-width: 0;
 }
 
 .title {
-  font-size: 32px;
-  font-weight: 700;
-  color: #222;
-  margin: 16px 0;
-  
-  @media (max-width: $breakpoint-sm) {
-    font-size: 24px;
-  }
+  margin: 0 0 16px;
+  color: var(--color-navy);
+  font-size: var(--type-hero-size);
+  font-weight: var(--type-hero-weight);
+  letter-spacing: var(--type-heading-track);
+  line-height: var(--type-hero-leading);
 }
 
-.durationBadge {
-  display: inline-flex;
-  align-items: center;
-  background-color: #f8f8f8;
-  border-radius: 50px;
+.metaRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
   margin-bottom: 20px;
 }
 
-.daysNights {
-  font-weight: 700;
-  color: #ff6b00;
-  background-color: #fff1e9;
-  padding: 6px 12px;
-  border-radius: 50px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
-  margin-right: 12px;
+.metaChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: #f5f6f8;
+  color: #374151;
+  font-size: var(--type-label-size);
+  font-weight: var(--type-label-weight);
+  line-height: var(--type-label-leading);
 }
 
-.location {
-  font-weight: 600;
-  color: #555;
+.reviewCount {
+  color: #9ca3af;
+  font-weight: 400;
 }
 
 .priceSection {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 24px;
-}
-
-.priceDetails {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.starRating {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.ratingValue {
-  font-weight: 700;
-  color: #26a649;
-  font-size: 18px;
-}
-
-.reviewCount {
-  color: #777;
-  font-size: 14px;
-}
-
-.priceInfo {
-  display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 10px 14px;
+  margin-bottom: 22px;
 }
 
 .currentPrice {
@@ -96,72 +75,67 @@
 }
 
 .currencyCode {
-  font-size: 18px;
-  font-weight: 600;
+  color: #1e2a4a;
+  font-size: var(--type-card-size);
+  font-weight: var(--type-card-weight);
+  line-height: var(--type-card-leading);
 }
 
 .priceValue {
-  font-size: 36px;
-  font-weight: 700;
-  color: #222;
-  
-  @include breakpoints('mob-only') {
-    font-size: 28px;
-  }
+  color: var(--color-navy);
+  font-size: var(--type-section-size);
+  font-weight: var(--type-section-weight);
+  letter-spacing: var(--type-heading-track);
+  line-height: var(--type-section-leading);
 }
 
 .perPerson {
-  font-size: 15px;
-  color: #777;
+  color: var(--color-slate);
+  font-size: var(--type-label-size);
+  font-weight: var(--type-label-weight);
+  line-height: var(--type-label-leading);
 }
 
 .originalPrice {
-  text-decoration: line-through;
-  color: #777;
+  color: #9ca3af;
   font-size: 16px;
-  margin-top: 4px;
+  text-decoration: line-through;
 }
 
 .includedServices {
   display: flex;
   flex-wrap: wrap;
-  gap: 14px;
-  margin-bottom: 20px;
-  
-  @include breakpoints('mob-only') {
-    gap: 16px;
-  }
+  gap: 10px 18px;
+  margin-bottom: 28px;
 }
 
 .service {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 8px;
-  
-  span {
-    font-size: 15px;
-    color: #555;
-  }
+  color: var(--color-slate);
+  font-size: var(--type-body-size);
+  font-weight: var(--type-body-weight);
+  line-height: var(--type-body-leading);
 }
 
 .serviceIcon {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background-color: #f7f7f7;
+  width: 32px;
+  height: 32px;
 }
 
 .tripDuration {
   margin-bottom: 32px;
-  
+
   h3 {
-    font-size: 18px;
-    font-weight: 700;
-    margin-bottom: 16px;
-    color: #222;
+    margin: 0 0 12px;
+    color: var(--color-navy);
+    font-size: var(--type-sub-size);
+    font-weight: var(--type-sub-weight);
+    line-height: var(--type-sub-leading);
   }
 }
 
@@ -247,11 +221,15 @@
 .optionDays {
   font-size: 14px;
   font-weight: 500;
+  font-size: var(--type-label-size);
+  font-weight: var(--type-label-weight);
+  line-height: var(--type-label-leading);
 }
 
 .optionPrice {
-  font-size: 18px;
-  font-weight: 700;
+  font-size: var(--type-card-size);
+  font-weight: var(--type-card-weight);
+  line-height: var(--type-card-leading);
 }
 
 .moreOptions {
@@ -275,21 +253,34 @@
   font-size: 24px;
   font-weight: 700;
   color: #ff6b00;
+  font-size: var(--type-sub-size);
+  font-weight: var(--type-sub-weight);
+  line-height: var(--type-sub-leading);
 }
 
 .moreText {
-  font-size: 14px;
-  color: #555;
+  color: var(--color-slate);
+  font-size: var(--type-label-size);
+  font-weight: var(--type-label-weight);
+  line-height: var(--type-label-leading);
 }
 
-.destinationRoutes, .stayCategory {
+.destinationRoutes,
+.stayCategory {
   margin-bottom: 32px;
-  
+}
+
+.pageHeading {
+  margin-bottom: 20px;
+}
+
+.destinationRoutes {
   h3 {
-    font-size: 18px;
-    font-weight: 700;
-    margin-bottom: 16px;
-    color: #222;
+    margin: 0 0 10px;
+    color: var(--color-navy);
+    font-size: var(--type-sub-size);
+    font-weight: var(--type-sub-weight);
+    line-height: var(--type-sub-leading);
   }
 }
 
@@ -311,59 +302,21 @@
   justify-content: space-between;
   font-size: 16px;
   color: #444;
+  color: var(--color-slate);
+  font-size: var(--type-body-size);
+  font-weight: var(--type-body-weight);
+  line-height: var(--type-body-leading);
 }
 
 .categoryOptions {
   display: flex;
-  gap: 16px;
-  
-  @include breakpoints('mob-only') {
-    gap: 10px;
-  }
-}
 
-.categoryButton {
-  flex: 1;
-  padding: 12px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background-color: white;
-  color: #444;
-  font-size: 15px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  position: relative;
-  text-align: center;
-  
-  &:hover {
-    border-color: #ff6b00;
-    color: #ff6b00;
-  }
-  
-  &.active {
-    background-color: #fff6f0;
-    border-color: #ff6b00;
-    color: #ff6b00;
-    font-weight: 600;
-  }
-}
-
-.checkIcon {
-  position: absolute;
-  top: 6px;
-  right: 6px;
-  font-size: 12px;
-}
-
-.tripHighlights {
-  margin-bottom: 32px;
-  
   h3 {
-    font-size: 18px;
-    font-weight: 700;
-    margin-bottom: 16px;
-    color: #222;
+    margin: 0 0 12px;
+    color: var(--color-navy);
+    font-size: var(--type-sub-size);
+    font-weight: var(--type-sub-weight);
+    line-height: var(--type-sub-leading);
   }
 }
 
@@ -377,8 +330,11 @@
     margin-bottom: 12px;
     line-height: 1.6;
     color: #555;
-    font-size: 15px;
-    
+    color: var(--color-slate);
+    font-size: var(--type-body-size);
+    font-weight: var(--type-body-weight);
+    line-height: var(--type-body-leading);
+
     &::before {
       content: "•";
       position: absolute;
@@ -390,143 +346,294 @@
 }
 
 .bookingForm {
-  flex: 1 1 35%;
-  min-width: 300px;
-  background-color: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  position: sticky;
+  top: 148px;
+  min-width: 0;
   overflow: hidden;
-  align-self: flex-start;
+  border: 1px solid #eef0f4;
+  border-radius: 20px;
+  border: 1px solid #e7e9ee;
+  border-radius: 24px;
+  background: #ffffff;
+  box-shadow: 0 18px 40px rgba(22, 29, 45, 0.08);
 }
 
 .formPackageInfo {
-  background-color: #f9f9f9;
-  padding: 20px;
-  border-bottom: 1px solid #eee;
-  
+  padding: 22px 20px 18px;
+  background: #1e2a4a;
+  color: #ffffff;
+
   h3 {
-    font-size: 18px;
-    font-weight: 600;
-    margin-bottom: 12px;
-    color: #333;
+    margin: 0 0 14px;
+    color: #ffffff;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
   }
+}
+
+.formEyebrow {
+  margin: 0 0 8px;
+  color: #f3d98a;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 .formPrice {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 12px;
+  gap: 8px 10px;
 }
 
 .formDiscountedPrice {
-  font-size: 24px;
+  color: #ffffff;
+  font-size: 26px;
   font-weight: 700;
-  color: #111;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
 }
 
 .formOriginalPrice {
-  font-size: 16px;
-  color: #777;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.2;
   text-decoration: line-through;
 }
 
 .formSavings {
-  font-size: 14px;
-  font-weight: 600;
-  color: #26a649;
-  background-color: #e6f7ec;
-  padding: 4px 10px;
-  border-radius: 4px;
   margin-left: auto;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: #f3d98a;
+  color: #1e2a4a;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.2;
+  white-space: nowrap;
 }
 
 .formFields {
-  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
 }
 
 .formField {
-  margin-bottom: 16px;
+  margin: 0;
 }
 
-.formInput, .formTextarea {
+.formInput,
+.formTextarea,
+.countryCode {
   width: 100%;
-  padding: 14px 16px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  font-size: 15px;
-  transition: border-color 0.2s ease;
-  
+  height: 48px;
+  border: 1px solid #e6e8ee;
+  border-radius: 14px;
+  background: #f7f8fa;
+  color: #1e2a4a;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 500;
+  transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+
+  &::placeholder {
+    color: #9aa1ab;
+    font-weight: 400;
+  }
+
   &:focus {
     outline: none;
-    border-color: #ff6b00;
+    border-color: #1e2a4a;
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(30, 42, 74, 0.12);
   }
-  
-  &::placeholder {
-    color: #999;
-  }
+}
+
+.formInput,
+.formTextarea {
+  padding: 0 14px;
 }
 
 .formTextarea {
+  height: auto;
+  min-height: 96px;
+  padding: 12px 14px;
   resize: vertical;
-  min-height: 120px;
+  line-height: 1.5;
 }
 
 .phoneField {
   display: flex;
-  gap: 8px;
-  margin-bottom: 16px;
-}
+  align-items: stretch;
+  height: 48px;
+  overflow: hidden;
+  border: 1px solid #e6e8ee;
+  border-radius: 14px;
+  background: #f7f8fa;
 
-.countryCode {
-  width: 100px;
-  
-  select {
-    width: 100%;
-    padding: 14px 16px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: 15px;
-    background-color: white;
-    cursor: pointer;
-    
-    &:focus {
-      outline: none;
-      border-color: #ff6b00;
-    }
+  &:focus-within {
+    border-color: #1e2a4a;
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(30, 42, 74, 0.12);
+  }
+
+  .countryCode,
+  .formInput {
+    height: 100%;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .countryCode {
+    width: 86px;
+    border-right: 1px solid #e6e8ee;
+  }
+
+  .formInput {
+    min-width: 0;
+    padding-left: 12px;
   }
 }
 
-.dateCountFields {
-  display: flex;
-  gap: 16px;
-  margin-bottom: 16px;
+.countryCode {
+  flex: 0 0 86px;
+  padding: 0 26px 0 12px;
+  border-right: 1px solid #e6e8ee;
+  appearance: none;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%231e2a4a' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
 }
 
-.formDateField, .formCountField {
-  flex: 1;
+.dateCountFields {
+  display: grid;
+  grid-template-columns: 1.4fr 0.9fr;
+  gap: 10px;
+}
+
+.formDateField,
+.formCountField {
+  position: relative;
+  min-width: 0;
+}
+
+.fieldIcon {
+  position: absolute;
+  top: 50%;
+  color: #6b7280;
+  pointer-events: none;
+  transform: translateY(-50%);
+}
+
+.formDateField {
+  .fieldIcon {
+    right: 12px;
+  }
+
+  input {
+    padding-right: 36px;
+    color-scheme: light;
+  }
+
+  input::-webkit-calendar-picker-indicator {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+}
+
+.formCountField {
+  .fieldIcon {
+    left: 12px;
+  }
+
+  input {
+    padding-left: 36px;
+    padding-right: 10px;
+  }
+
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    margin: 0;
+    appearance: none;
+  }
+
+  input[type='number'] {
+    appearance: textfield;
+  }
 }
 
 .enquiryButton {
   width: 100%;
-  padding: 16px;
-  background-color: #ff6b00;
-  color: white;
+  min-height: 52px;
+  margin-top: 4px;
+  padding: 0 18px;
   border: none;
-  border-radius: 8px;
+  border-radius: 999px;
+  background: #1e2a4a;
+  color: #ffffff;
+  font-family: inherit;
   font-size: 16px;
   font-weight: 600;
+  line-height: 1.2;
   cursor: pointer;
-  transition: background-color 0.2s ease;
-  
-  &:hover {
-    background-color: #e05e00;
+  transition: background-color 0.15s ease, transform 0.15s ease;
+
+  &:hover,
+  &:focus-visible {
+    background: #162238;
   }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(30, 42, 74, 0.18);
+  }
+}
+
+.customizeLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  margin-top: 10px;
+  border: 1px solid #1e2a4a;
+  border-radius: 999px;
+  color: #1e2a4a;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(30, 42, 74, 0.18);
+  }
+}
+
+.formNote {
+  margin: 2px 8px 0;
+  color: #6b7280;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.45;
+  text-align: center;
 }
 
 @media (max-width: 480px) {
   .dateCountFields {
-    flex-direction: column;
-    gap: 16px;
+    grid-template-columns: 1fr;
   }
-} 
+}

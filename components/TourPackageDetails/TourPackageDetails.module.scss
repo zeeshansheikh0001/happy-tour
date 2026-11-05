@@ -4,28 +4,34 @@
 .packageDetailsContainer {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  width: 100%;
+  margin-top: 56px;
+}
+
+.packageHeading {
+  margin-bottom: 20px;
 }
 
 .packageTitle {
-  text-align: center;
-  font-size: 35px;
-  font-weight: 500;
-  margin-bottom: 40px;
-  color: $primary-color;
-  // font-family: 'Undergo', cursive;
+  margin: 0 0 20px;
+  color: #111827;
+  font-size: var(--type-section-size);
+  font-weight: var(--type-section-weight);
+  letter-spacing: var(--type-heading-track);
+  line-height: var(--type-section-leading);
+  color: var(--color-navy);
   
   @media (max-width: $breakpoint-sm) {
-    font-size: 36px;
-    margin-bottom: 30px;
+    font-size: var(--type-section-size);
+    margin-bottom: 16px;
   }
 }
 
 .packageContent {
+  padding: 28px;
+  border: 1px solid #eef0f4;
+  border-radius: 20px;
   background-color: #fff;
-  border-radius: 12px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-  padding: 30px;
   
   @media (max-width: $breakpoint-sm) {
     padding: 20px;
@@ -33,16 +39,16 @@
 }
 
 .sectionTitle {
-  font-size: 22px;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 30px;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 15px;
+  margin: 0 0 24px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #eef0f4;
+  color: var(--color-navy);
+  font-size: var(--type-sub-size);
+  font-weight: var(--type-sub-weight);
+  line-height: var(--type-sub-leading);
   
   @media (max-width: $breakpoint-sm) {
-    font-size: 20px;
-    margin-bottom: 25px;
+    margin-bottom: 16px;
   }
 }
 
@@ -58,8 +64,9 @@
 }
 
 .columnTitle {
-  font-size: 18px;
-  font-weight: 600;
+  font-size: var(--type-card-size);
+  font-weight: var(--type-card-weight);
+  line-height: var(--type-card-leading);
   margin-bottom: 20px;
   color: #333;
   position: relative;
@@ -72,7 +79,7 @@
     left: 0;
     width: 40px;
     height: 2px;
-    background-color: $primary-color;
+    background-color: #1e2a4a;
   }
 }
 
@@ -97,6 +104,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: 2px;
   margin-right: 10px;
   flex-shrink: 0;
 }
@@ -112,7 +120,10 @@
 }
 
 .itemText {
-  font-size: 15px;
+  font-size: var(--type-body-size);
+  font-weight: var(--type-body-weight);
+  line-height: var(--type-body-leading);
+  color: var(--color-slate);
   line-height: 1.5;
   color: #555;
 } 

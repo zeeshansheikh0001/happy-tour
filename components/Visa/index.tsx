@@ -1,536 +1,463 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { FaPassport, FaPlane, FaCheckCircle, FaInfoCircle, FaTimes, FaUser, FaEnvelope, FaPhone, FaCalendarAlt } from 'react-icons/fa';
-import { createPortal } from 'react-dom';
+import React, { FormEvent, useEffect, useState } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import {
+  holidayDestinations,
+  visaDestinations,
+  visaDocuments,
+  visaFaqs,
+  visaHelpSteps,
+  visaHeroSlides,
+} from '../../data/staticData';
+import DatePicker from '../DatePicker';
+import FAQ from '../FAQ';
+import Icon3D from '../Icon3D';
+import SectionHeading from '../SectionHeading';
 import styles from './Visa.module.scss';
-import VisaPackages from '../VisaPackages';
-import { useCurrency } from '../../context/CurrencyContext';
-
-interface VisaProps {
-  countryName?: string;
-}
-
-type VisaPackageType = {
-  id: string;
-  title: string;
-  description: string;
-  price: number;
-  processingTime: string;
-  features: string[];
-  popular?: boolean;
-};
 
 interface FormData {
   fullName: string;
   email: string;
   phone: string;
   nationality: string;
+  destination: string;
   travelDate: string;
   visaType: string;
   message: string;
 }
 
-const Visa: React.FC<VisaProps> = ({ countryName = "Dubai" }) => {
-  const [selectedTab, setSelectedTab] = useState<'requirements' | 'application' | 'fees' | 'packages'>('requirements');
-  const [isVisible, setIsVisible] = useState(false);
-  const [showApplicationForm, setShowApplicationForm] = useState(false);
-  const [selectedPackage, setSelectedPackage] = useState<VisaPackageType | null>(null);
-  const { convertPrice, formatPrice } = useCurrency();
-  
-  // For portal rendering
-  const [isBrowser, setIsBrowser] = useState(false);
-  
-  const [formData, setFormData] = useState<FormData>({
-    fullName: '',
-    email: '',
-    phone: '',
-    nationality: '',
-    travelDate: '',
-    visaType: 'Tourist',
-    message: ''
-  });
-  
-  const [formErrors, setFormErrors] = useState<Partial<FormData>>({});
+type FormErrors = Partial<Record<keyof FormData, string>>;
+
+const EMPTY_FORM: FormData = {
+  fullName: '',
+  email: '',
+  phone: '',
+  nationality: '',
+  destination: '',
+  travelDate: '',
+  visaType: 'Tourist',
+  message: '',
+};
+
+const HERO_SLIDE_MS = 5500;
+
+const Visa: React.FC = () => {
+  const [formData, setFormData] = useState<FormData>(EMPTY_FORM);
+  const [formErrors, setFormErrors] = useState<FormErrors>({});
+  const [submitted, setSubmitted] = useState(false);
+  const [heroIndex, setHeroIndex] = useState(0);
+  const indiaCard = holidayDestinations.find((destination) => destination.id === 'ladakh');
 
   useEffect(() => {
-    // For portal rendering
-    setIsBrowser(true);
-    
-    // Animation delay for content visibility
-    const timer = setTimeout(() => {
-      setIsVisible(true);
-    }, 300);
-    
-    return () => clearTimeout(timer);
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
+
+    const timer = window.setInterval(() => {
+      setHeroIndex((current) => (current + 1) % visaHeroSlides.length);
+    }, HERO_SLIDE_MS);
+
+    return () => window.clearInterval(timer);
   }, []);
 
-  const requirementsList = [
-    { id: 1, text: "Valid passport with at least 6 months validity", icon: <FaPassport /> },
-    { id: 2, text: "Completed visa application form", icon: <FaCheckCircle /> },
-    { id: 3, text: "Passport-sized photographs with white background", icon: <FaCheckCircle /> },
-    { id: 4, text: "Flight booking confirmation", icon: <FaPlane /> },
-    { id: 5, text: "Hotel reservation confirmation", icon: <FaCheckCircle /> },
-    { id: 6, text: "Travel insurance covering the entire stay", icon: <FaCheckCircle /> }
-  ];
-
-  const applicationSteps = [
-    { id: 1, title: "Fill Application", text: "Complete the online visa application form with personal details" },
-    { id: 2, title: "Upload Documents", text: "Submit required documents including passport copy and photographs" },
-    { id: 3, title: "Pay Fees", text: "Process payment for your visa application" },
-    { id: 4, title: "Track Application", text: "Monitor your application status through our portal" },
-    { id: 5, title: "Receive Visa", text: "Download your e-visa or receive physical visa as applicable" }
-  ];
-
-  const feeStructure = [
-    { type: "Tourist Visa (30 days)", fee: 7500, processingTime: "3-5 working days" },
-    { type: "Tourist Visa (90 days)", fee: 15000, processingTime: "3-5 working days" },
-    { type: "Transit Visa (48 hours)", fee: 800, processingTime: "24 hours" },
-    { type: "Transit Visa (96 hours)", fee: 2500, processingTime: "48 hours" },
-    { type: "Express Processing", fee: 4000, processingTime: "24 hours" }
-  ];
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: { 
-      opacity: 1,
-      transition: { 
-        staggerChildren: 0.1
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: { 
-      y: 0, 
-      opacity: 1,
-      transition: { type: "spring", stiffness: 100 }
-    }
-  };
-
-  const tabVariants = {
-    inactive: { borderBottom: "2px solid transparent" },
-    active: { borderBottom: "2px solid #FF7A00" }
-  };
-  
-  const modalVariants = {
-    hidden: { opacity: 0, y: 50 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: { type: "spring", damping: 15 }
-    },
-    exit: { 
-      opacity: 0, 
-      y: 50, 
-      transition: { duration: 0.2 }
-    }
-  };
-  
-  const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-    
-    // Clear error for this field if value exists
+  const handleChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
+  ) => {
+    const { name, value } = event.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
     if (value.trim()) {
-      setFormErrors(prev => ({ ...prev, [name]: undefined }));
+      setFormErrors((prev) => ({ ...prev, [name]: undefined }));
     }
   };
-  
-  const validateForm = (): boolean => {
-    const errors: Partial<FormData> = {};
-    let isValid = true;
-    
-    if (!formData.fullName.trim()) {
-      errors.fullName = 'Full name is required';
-      isValid = false;
-    }
-    
-    if (!formData.email.trim()) {
-      errors.email = 'Email is required';
-      isValid = false;
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      errors.email = 'Email is invalid';
-      isValid = false;
-    }
-    
-    if (!formData.phone.trim()) {
-      errors.phone = 'Phone number is required';
-      isValid = false;
-    }
-    
-    if (!formData.nationality.trim()) {
-      errors.nationality = 'Nationality is required';
-      isValid = false;
-    }
-    
-    if (!formData.travelDate.trim()) {
-      errors.travelDate = 'Travel date is required';
-      isValid = false;
-    }
-    
+
+  const validateForm = () => {
+    const errors: FormErrors = {};
+
+    if (!formData.fullName.trim()) errors.fullName = 'Full name is required';
+    if (!formData.email.trim()) errors.email = 'Email is required';
+    else if (!/\S+@\S+\.\S+/.test(formData.email)) errors.email = 'Enter a valid email';
+    if (!formData.phone.trim()) errors.phone = 'Phone number is required';
+    if (!formData.nationality.trim()) errors.nationality = 'Nationality is required';
+    if (!formData.destination) errors.destination = 'Choose a destination';
+    if (!formData.travelDate) errors.travelDate = 'Travel date is required';
+
     setFormErrors(errors);
-    return isValid;
+    return Object.keys(errors).length === 0;
   };
-  
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (validateForm()) {
-      // Submit form data to backend
-      console.log('Form submitted:', formData);
-      
-      // Show success message
-      alert('Your visa application has been submitted successfully! We will contact you shortly.');
-      
-      // Close the modal
-      setShowApplicationForm(false);
-      
-      // Reset form
-      setFormData({
-        fullName: '',
-        email: '',
-        phone: '',
-        nationality: '',
-        travelDate: '',
-        visaType: 'Tourist',
-        message: ''
-      });
-    }
+
+  const handleSubmit = (event: FormEvent) => {
+    event.preventDefault();
+    if (!validateForm()) return;
+    setSubmitted(true);
   };
-  
-  const handlePackageSelect = (pkg: VisaPackageType) => {
-    setSelectedPackage(pkg);
-    setShowApplicationForm(true);
-    setFormData(prev => ({ 
-      ...prev, 
-      visaType: pkg.title 
-    }));
-  };
-  
-  // Render the modal form using portal
-  const renderFormModal = () => {
-    if (!isBrowser || !showApplicationForm) return null;
-    
-    return createPortal(
-      <div className={styles.modalOverlay}>
-        <motion.div
-          className={styles.modalContainer}
-          variants={modalVariants}
-          initial="hidden"
-          animate="visible"
-          exit="exit"
-        >
-          <div className={styles.modalHeader}>
-            <h3>Visa Application Form</h3>
-            <button
-              className={styles.closeButton}
-              onClick={() => setShowApplicationForm(false)}
-            >
-              <FaTimes />
-            </button>
-          </div>
 
-          {selectedPackage && (
-            <div className={styles.selectedPackageInfo}>
-              <h4>Selected Package: {selectedPackage.title}</h4>
-              <p>Price: {formatPrice(convertPrice(selectedPackage.price))}</p>
-              <p>Processing Time: {selectedPackage.processingTime}</p>
-            </div>
-          )}
-
-          <form onSubmit={handleSubmit} className={styles.applicationForm}>
-            <div className={styles.formGroup}>
-              <label htmlFor="fullName">
-                <FaUser className={styles.inputIcon} />
-                Full Name *
-              </label>
-              <input
-                type="text"
-                id="fullName"
-                name="fullName"
-                value={formData.fullName}
-                onChange={handleFormChange}
-                placeholder="Enter your full name"
-                className={formErrors.fullName ? styles.inputError : ''} />
-              {formErrors.fullName && (
-                <span className={styles.errorMessage}>{formErrors.fullName}</span>
-              )}
-            </div>
-
-            <div className={styles.formGroup}>
-              <label htmlFor="email">
-                <FaEnvelope className={styles.inputIcon} />
-                Email *
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleFormChange}
-                placeholder="Enter your email"
-                className={formErrors.email ? styles.inputError : ''} />
-              {formErrors.email && (
-                <span className={styles.errorMessage}>{formErrors.email}</span>
-              )}
-            </div>
-
-            <div className={styles.formGroup}>
-              <label htmlFor="phone">
-                <FaPhone className={styles.inputIcon} />
-                Phone Number *
-              </label>
-              <input
-                type="tel"
-                id="phone"
-                name="phone"
-                value={formData.phone}
-                onChange={handleFormChange}
-                placeholder="Enter your phone number"
-                className={formErrors.phone ? styles.inputError : ''} />
-              {formErrors.phone && (
-                <span className={styles.errorMessage}>{formErrors.phone}</span>
-              )}
-            </div>
-
-            <div className={styles.formRow}>
-              <div className={styles.formGroup}>
-                <label htmlFor="nationality">
-                  Nationality *
-                </label>
-                <input
-                  type="text"
-                  id="nationality"
-                  name="nationality"
-                  value={formData.nationality}
-                  onChange={handleFormChange}
-                  placeholder="Enter your nationality"
-                  className={formErrors.nationality ? styles.inputError : ''} />
-                {formErrors.nationality && (
-                  <span className={styles.errorMessage}>{formErrors.nationality}</span>
-                )}
-              </div>
-
-              <div className={styles.formGroup}>
-                <label htmlFor="travelDate">
-                  <FaCalendarAlt className={styles.inputIcon} />
-                  Travel Date *
-                </label>
-                <input
-                  type="date"
-                  id="travelDate"
-                  name="travelDate"
-                  value={formData.travelDate}
-                  onChange={handleFormChange}
-                  className={formErrors.travelDate ? styles.inputError : ''} />
-                {formErrors.travelDate && (
-                  <span className={styles.errorMessage}>{formErrors.travelDate}</span>
-                )}
-              </div>
-            </div>
-
-            <div className={styles.formGroup}>
-              <label htmlFor="visaType">
-                Visa Type *
-              </label>
-              <select
-                id="visaType"
-                name="visaType"
-                value={formData.visaType}
-                onChange={handleFormChange}
-              >
-                <option value="Tourist">Tourist Visa</option>
-                <option value="Business">Business Visa</option>
-                <option value="Transit">Transit Visa</option>
-                <option value="Work">Work Visa</option>
-                <option value="Student">Student Visa</option>
-              </select>
-            </div>
-
-            <div className={styles.formGroup}>
-              <label htmlFor="message">
-                Additional Information
-              </label>
-              <textarea
-                id="message"
-                name="message"
-                value={formData.message}
-                onChange={handleFormChange}
-                placeholder="Any specific requirements or questions?"
-                rows={4} />
-            </div>
-
-            <div className={styles.formActions}>
-              <button
-                type="button"
-                className={styles.cancelButton}
-                onClick={() => setShowApplicationForm(false)}
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                className={styles.submitButton}
-              >
-                Submit Application
-              </button>
-            </div>
-          </form>
-        </motion.div>
-      </div>,
-      document.body
-    );
+  const chooseDestination = (id: string) => {
+    setFormData((prev) => ({ ...prev, destination: id }));
+    setFormErrors((prev) => ({ ...prev, destination: undefined }));
+    document.getElementById('visa-request')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   return (
-    <>
-    <VisaPackages onSelectPackage={handlePackageSelect} />
-    <div className={styles.visaMainContainer}>
-      <div className={styles.visaContainer}>
-        <motion.div
-          className={styles.visaHeader}
-          initial={{ y: -50, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.5 }}
-        >
-          <div className={styles.visaIcon}>
-            <FaPassport size={36} color="#FF7A00" />
-          </div>
-          <h2>{countryName} Visa Information</h2>
-        </motion.div>
-
-        <div className={styles.tabsContainer}>
-          <motion.button
-            className={`${styles.tabButton} ${selectedTab === 'requirements' ? styles.activeTab : ''}`}
-            onClick={() => setSelectedTab('requirements')}
-            variants={tabVariants}
-            animate={selectedTab === 'requirements' ? 'active' : 'inactive'}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            Requirements
-          </motion.button>
-
-          <motion.button
-            className={`${styles.tabButton} ${selectedTab === 'application' ? styles.activeTab : ''}`}
-            onClick={() => setSelectedTab('application')}
-            variants={tabVariants}
-            animate={selectedTab === 'application' ? 'active' : 'inactive'}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            Application Process
-          </motion.button>
-
-          <motion.button
-            className={`${styles.tabButton} ${selectedTab === 'fees' ? styles.activeTab : ''}`}
-            onClick={() => setSelectedTab('fees')}
-            variants={tabVariants}
-            animate={selectedTab === 'fees' ? 'active' : 'inactive'}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            Fees
-          </motion.button>
+    <div className={styles.page}>
+      <section className={styles.hero} aria-labelledby="visa-heading">
+        <div className={styles.heroSlides} aria-hidden="true">
+          {visaHeroSlides.map((slide, index) => (
+            <div
+              key={slide.id}
+              className={`${styles.heroSlide} ${index === heroIndex ? styles.heroSlideActive : ''}`}
+            >
+              <Image
+                src={slide.image}
+                alt=""
+                fill
+                sizes="100vw"
+                className={styles.heroImage}
+                unoptimized
+                priority={index === 0}
+              />
+            </div>
+          ))}
         </div>
 
-        <div className={styles.contentContainer}>
-          {selectedTab === 'requirements' && (
-            <motion.ul
-              className={styles.requirementsList}
-              variants={containerVariants}
-              initial="hidden"
-              animate={isVisible ? "visible" : "hidden"}
-            >
-              {requirementsList.map(item => (
-                <motion.li key={item.id} className={styles.requirementItem} variants={itemVariants}>
-                  <span className={styles.requirementIcon}>{item.icon}</span>
-                  <span>{item.text}</span>
-                </motion.li>
-              ))}
-            </motion.ul>
-          )}
+        <div className={styles.heroInner}>
+          <SectionHeading
+            as="h1"
+            align="center"
+            tone="inverse"
+            eyebrow="Visas"
+            icon="passport"
+            title="Visa help for the trip you are planning"
+            titleId="visa-heading"
+            description="Happy Trails helps with tourist visas for Dubai and Vietnam. India holidays usually do not need a tourist visa for Indian passports. This is a request — you do not pay here."
+            action={{ href: '#visa-request', label: 'Request visa help' }}
+          />
+          <div className={styles.heroActions}>
+            <a href="#visa-destinations" className={styles.ghostCta}>
+              See destinations
+            </a>
+          </div>
+          <div className={styles.heroDots} role="tablist" aria-label="Destination slides">
+            {visaHeroSlides.map((slide, index) => (
+              <button
+                key={slide.id}
+                type="button"
+                role="tab"
+                aria-label={`${slide.name}, ${slide.country}`}
+                aria-selected={index === heroIndex}
+                className={`${styles.heroDot} ${index === heroIndex ? styles.heroDotActive : ''}`}
+                onClick={() => setHeroIndex(index)}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
 
-          {selectedTab === 'application' && (
-            <motion.div
-              className={styles.applicationSteps}
-              variants={containerVariants}
-              initial="hidden"
-              animate={isVisible ? "visible" : "hidden"}
-            >
-              {applicationSteps.map((step, index) => (
-                <motion.div key={step.id} className={styles.stepCard} variants={itemVariants}>
-                  <div className={styles.stepNumber}>{index + 1}</div>
-                  <div className={styles.stepContent}>
-                    <h4>{step.title}</h4>
-                    <p>{step.text}</p>
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
-          )}
-
-          {selectedTab === 'fees' && (
-            <motion.div
-              className={styles.feesTable}
-              variants={containerVariants}
-              initial="hidden"
-              animate={isVisible ? "visible" : "hidden"}
-            >
-              <div className={styles.tableHeader}>
-                <span>Visa Type</span>
-                <span>Fee</span>
-                <span>Processing Time</span>
-              </div>
-              {feeStructure.map((fee, index) => (
-                <motion.div key={index} className={styles.tableRow} variants={itemVariants}>
-                  <span>{fee.type}</span>
-                  <span>{formatPrice(convertPrice(fee.fee))}</span>
-                  <span>{fee.processingTime}</span>
-                </motion.div>
-              ))}
-            </motion.div>
-          )}
-
-          {/* {selectedTab === 'packages' && (
-      <motion.div
-        className={styles.packagesContainer}
-        variants={containerVariants}
-        initial="hidden"
-        animate={isVisible ? "visible" : "hidden"}
+      <section
+        className={styles.section}
+        id="visa-destinations"
+        aria-labelledby="visa-destinations-heading"
       >
-        <VisaPackages onSelectPackage={handlePackageSelect} />
-      </motion.div>
-    )} */}
-        </div>
+        <div className={styles.inner}>
+          <SectionHeading
+            eyebrow="Destinations"
+            icon="map"
+            title="Where we help"
+            titleId="visa-destinations-heading"
+            description="Visa help is for Dubai and Vietnam. Ladakh, Kashmir, and North East India trips usually do not need a tourist visa for Indian passports."
+          />
 
-        <motion.div
-          className={styles.visaFooter}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5, duration: 0.5 }}
-        >
-          <div className={styles.noticeBox}>
-            <FaInfoCircle className={styles.infoIcon} />
-            <p>Visa requirements may change. Please check the latest requirements before applying.</p>
+          <div className={styles.destGrid}>
+            {visaDestinations.map((destination) => (
+              <article key={destination.id} className={styles.destCard}>
+                <button
+                  type="button"
+                  className={styles.destMedia}
+                  onClick={() => chooseDestination(destination.id)}
+                >
+                  <Image
+                    src={destination.image}
+                    alt=""
+                    fill
+                    sizes="(max-width: 767px) 100vw, 33vw"
+                    className={styles.destImage}
+                    unoptimized
+                  />
+                  <span className={styles.destShade} />
+                  <span className={styles.destCopy}>
+                    <span className={styles.destName}>{destination.name}</span>
+                    <span className={styles.destCountry}>{destination.country}</span>
+                  </span>
+                </button>
+                <p className={styles.destNote}>{destination.note}</p>
+                <div className={styles.destActions}>
+                  <button
+                    type="button"
+                    className={styles.textButton}
+                    onClick={() => chooseDestination(destination.id)}
+                  >
+                    Request help
+                  </button>
+                  <Link href={`/?destination=${destination.id}`} className={styles.textLink}>
+                    View holidays
+                  </Link>
+                </div>
+              </article>
+            ))}
+            {indiaCard && (
+              <article className={styles.destCard}>
+                <Link href={`/?destination=${indiaCard.id}`} className={styles.destMedia}>
+                  <Image
+                    src={indiaCard.image}
+                    alt=""
+                    fill
+                    sizes="(max-width: 767px) 100vw, 33vw"
+                    className={styles.destImage}
+                    unoptimized
+                  />
+                  <span className={styles.destShade} />
+                  <span className={styles.destCopy}>
+                    <span className={styles.destName}>India</span>
+                    <span className={styles.destCountry}>Ladakh, Kashmir & North East</span>
+                  </span>
+                </Link>
+                <p className={styles.destNote}>
+                  Usually no tourist visa for Indian passports. Open the destination to see holidays.
+                </p>
+                <div className={styles.destActions}>
+                  <Link href={`/?destination=${indiaCard.id}`} className={styles.textLink}>
+                    View holidays
+                  </Link>
+                </div>
+              </article>
+            )}
           </div>
-          <motion.button
-            className={styles.applyButton}
-            whileHover={{ scale: 1.05, backgroundColor: "#FF9A40" }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => setShowApplicationForm(true)}
-          >
-            Apply for Visa
-          </motion.button>
-        </motion.div>
-      </div>
+        </div>
+      </section>
 
-      {/* Render the form modal using portal */}
-      {renderFormModal()}
+      <section className={styles.sand} aria-labelledby="visa-steps-heading">
+        <div className={styles.inner}>
+          <SectionHeading
+            eyebrow="How it works"
+            icon="clipboard"
+            title="From enquiry to a confirmed filing"
+            titleId="visa-steps-heading"
+            description="The team checks what the destination asks for. Approval is always with the immigration authority."
+          />
+
+          <ol className={styles.steps}>
+            {visaHelpSteps.map((step, index) => (
+              <li key={step.id} className={styles.step}>
+                <span className={styles.stepIndex}>0{index + 1}</span>
+                <div className={styles.cardHeading}>
+                  <Icon3D name={step.icon} alt="" size={28} />
+                  <h3 className={styles.stepTitle}>{step.title}</h3>
+                </div>
+                <p className={styles.stepText}>{step.text}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      <section className={styles.section} aria-labelledby="visa-docs-heading">
+        <div className={styles.inner}>
+          <SectionHeading
+            eyebrow="Documents"
+            icon="clipboard"
+            title="What is usually asked"
+            titleId="visa-docs-heading"
+            description="Exact papers change by nationality and destination. Use this as a starting list, not a final checklist."
+          />
+
+          <ul className={styles.docGrid}>
+            {visaDocuments.map((item) => (
+              <li key={item.id} className={styles.docCard}>
+                <div className={styles.cardHeading}>
+                  <Icon3D name={item.icon} alt="" size={28} />
+                  <h3 className={styles.docTitle}>{item.title}</h3>
+                </div>
+                <p className={styles.docText}>{item.text}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <section className={styles.noteBand} aria-labelledby="visa-fees-heading">
+        <div className={styles.noteInner}>
+          <div>
+            <SectionHeading
+              eyebrow="Fees"
+              icon="clipboard"
+              title="Fees stay separate"
+              titleId="visa-fees-heading"
+              description="Government visa fees, portal charges, and any embassy appointment costs are paid to those authorities. Happy Trails confirms the amount after the enquiry. Requirements and processing windows change — the team checks the current rule before you file."
+            />
+          </div>
+        </div>
+      </section>
+
+      <section className={`${styles.sand} ${styles.request}`} id="visa-request" aria-labelledby="visa-request-heading">
+        <div className={styles.formWrap}>
+          {submitted ? (
+            <div className={styles.success} role="status">
+              <SectionHeading
+                eyebrow="Visa"
+                icon="passport"
+                title="Request received"
+                description="The team will confirm documents, government fees, and a processing window. There is no payment on this form."
+              />
+              <button
+                type="button"
+                className={styles.primaryCta}
+                onClick={() => {
+                  setSubmitted(false);
+                  setFormData(EMPTY_FORM);
+                }}
+              >
+                Send another request
+              </button>
+            </div>
+          ) : (
+            <form className={styles.form} onSubmit={handleSubmit} noValidate>
+              <SectionHeading
+                eyebrow="Start here"
+                icon="passport"
+                title="Request visa help"
+                titleId="visa-request-heading"
+                description="No payment now. Share who is travelling and where. The team replies with next steps."
+              />
+
+              <div className={styles.fields}>
+                <label className={styles.field}>
+                  <span>Full name</span>
+                  <input
+                    type="text"
+                    name="fullName"
+                    value={formData.fullName}
+                    onChange={handleChange}
+                    autoComplete="name"
+                    placeholder="Name as in the passport"
+                    aria-invalid={Boolean(formErrors.fullName)}
+                  />
+                  {formErrors.fullName && <em>{formErrors.fullName}</em>}
+                </label>
+
+                <label className={styles.field}>
+                  <span>Email</span>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    autoComplete="email"
+                    placeholder="you@email.com"
+                    aria-invalid={Boolean(formErrors.email)}
+                  />
+                  {formErrors.email && <em>{formErrors.email}</em>}
+                </label>
+
+                <label className={styles.field}>
+                  <span>Phone</span>
+                  <input
+                    type="tel"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    autoComplete="tel"
+                    placeholder="Mobile number"
+                    aria-invalid={Boolean(formErrors.phone)}
+                  />
+                  {formErrors.phone && <em>{formErrors.phone}</em>}
+                </label>
+
+                <label className={styles.field}>
+                  <span>Nationality</span>
+                  <input
+                    type="text"
+                    name="nationality"
+                    value={formData.nationality}
+                    onChange={handleChange}
+                    autoComplete="country-name"
+                    placeholder="As in the passport"
+                    aria-invalid={Boolean(formErrors.nationality)}
+                  />
+                  {formErrors.nationality && <em>{formErrors.nationality}</em>}
+                </label>
+
+                <label className={styles.field}>
+                  <span>Destination</span>
+                  <select
+                    name="destination"
+                    value={formData.destination}
+                    onChange={handleChange}
+                    data-empty={!formData.destination || undefined}
+                    aria-invalid={Boolean(formErrors.destination)}
+                  >
+                    <option value="">Where to?</option>
+                    {visaDestinations.map((destination) => (
+                      <option key={destination.id} value={destination.id}>
+                        {destination.name}
+                      </option>
+                    ))}
+                  </select>
+                  {formErrors.destination && <em>{formErrors.destination}</em>}
+                </label>
+
+                <label className={styles.field}>
+                  <span>Visa type</span>
+                  <select name="visaType" value={formData.visaType} onChange={handleChange}>
+                    <option value="Tourist">Tourist</option>
+                    <option value="Transit">Transit</option>
+                    <option value="Business">Business</option>
+                  </select>
+                </label>
+
+                <div className={`${styles.field} ${styles.wide}`}>
+                  <span id="visa-travel-date-label">Travel date</span>
+                  <DatePicker
+                    value={formData.travelDate}
+                    labelledBy="visa-travel-date-label"
+                    invalid={Boolean(formErrors.travelDate)}
+                    onChange={(travelDate) => {
+                      setFormData((prev) => ({ ...prev, travelDate }));
+                      if (travelDate) {
+                        setFormErrors((prev) => ({ ...prev, travelDate: undefined }));
+                      }
+                    }}
+                  />
+                  {formErrors.travelDate && <em>{formErrors.travelDate}</em>}
+                </div>
+
+                <label className={`${styles.field} ${styles.wide}`}>
+                  <span>Anything the team should know</span>
+                  <textarea
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
+                    rows={4}
+                    placeholder="Travel companions, a holiday already in mind, or a previous refusal"
+                  />
+                </label>
+              </div>
+
+              <button type="submit" className={styles.primaryCta}>
+                Request visa help
+                <Icon3D name="arrow" alt="" size={16} />
+              </button>
+            </form>
+          )}
+        </div>
+      </section>
+
+      <FAQ
+        items={visaFaqs}
+        title="Visa questions"
+        description="Answers about destinations we help with, documents, fees, and what happens after you send a request."
+        sectionId="visa-faqs"
+        headingId="visa-faq-heading"
+        compact
+      />
     </div>
-    </>
   );
 };
 
-export default Visa; 
+export default Visa;

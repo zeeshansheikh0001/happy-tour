@@ -1,13 +1,19 @@
 @import '../styles/colors';
 @import '../styles/breakpoints';
 
+.container {
+  width: 100%;
+}
+
+.main,
 .mainContent {
-  padding-top: 16px;
-  min-height: calc(100vh - 140px); /* Adjusted for header height */
+  padding-top: 20px;
+  min-height: calc(100vh - 140px);
   position: relative;
-  // background-color: #f7f7f7;
-  font-family: 'Poppins', sans-serif;
-  overflow: auto;
+}
+
+.tabContent {
+  width: 100%;
 }
 
 .toursContainer,
@@ -38,107 +44,52 @@
 }
 
 .tabButton {
-  font-family: 'Poppins', sans-serif;
   font-weight: 500;
 }
 
-/* Destination content styles */
+.destinationPage {
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding: 10px var(--page-gutter) 48px;
+}
+
 .destinationTitle {
-  font-size: 28px;
-  font-weight: 600;
-  margin-bottom: 24px;
-  color: $primary-dark;
-  text-align: center;
-  
-  @media (min-width: $breakpoint-md) {
-    font-size: 32px;
-    text-align: left;
-  }
+  margin: 8px 0 12px;
+  color: var(--color-navy);
+  font-size: var(--type-section-size);
+  font-weight: var(--type-section-weight);
+  letter-spacing: var(--type-heading-track);
+  line-height: var(--type-section-leading);
+  text-align: left;
 }
 
 .destinationSection {
-  margin-bottom: 40px;
-  
+  margin-top: 48px;
+
   h2 {
-    font-size: 22px;
-    font-weight: 600;
-    margin-bottom: 16px;
-    color: $primary-dark;
+    margin: 0 0 12px;
+    color: var(--color-navy);
+    font-size: var(--type-section-size);
+    font-weight: var(--type-section-weight);
+    letter-spacing: var(--type-heading-track);
+    line-height: var(--type-section-leading);
   }
 }
 
 .destinationGrid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 20px;
-  
-  @media (min-width: $breakpoint-sm) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  
-  @media (min-width: $breakpoint-md) {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
+  gap: 28px;
 
-.destinationCard {
-  background-color: white;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  
-  &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+  @media (min-width: 576px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 32px 24px;
   }
-}
 
-.destinationImageContainer {
-  height: 200px;
-  position: relative;
-  
-  img {
-    object-fit: cover;
+  @media (min-width: 992px) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 36px 28px;
   }
-}
-
-.destinationCardContent {
-  padding: 16px;
-  
-  h3 {
-    font-size: 16px;
-    font-weight: 600;
-    margin-bottom: 8px;
-    color: $primary-dark;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  
-  p {
-    font-size: 14px;
-    color: $neutral-600;
-    margin-bottom: 12px;
-  }
-}
-
-.priceInfo {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.originalPrice {
-  font-size: 14px;
-  color: $neutral-500;
-  text-decoration: line-through;
-}
-
-.discountedPrice {
-  font-size: 16px;
-  font-weight: 600;
-  color: $primary-color;
 }
 
 .noContentMessage {
