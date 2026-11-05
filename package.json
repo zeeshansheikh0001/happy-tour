@@ -21,11 +21,11 @@
     },
     "dependencies": {
         "framer-motion": "^12.6.5",
-        "next": "^16.4.5",
+        "next": "15.5.29",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
         "react-icons": "^5.5.0",
-        "sharp": "^0.35.5"
+        "sharp": "0.34.5"
     },
     "devDependencies": {
         "@types/node": "^20.8.7",
@@ -46,7 +46,7 @@
         "eslint-plugin-react-hooks": "^4.2.0",
         "husky": "^7.0.0",
         "prettier": "2.5.1",
-        "sass": "^1.107.1",
+        "sass": "1.99.0",
         "typescript": "^5.2.2"
     }
 }
