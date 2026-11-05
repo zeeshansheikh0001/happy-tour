@@ -37,6 +37,14 @@ body {
     background-color: $gray-100;
 }
 
+body.plan-dock {
+    padding-bottom: calc(76px + env(safe-area-inset-bottom));
+}
+
+body.plan-sheet {
+    overflow: hidden;
+}
+
 a {
     text-decoration: none;
     color: inherit;

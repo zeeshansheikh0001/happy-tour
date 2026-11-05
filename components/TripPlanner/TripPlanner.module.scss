@@ -285,14 +285,6 @@
   display: none;
 }
 
-:global(body.plan-dock) {
-  padding-bottom: calc(76px + env(safe-area-inset-bottom));
-}
-
-:global(body.plan-sheet) {
-  overflow: hidden;
-}
-
 @media (max-width: 767px) {
   .section {
     margin-top: 0;
