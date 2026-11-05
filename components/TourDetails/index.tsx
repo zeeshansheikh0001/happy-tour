@@ -47,28 +47,20 @@ const TourDetails: React.FC<ImageGalleryProps> = ({ mainImage, thumbnails, class
 
   // Combine main image with thumbnails for carousel and modal
   const allImages = [mainImage, ...thumbnails.map(thumb => ({ src: thumb.src, alt: thumb.alt }))];
+  const mobileSlides = [
+    { id: 'main', src: mainImage.src, alt: mainImage.alt, label: '' },
+    ...thumbnails,
+  ];
 
-  // Navigate carousel
-  const nextSlide = () => {
-    const nextIndex = thumbnails.length ? (currentSlide + 1) % thumbnails.length : 0;
+  const goToSlide = (index: number) => {
+    const count = mobileSlides.length;
+    if (!count) return;
+    const nextIndex = (index + count) % count;
     setCurrentSlide(nextIndex);
     if (carouselRef.current) {
       carouselRef.current.scrollTo({
         left: nextIndex * carouselRef.current.offsetWidth,
-        behavior: 'smooth'
-      });
-    }
-  };
-
-  const prevSlide = () => {
-    const prevIndex = thumbnails.length
-      ? (currentSlide - 1 + thumbnails.length) % thumbnails.length
-      : 0;
-    setCurrentSlide(prevIndex);
-    if (carouselRef.current) {
-      carouselRef.current.scrollTo({
-        left: prevIndex * carouselRef.current.offsetWidth,
-        behavior: 'smooth'
+        behavior: 'smooth',
       });
     }
   };
@@ -121,53 +113,59 @@ const TourDetails: React.FC<ImageGalleryProps> = ({ mainImage, thumbnails, class
   return (
     <>
       <div className={`${styles.galleryContainer} ${className || ''}`}>
-        <div className={styles.mainImageContainer} onClick={() => openModal(0)}>
-          <Image 
-            src={mainImage.src}
-            alt={mainImage.alt}
-            fill
-            className={styles.mainImage}
-            priority
-          />
-        </div>
-        
+        {!isMobile && (
+          <div className={styles.mainImageContainer} onClick={() => openModal(0)}>
+            <Image
+              src={mainImage.src}
+              alt={mainImage.alt}
+              fill
+              className={styles.mainImage}
+              priority
+            />
+          </div>
+        )}
+
         {isMobile ? (
           <div className={styles.carouselContainer}>
-            <div className={styles.carousel} ref={carouselRef}>
-              {thumbnails.map((thumbnail, index) => (
-                <div key={thumbnail.id} className={styles.carouselItem} onClick={() => openModal(index + 1)}>
-                  <Image 
-                    src={thumbnail.src}
-                    alt={thumbnail.alt}
+            <div
+              className={styles.carousel}
+              ref={carouselRef}
+              onScroll={() => {
+                const node = carouselRef.current;
+                if (!node || !node.offsetWidth) return;
+                const index = Math.round(node.scrollLeft / node.offsetWidth);
+                setCurrentSlide((current) => (current === index ? current : index));
+              }}
+            >
+              {mobileSlides.map((slide, index) => (
+                <div key={slide.id} className={styles.carouselItem} onClick={() => openModal(index)}>
+                  <Image
+                    src={slide.src}
+                    alt={slide.alt}
                     fill
                     className={styles.thumbnailImage}
+                    priority={index === 0}
                   />
-                  <div className={styles.thumbnailLabel}>
-                    {thumbnail.label}
-                  </div>
+                  {slide.label ? (
+                    <div className={styles.thumbnailLabel}>
+                      {slide.label}
+                    </div>
+                  ) : null}
                 </div>
               ))}
             </div>
-            <button className={`${styles.carouselNav} ${styles.prevBtn}`} onClick={prevSlide}>
+            <button type="button" className={`${styles.carouselNav} ${styles.prevBtn}`} onClick={() => goToSlide(currentSlide - 1)} aria-label="Previous photo">
               <ChevronLeftIcon />
             </button>
-            <button className={`${styles.carouselNav} ${styles.nextBtn}`} onClick={nextSlide}>
+            <button type="button" className={`${styles.carouselNav} ${styles.nextBtn}`} onClick={() => goToSlide(currentSlide + 1)} aria-label="Next photo">
               <ChevronRightIcon />
             </button>
             <div className={styles.carouselDots}>
-              {thumbnails.map((_, index) => (
-                <span 
-                  key={index} 
+              {mobileSlides.map((slide, index) => (
+                <span
+                  key={slide.id}
                   className={`${styles.dot} ${currentSlide === index ? styles.activeDot : ''}`}
-                  onClick={() => {
-                    setCurrentSlide(index);
-                    if (carouselRef.current) {
-                      carouselRef.current.scrollTo({
-                        left: index * carouselRef.current.offsetWidth,
-                        behavior: 'smooth'
-                      });
-                    }
-                  }}
+                  onClick={() => goToSlide(index)}
                 />
               ))}
             </div>

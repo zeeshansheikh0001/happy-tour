@@ -27,13 +27,7 @@ const DubaiToursPage: React.FC = () => {
       {
         '@type': 'ListItem',
         position: 2,
-        name: 'Tours',
-        item: 'https://happytrailstourism.com/tours'
-      },
-      {
-        '@type': 'ListItem',
-        position: 3,
-        name: 'Dubai Tours',
+        name: 'Dubai holidays',
         item: 'https://happytrailstourism.com/tours/dubai'
       }
     ]
@@ -65,8 +59,7 @@ const DubaiToursPage: React.FC = () => {
         description="Book the best Dubai tour packages with Happy Trails Tourism. Discover flight-inclusive deals, family packages with waterpark tickets, and luxury Dubai experiences at unbeatable prices."
         keywords="Dubai tour packages, Dubai holiday packages, Dubai flights inclusive deals, Dubai family packages, luxury Dubai tours, Burj Khalifa tickets, Desert Safari Dubai"
         ogType="website"
-        ogImage="/images/dubai-tour-packages.jpg"
-        ogImageAlt="Luxury Dubai Tour Packages by Happy Trails Tourism"
+        ogImageAlt="Dubai skyline"
         structuredData={[breadcrumbStructuredData, destinationStructuredData]}
       />
       <Header

@@ -1,63 +1,83 @@
 const fs = require('fs');
 const path = require('path');
 
-// Ensure the public directory exists
 const publicPath = path.join(process.cwd(), 'public');
 if (!fs.existsSync(publicPath)) {
   fs.mkdirSync(publicPath, { recursive: true });
 }
 
-// Generate robots.txt
 const robotsTxt = `# Happy Trails Tourism robots.txt
 User-agent: *
 Allow: /
 
-# Sitemaps
 Sitemap: https://happytrailstourism.com/sitemap.xml
-
-# Crawl delay for heavy crawlers
-User-agent: AhrefsBot
-Crawl-delay: 10
-
-User-agent: SemrushBot
-Crawl-delay: 10
 `;
 
-// Write robots.txt to public folder
 fs.writeFileSync(path.join(publicPath, 'robots.txt'), robotsTxt);
-console.log('✅ robots.txt generated');
-
-// For sitemap.xml, we need the tour data
-// Since we can't directly import ES modules in CommonJS, we'll create a simpler sitemap
-// that includes the main routes
-
-// Generate sitemap.xml
-const routes = [
-  '',
-  '/tours',
-  '/tours/dubai',
-  '/visas',
-];
+console.log('robots.txt generated');
 
 const baseUrl = 'https://happytrailstourism.com';
 const date = new Date().toISOString().split('T')[0];
 
+function slugify(title) {
+  return title
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-');
+}
+
+function escapeXml(value) {
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+const source = fs.readFileSync(path.join(process.cwd(), 'data/staticData.ts'), 'utf8');
+const toursStart = source.indexOf('export const tours');
+const toursEnd = source.indexOf('const isOffFocusTour');
+const toursBlock = source.slice(toursStart, toursEnd);
+const titles = [...toursBlock.matchAll(/^ {4}title: '([^']+)',?$/gm)].map((match) => match[1]);
+const offFocus = /thailand|bangkok|phuket|krabi|pattaya|bali/i;
+const tourPaths = titles
+  .filter((title) => !offFocus.test(title))
+  .map((title) => `/tours/${slugify(title)}`);
+
+const destinations = ['dubai', 'vietnam', 'ladakh', 'kashmir', 'north-east-india'];
+
+const urls = [
+  { loc: `${baseUrl}/`, priority: '1.0', changefreq: 'weekly' },
+  ...destinations.map((id) => ({
+    loc: `${baseUrl}/?destination=${id}`,
+    priority: '0.9',
+    changefreq: 'weekly',
+  })),
+  { loc: `${baseUrl}/activities`, priority: '0.8', changefreq: 'weekly' },
+  { loc: `${baseUrl}/activities?category=cruises`, priority: '0.7', changefreq: 'weekly' },
+  { loc: `${baseUrl}/activities?category=events`, priority: '0.7', changefreq: 'weekly' },
+  { loc: `${baseUrl}/tours/dubai`, priority: '0.8', changefreq: 'weekly' },
+  ...tourPaths.map((tourPath) => ({
+    loc: `${baseUrl}${tourPath}`,
+    priority: '0.8',
+    changefreq: 'weekly',
+  })),
+  { loc: `${baseUrl}/faq`, priority: '0.5', changefreq: 'monthly' },
+  { loc: `${baseUrl}/customize`, priority: '0.6', changefreq: 'monthly' },
+  { loc: `${baseUrl}/?tab=visa`, priority: '0.6', changefreq: 'monthly' },
+];
+
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" 
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-${routes.map(route => `
-  <url>
-    <loc>${baseUrl}${route}</loc>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${urls.map((url) => `  <url>
+    <loc>${escapeXml(url.loc)}</loc>
     <lastmod>${date}</lastmod>
-    <changefreq>${route === '' ? 'daily' : 'weekly'}</changefreq>
-    <priority>${route === '' ? '1.0' : '0.8'}</priority>
-  </url>
-`).join('')}
-</urlset>`;
+    <changefreq>${url.changefreq}</changefreq>
+    <priority>${url.priority}</priority>
+  </url>`).join('\n')}
+</urlset>
+`;
 
-// Write sitemap.xml to public folder
 fs.writeFileSync(path.join(publicPath, 'sitemap.xml'), sitemap);
-console.log('✅ sitemap.xml generated');
-
-console.log('SEO files generation complete'); 
+console.log(`sitemap.xml generated (${urls.length} urls, ${tourPaths.length} tours)`);

@@ -8,6 +8,10 @@ import LoginButton from '../LoginButton';
 import { categoryNavItems } from './categoryNav';
 import styles from './Header.module.scss';
 
+type PillBox = { left: number; width: number };
+
+let rememberedPill: PillBox | null = null;
+
 interface HeaderProps {
   activeTab: string;
   onTabChange: (tab: string) => void;
@@ -26,6 +30,8 @@ const Header: React.FC<HeaderProps> = ({
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [pathSearch, setPathSearch] = useState('');
+  const [pill, setPill] = useState<PillBox | null>(rememberedPill);
+  const pillRef = useRef<PillBox | null>(rememberedPill);
 
   useEffect(() => {
     const search = router.asPath.includes('?')
@@ -43,7 +49,8 @@ const Header: React.FC<HeaderProps> = ({
   const onHomeActivities = router.pathname === '/' && tab === 'activities';
   const isActivitySection = onActivitiesPage || onHomeActivities;
   const isVisa = router.pathname === '/' && tab === 'visa';
-  const isHolidays = router.pathname === '/' && (tab === 'holidays' || Boolean(destination));
+  const isHolidays = (router.pathname === '/' && (tab === 'holidays' || Boolean(destination)))
+    || router.pathname.startsWith('/tours');
   const isExplore = router.pathname === '/' && !isActivitySection && !isVisa && !isHolidays;
   const isActivities = isActivitySection && !category;
   const isYachtCruise = isActivitySection && (category === 'cruises' || category === 'yachts');
@@ -79,13 +86,89 @@ const Header: React.FC<HeaderProps> = ({
 
   useEffect(() => {
     const nav = navRef.current;
-    const active = nav?.querySelector<HTMLElement>('[aria-current="page"]');
-    if (!nav || !active) return;
+    if (!nav) return undefined;
 
-    const navBox = nav.getBoundingClientRect();
-    const activeBox = active.getBoundingClientRect();
-    const nextLeft = nav.scrollLeft + (activeBox.left - navBox.left) - (navBox.width - activeBox.width) / 2;
-    nav.scrollTo({ left: Math.max(0, nextLeft), behavior: 'smooth' });
+    let frame = 0;
+    let scrollTimer = 0;
+    let sliding = false;
+    let cancelled = false;
+
+    const readPill = (): PillBox | null => {
+      const active = nav.querySelector<HTMLElement>('[aria-current="page"]');
+      if (!active) return null;
+      return { left: active.offsetLeft, width: active.offsetWidth };
+    };
+
+    const samePill = (a: PillBox | null, b: PillBox | null) => (
+      !!a && !!b && Math.abs(a.left - b.left) < 0.5 && Math.abs(a.width - b.width) < 0.5
+    );
+
+    const scrollActiveIntoView = () => {
+      const active = nav.querySelector<HTMLElement>('[aria-current="page"]');
+      if (!active) return;
+      const navBox = nav.getBoundingClientRect();
+      const activeBox = active.getBoundingClientRect();
+      const padding = 8;
+      const clipped = activeBox.left < navBox.left + padding
+        || activeBox.right > navBox.right - padding;
+      if (!clipped) return;
+      const nextLeft = nav.scrollLeft
+        + (activeBox.left - navBox.left)
+        - (navBox.width - activeBox.width) / 2;
+      nav.scrollTo({ left: Math.max(0, nextLeft), behavior: 'smooth' });
+    };
+
+    const commit = (next: PillBox) => {
+      pillRef.current = next;
+      rememberedPill = next;
+      setPill(next);
+    };
+
+    const measure = (animate: boolean) => {
+      const next = readPill();
+      if (!next) {
+        pillRef.current = null;
+        rememberedPill = null;
+        setPill(null);
+        return;
+      }
+
+      const from = pillRef.current;
+      const moved = !samePill(from, next);
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      if (animate && moved && from && !reduceMotion) {
+        sliding = true;
+        frame = requestAnimationFrame(() => {
+          frame = requestAnimationFrame(() => {
+            if (cancelled) return;
+            commit(next);
+            sliding = false;
+          });
+        });
+        scrollTimer = window.setTimeout(scrollActiveIntoView, 300);
+        return;
+      }
+
+      commit(next);
+      scrollActiveIntoView();
+    };
+
+    measure(true);
+    const onResize = () => {
+      if (sliding) return;
+      measure(false);
+    };
+    const observer = new ResizeObserver(onResize);
+    observer.observe(nav);
+    window.addEventListener('resize', onResize);
+    return () => {
+      cancelled = true;
+      cancelAnimationFrame(frame);
+      window.clearTimeout(scrollTimer);
+      observer.disconnect();
+      window.removeEventListener('resize', onResize);
+    };
   }, [isActivities, isExplore, isHolidays, isVisa, isYachtCruise, isEvents]);
 
   const goHome = () => {
@@ -171,6 +254,13 @@ const Header: React.FC<HeaderProps> = ({
         </div>
 
         <nav ref={navRef} className={styles.nav} aria-label="Primary">
+          {pill && (
+            <span
+              className={styles.indicator}
+              style={{ left: pill.left, width: pill.width }}
+              aria-hidden="true"
+            />
+          )}
           {categoryNavItems.map((item) => (
             <Link
               key={item.id}
@@ -179,7 +269,7 @@ const Header: React.FC<HeaderProps> = ({
               aria-current={activeById[item.id] ? 'page' : undefined}
               onClick={closeOverlays}
             >
-              <Icon3D name={item.icon} alt="" size={30} />
+              <Icon3D name={item.icon} alt="" size={22} />
               <span>{item.label}</span>
             </Link>
           ))}

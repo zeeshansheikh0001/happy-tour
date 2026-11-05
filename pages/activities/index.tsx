@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { NextPage } from 'next';
-import Head from 'next/head';
+import SEO from '../../components/SEO';
 import Icon3D from '../../components/Icon3D';
 import ActivityCard from '../../components/ActivityCard';
 import { activities } from '../../data/staticData';
@@ -81,26 +81,30 @@ const ActivitiesPage: NextPage = () => {
   
   return (
     <>
-      <Head>
-        <title>
-          {(() => {
-            if (isUaeCatalog && isYachtCruise) return 'Yacht & Cruise | Happy Tours';
-            if (isUaeCatalog && isEvents) return 'Events | Happy Tours';
-            if (isUaeCatalog && locationFromUrl) return `${locationFromUrl} activities | Happy Tours`;
-            if (isUaeCatalog) return 'UAE activities | Happy Tours';
-            if (activeLocation === 'All') return 'All Activities | Happy Tours';
-            return `${activeLocation} Activities | Happy Tours`;
-          })()}
-        </title>
-        <meta
-          name="description"
-          content={
-            isUaeCatalog
-              ? 'Find activities across all seven UAE emirates. Availability and price are confirmed before payment.'
-              : `Discover activities in ${activeLocation === 'All' ? 'top destinations' : activeLocation} with Happy Tours`
-          }
-        />
-      </Head>
+      <SEO
+        title={
+          isUaeCatalog && isYachtCruise
+            ? 'Yacht and cruise experiences'
+            : isUaeCatalog && isEvents
+              ? 'Events and tickets'
+              : isUaeCatalog && locationFromUrl
+                ? `${locationFromUrl} activities`
+                : isUaeCatalog
+                  ? 'UAE activities'
+                  : activeLocation === 'All'
+                    ? 'Activities'
+                    : `${activeLocation} activities`
+        }
+        description={
+          isYachtCruise
+            ? 'Private yachts, dhow dinners, and scenic cruises.'
+            : isEvents
+              ? 'Tickets and experiences from the catalog.'
+              : isUaeCatalog
+                ? 'Find activities across all seven UAE emirates. Availability and price are confirmed before payment.'
+                : `Day trips and tickets${activeLocation === 'All' ? '' : ` in ${activeLocation}`}. Availability and price are confirmed before payment.`
+        }
+      />
       
       <Header 
         activeTab={activeTab} 

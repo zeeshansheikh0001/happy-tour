@@ -378,8 +378,9 @@
     grid-template-columns: 1fr;
   }
 
-  .mainImageContainer {
+  .carouselContainer {
     height: 320px;
+    margin-top: 0;
   }
 
   .thumbnailsGrid {
@@ -397,12 +398,8 @@
 }
 
 @media (max-width: 480px) {
-  .mainImageContainer {
-    height: 300px;
-  }
-
   .carouselContainer {
-    height: 240px;
+    height: 300px;
   }
   
   .thumbnailsGrid {

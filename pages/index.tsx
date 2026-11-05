@@ -95,14 +95,12 @@ const Home: React.FC = () => {
   const destFromUrl = params.get('destination') || '';
   const tabFromUrl = params.get('tab') || '';
 
-  const [activeTab, setActiveTab] = useState('tours');
   const [activeNavItem, setActiveNavItem] = useState('explore');
-  const [hasMounted, setHasMounted] = useState(false);
   const resolvedTab = tabFromUrl === 'activities' || tabFromUrl === 'visa' ? tabFromUrl : 'tours';
   const resolvedNav = destFromUrl || activeNavItem;
-  const showDestination = hasMounted && Boolean(destFromUrl) && resolvedTab === 'tours';
-  const showToursChrome = !hasMounted || resolvedTab === 'tours';
-  const showVisaPage = hasMounted && resolvedTab === 'visa';
+  const showDestination = Boolean(destFromUrl) && resolvedTab === 'tours';
+  const showToursChrome = resolvedTab === 'tours';
+  const showVisaPage = resolvedTab === 'visa';
   const destinationPage = showDestination
     ? destinationPages.find((item) => item.id === destFromUrl)
     : undefined;
@@ -119,10 +117,6 @@ const Home: React.FC = () => {
   );
 
   useEffect(() => {
-    setHasMounted(true);
-  }, []);
-
-  useEffect(() => {
     const hash = router.asPath.split('#')[1];
     if (!hash) return;
 
@@ -134,17 +128,14 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     if (tabFromUrl === 'activities' || tabFromUrl === 'visa') {
-      setActiveTab(tabFromUrl);
       setActiveNavItem('explore');
       return;
     }
 
-    setActiveTab('tours');
     setActiveNavItem(destFromUrl || 'explore');
   }, [destFromUrl, tabFromUrl]);
 
   const handleTabChange = (tab: string) => {
-    setActiveTab(tab);
     if (tab !== 'tours') {
       setActiveNavItem('explore');
     }
@@ -157,9 +148,6 @@ const Home: React.FC = () => {
 
   const handleNavigate = (id: string) => {
     setActiveNavItem(id);
-    if (id !== 'explore') {
-      setActiveTab('tours');
-    }
   };
 
   // Animation variants
@@ -211,10 +199,24 @@ const Home: React.FC = () => {
   return (
     <div className={styles.container}>
       <SEO 
-        title={destinationPage?.seoTitle || 'Happy Trails Tourism | Dubai, Vietnam & India Holidays'}
-        description={destinationPage?.seoDescription || 'Book holidays with Happy Trails Tourism. Flight-inclusive deals and family packages for Dubai, Vietnam, and India — Ladakh, Kashmir, and North East India.'}
+        title={
+          destinationPage?.seoTitle
+            || (showVisaPage
+              ? 'Tourist visa help'
+              : resolvedTab === 'activities'
+                ? 'UAE activities'
+                : 'Happy Trails Tourism | Dubai, Vietnam & India Holidays')
+        }
+        description={
+          destinationPage?.seoDescription
+            || (showVisaPage
+              ? 'Visa help is for Dubai and Vietnam holidays. India trips usually do not need a tourist visa for Indian passports. Fees are paid separately.'
+              : resolvedTab === 'activities'
+                ? 'Find activities across all seven UAE emirates. Availability and price are confirmed before payment.'
+                : 'Book holidays with Happy Trails Tourism. Flight-inclusive deals and family packages for Dubai, Vietnam, and India — Ladakh, Kashmir, and North East India.')
+        }
         keywords="travel packages, dubai tours, vietnam packages, ladakh holiday, kashmir packages, north east india tours, flight inclusive deals, family vacation packages"
-        ogImage="/images/happy-trails-og.jpg" 
+        ogImage="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1200&q=80"
         ogType="website"
         structuredData={[
           {
@@ -222,29 +224,13 @@ const Home: React.FC = () => {
             '@type': 'TravelAgency',
             name: 'Happy Trails Tourism',
             url: 'https://happytrailstourism.com',
-            logo: 'https://happytrailstourism.com/images/logo.png',
             description: 'Happy Trails Tourism offers holiday packages, activities, and visa help for Dubai, Vietnam, and India — Ladakh, Kashmir, and North East India.',
-            address: {
-              '@type': 'PostalAddress',
-              streetAddress: '123 Tourism Avenue',
-              addressLocality: 'Mumbai',
-              addressRegion: 'Maharashtra',
-              postalCode: '400001',
-              addressCountry: 'IN'
-            },
-            geo: {
-              '@type': 'GeoCoordinates',
-              latitude: '19.0760',
-              longitude: '72.8777'
-            },
-            openingHours: 'Mo,Tu,We,Th,Fr,Sa 09:00-18:00',
-            telephone: '+91-1234567890',
-            priceRange: '₹₹₹',
-            aggregateRating: {
-              '@type': 'AggregateRating',
-              ratingValue: '4.8',
-              reviewCount: '1250'
-            },
+            sameAs: [
+              'https://www.instagram.com/happytrailstourism/',
+              'https://www.facebook.com/profile.php?id=61575506399505',
+              'https://twitter.com/happyTrails',
+              'https://linkedin.com/company/happyTrails',
+            ],
             hasOfferCatalog: {
               '@type': 'OfferCatalog',
               name: 'Travel Packages',
@@ -284,14 +270,14 @@ const Home: React.FC = () => {
             </motion.div>
           ) : (
             <motion.div
-              key={activeTab}
+              key={resolvedTab}
               initial="hidden"
               animate="visible"
               exit="exit"
               variants={tabContentVariants}
               className={styles.tabContent}
             >
-              {activeTab === 'tours' && (
+              {resolvedTab === 'tours' && (
                 <>
                   <DestinationGrid />
                   <FeaturedHolidays />
@@ -302,7 +288,7 @@ const Home: React.FC = () => {
                   <TourismBoardAlliances />
                 </>
               )}
-              {activeTab === 'activities' && (
+              {resolvedTab === 'activities' && (
                 <>
                   <Activities
                     title="Dubai day trips and tickets"
@@ -322,7 +308,7 @@ const Home: React.FC = () => {
                     ))}
                 </>
               )}
-              {activeTab === 'visa' && <Visa />}
+              {resolvedTab === 'visa' && <Visa />}
             </motion.div>
           )}
         </AnimatePresence>

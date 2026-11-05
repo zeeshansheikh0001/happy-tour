@@ -50,8 +50,6 @@ class MyDocument extends Document {
                     <meta name="format-detection" content="telephone=no" />
                     <meta name="mobile-web-app-capable" content="yes" />
                     
-                    {/* Core Web Vitals optimization hints */}
-                    <link rel="preload" as="image" href="/images/logo.png" />
                 </Head>
                 <body>
                     <Main />

@@ -25,6 +25,7 @@ const TripPlanner: React.FC<TripPlannerProps> = ({
   const [adults, setAdults] = useState(2);
   const [children, setChildren] = useState(0);
   const [partyOpen, setPartyOpen] = useState(false);
+  const [planOpen, setPlanOpen] = useState(false);
   const partyRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -80,16 +81,77 @@ const TripPlanner: React.FC<TripPlannerProps> = ({
     };
   }, [partyOpen]);
 
+  useEffect(() => {
+    if (!bar) {
+      return undefined;
+    }
+
+    const media = window.matchMedia('(max-width: 767px)');
+    const sync = () => {
+      const mobile = media.matches;
+      document.body.classList.toggle('plan-dock', mobile && !planOpen);
+      document.body.classList.toggle('plan-sheet', mobile && planOpen);
+    };
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setPlanOpen(false);
+      }
+    };
+
+    sync();
+    media.addEventListener('change', sync);
+    document.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.removeEventListener('keydown', onKeyDown);
+      media.removeEventListener('change', sync);
+      document.body.classList.remove('plan-dock', 'plan-sheet');
+    };
+  }, [bar, planOpen]);
+
   return (
+    <>
+    {bar && planOpen && (
+      <button
+        type="button"
+        className={styles.backdrop}
+        aria-label="Close trip planner"
+        onClick={() => setPlanOpen(false)}
+      />
+    )}
     <section
-      className={`${styles.section} ${bar ? styles.sectionBar : ''}`}
+      className={`${styles.section} ${bar ? styles.sectionBar : ''} ${planOpen ? styles.sectionOpen : ''}`}
       id="plan-trip"
       aria-labelledby={bar ? undefined : 'plan-trip-heading'}
     >
-      <form className={`${styles.form} ${bar ? styles.formBar : ''}`} onSubmit={handleSubmit}>
+      <form
+        className={`${styles.form} ${bar ? styles.formBar : ''} ${planOpen ? styles.formOpen : ''}`}
+        onSubmit={handleSubmit}
+      >
+        {bar && (
+          <button
+            type="button"
+            className={styles.reveal}
+            aria-expanded={planOpen}
+            onClick={() => setPlanOpen(true)}
+          >
+            Request a plan
+            <ArrowIcon />
+          </button>
+        )}
         {bar && (
           <div className={styles.mobileIntro}>
-            <h2 className={styles.mobileHeading}>Your next trip starts here</h2>
+            <div className={styles.mobileIntroRow}>
+              <h2 className={styles.mobileHeading}>Your next trip starts here</h2>
+              <button
+                type="button"
+                className={styles.close}
+                aria-label="Close trip planner"
+                onClick={() => setPlanOpen(false)}
+              >
+                <CloseIcon />
+              </button>
+            </div>
             <p className={styles.mobileLede}>A few details. We&apos;ll take care of the rest.</p>
           </div>
         )}
@@ -152,7 +214,7 @@ const TripPlanner: React.FC<TripPlannerProps> = ({
           </span>
         </div>
 
-        <div className={`${styles.field} ${bar ? styles.fieldBar : ''}`}>
+        <div className={`${styles.field} ${bar ? styles.fieldBar : ''} ${bar ? styles.fieldParty : ''}`}>
           {bar && (
             <span className={styles.fieldIcon} aria-hidden="true">
               <PeopleIcon />
@@ -201,6 +263,7 @@ const TripPlanner: React.FC<TripPlannerProps> = ({
         </button>
       </form>
     </section>
+    </>
   );
 };
 
@@ -294,6 +357,12 @@ const MinusIcon = () => (
 const PlusIcon = () => (
   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
     <path d="M12 6v12M6 12h12" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+  </svg>
+);
+
+const CloseIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
   </svg>
 );
 

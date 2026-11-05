@@ -2,12 +2,4 @@
 User-agent: *
 Allow: /
 
-# Sitemaps
 Sitemap: https://happytrailstourism.com/sitemap.xml
-
-# Crawl delay for heavy crawlers
-User-agent: AhrefsBot
-Crawl-delay: 10
-
-User-agent: SemrushBot
-Crawl-delay: 10

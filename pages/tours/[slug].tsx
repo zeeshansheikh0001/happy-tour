@@ -52,7 +52,12 @@ const TourPackageDetails: React.FC = () => {
 
   // If slug is not yet available (during SSR)
   if (!slug || !tour) {
-    return <div>Loading...</div>;
+    return (
+      <SEO
+        title="Holiday package"
+        description="Holiday package from Happy Trails Tourism. The team confirms dates after you enquire."
+      />
+    );
   }
 
   // Create structured data for the tour
@@ -75,13 +80,17 @@ const TourPackageDetails: React.FC = () => {
       priceValidUntil: new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toISOString().split('T')[0],
       availability: 'https://schema.org/InStock'
     },
-    aggregateRating: {
-      '@type': 'AggregateRating',
-      ratingValue: tour.rating || 4.8,
-      reviewCount: tour.reviews || 125,
-      bestRating: 5,
-      worstRating: 1
-    }
+    ...(Number.isFinite(tour.rating) && Number.isFinite(tour.reviews)
+      ? {
+          aggregateRating: {
+            '@type': 'AggregateRating',
+            ratingValue: tour.rating,
+            reviewCount: tour.reviews,
+            bestRating: 5,
+            worstRating: 1
+          }
+        }
+      : {})
   };
   
   // Create breadcrumb structured data
@@ -98,33 +107,28 @@ const TourPackageDetails: React.FC = () => {
       {
         '@type': 'ListItem',
         position: 2,
-        name: 'Tours',
-        item: 'https://happytrailstourism.com/tours'
+        name: 'Holidays',
+        item: 'https://happytrailstourism.com'
       },
       {
         '@type': 'ListItem',
         position: 3,
+        name: tour.locations[0]?.place || 'Destination',
+        item: `https://happytrailstourism.com/?destination=${createSlug(tour.locations[0]?.place || 'dubai')}`
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
         name: tour.title,
         item: `https://happytrailstourism.com/tours/${slug}`
       }
     ]
   };
-  
-  // Create FAQ structured data from tour highlights
-  const faqItems = tour.highlights ? tour.highlights.slice(0, 5).map((highlight, index) => ({
-    '@type': 'Question',
-    name: `What's special about this ${tour.locations[0]?.place || tour.title} tour?`,
-    acceptedAnswer: {
-      '@type': 'Answer',
-      text: highlight
-    }
-  })) : [];
-  
-  const faqStructuredData = {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: faqItems
-  };
+
+  const rawImage = typeof tour.mainImage === 'string'
+    ? tour.mainImage
+    : tour.mainImage?.src || tour.images[0];
+  const shareImage = typeof rawImage === 'string' && rawImage.startsWith('http') ? rawImage : undefined;
 
   return (
     <>
@@ -133,9 +137,9 @@ const TourPackageDetails: React.FC = () => {
         description={`Book the ${tour.title} package with Happy Trails Tourism. Enjoy ${tour.locations.map(l => l.place).join(', ')} with our ${tour.duration} tour package. Save ₹${tour.savings} with our special offers!`}
         keywords={`${tour.locations.map(l => l.place).join(', ')} tour package, ${tour.duration} tour, ${tour.title}, travel package, holiday package, vacation package, best ${tour.locations[0]?.place || 'holiday'} tour`}
         ogType="product"
-        ogImage={typeof tour.mainImage === 'string' ? tour.mainImage : (tour.mainImage?.src || tour.images[0] || '/images/default-tour.jpg')}
+        ogImage={shareImage}
         ogImageAlt={`${tour.title} - Tour Package by Happy Trails Tourism`}
-        structuredData={[tourStructuredData, breadcrumbStructuredData, faqStructuredData]}
+        structuredData={[tourStructuredData, breadcrumbStructuredData]}
       />
       <Header
         activeTab="tours"

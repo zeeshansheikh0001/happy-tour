@@ -110,65 +110,106 @@
 }
 
 .nav {
+  position: relative;
   grid-area: nav;
   display: flex;
   align-items: center;
   justify-self: center;
-  gap: 8px;
+  gap: 12px;
   min-width: 0;
-  padding: 0;
+  padding: 6px 2px;
   background: none;
   box-shadow: none;
+}
+
+.indicator {
+  position: absolute;
+  z-index: 0;
+  top: 6px;
+  height: 44px;
+  border-radius: 999px;
+  background: #eef0f3;
+  pointer-events: none;
+  transition: left 280ms ease, width 280ms ease;
 }
 
 .navItem {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  height: 48px;
-  padding: 0 16px;
+  height: 44px;
+  padding: 0 16px 0 12px;
+  position: relative;
+  z-index: 1;
   border: 0;
   border-radius: 999px;
-  background: #f3f4f6;
-  color: #1f2937;
-  font-size: var(--type-nav-size);
-  font-weight: var(--type-nav-weight);
+  background: transparent;
+  color: #1a1a1a;
+  font-size: 15px;
+  font-weight: 600;
   font-family: inherit;
   line-height: 1;
   white-space: nowrap;
   text-decoration: none;
   cursor: pointer;
-  transition: background 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+  box-shadow: none;
+  transition: border-color 240ms ease, background-color 240ms ease;
 
   svg,
   img {
-    width: 30px;
-    height: 30px;
+    display: block;
+    width: 22px;
+    height: 22px;
     flex-shrink: 0;
     object-fit: contain;
-    transition: transform 180ms ease;
+    filter: none;
+    transform: scale(var(--icon-fit, 1)) translateY(var(--icon-nudge, 0px));
+    transform-origin: center;
+    transition: transform 220ms ease;
+  }
+
+  img[src*='camera.png'] {
+    --icon-fit: 1.22;
+    --icon-nudge: -3.1px;
+  }
+
+  img[src*='beach.png'] {
+    --icon-nudge: -1px;
+  }
+
+  img[src*='passport.png'] {
+    --icon-fit: 1.24;
+    --icon-nudge: -3.4px;
+  }
+
+  img[src*='tickets.png'] {
+    --icon-fit: 1.16;
   }
 
   &:hover,
   &:focus-visible {
-    background: #ffffff;
-    box-shadow: 0 8px 22px rgba(38, 50, 75, 0.1);
-  }
+    background: transparent;
 
-  &:hover img,
-  &:focus-visible img {
-    transform: translateY(-2px) scale(1.06);
+    img {
+      transform: scale(calc(var(--icon-fit, 1) * 1.18)) translateY(var(--icon-nudge, 0px));
+    }
   }
 
   &:focus-visible {
     outline: 2px solid #1e2a4a;
-    outline-offset: 2px;
+    outline-offset: 3px;
   }
 }
 
 .navItemActive {
-  background: #ffffff;
-  box-shadow: 0 10px 28px rgba(38, 50, 75, 0.12);
+  background: transparent;
+  color: #111111;
+  font-weight: 700;
+
+  &:hover,
+  &:focus-visible {
+    background: transparent;
+  }
 }
 
 .profileWrap {
@@ -289,11 +330,6 @@
     padding-left: 16px;
   }
 
-  .navItem {
-    padding: 0 10px;
-    font-size: var(--type-nav-size);
-  }
-
   .cta {
     height: 48px;
     padding: 0 18px;
@@ -312,6 +348,7 @@
   }
 
   .nav {
+    justify-content: flex-start;
     justify-self: stretch;
     width: 100%;
     overflow-x: auto;
@@ -368,8 +405,8 @@
     height: 44px;
 
     img {
-      width: 26px;
-      height: 26px;
+      width: 22px;
+      height: 22px;
     }
   }
 
@@ -382,14 +419,20 @@
 @media (prefers-reduced-motion: reduce) {
   .navItem,
   .navItem img,
+  .indicator,
   .iconButton,
   .cta {
     transition: none;
   }
 
+  .navItem:hover,
+  .navItem:focus-visible {
+    transform: none;
+  }
+
   .navItem:hover img,
   .navItem:focus-visible img {
-    transform: none;
+    transform: scale(var(--icon-fit, 1)) translateY(var(--icon-nudge, 0px));
   }
 
   .cta:hover,
